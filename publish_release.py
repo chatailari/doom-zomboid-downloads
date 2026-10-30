@@ -7,12 +7,36 @@ import os
 import re
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 
 REPO = 'chatailari/doom-zomboid-downloads'
 
 def gh(*args, check=True):
-    return subprocess.run(['gh', *args], check=check, capture_output=True, text=True)
+    # Release edits and clobber uploads are idempotent; release creation is not.
+    retryable = args[:2] in [('release', 'view'), ('release', 'edit'),
+                            ('release', 'download')] or (
+        args[:2] == ('release', 'upload') and '--clobber' in args)
+    for attempt in range(3):
+        result = subprocess.run(['gh', *args], capture_output=True, text=True)
+        if not result.returncode:
+            return result
+        transient = re.search(r'HTTP (429|500|502|503|504)\b', result.stderr)
+        if not retryable or not transient or attempt == 2:
+            if check:
+                raise RuntimeError('GitHub release operation failed: ' + result.stderr.strip())
+            return result
+        print('Retrying transient GitHub error for ' + ' '.join(args[:2]), flush=True)
+        time.sleep(2 ** attempt)
+
+def checkpoint(stage, tag, manifest):
+    state = {'stage': stage, 'tag': tag, 'version_code': manifest['version_code'],
+             'apk_sha256': manifest['sha256'], 'apk_url': manifest['url']}
+    path = Path('publication-checkpoint.json')
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps(state, indent=2) + '\n')
+    temporary.replace(path)
+    print('Publication checkpoint: ' + stage, flush=True)
 
 def digest(path):
     h = hashlib.sha256()
@@ -64,6 +88,7 @@ def main():
                 target.write(block)
         if apk.stat().st_size != int(manifest['size']) or digest(apk) != manifest['sha256']:
             raise ValueError('APK size or SHA-256 mismatch')
+        checkpoint('verified_apk', tag, manifest)
         checksum = root / (name + '.sha256')
         checksum.write_text(manifest['sha256'] + '  ' + name + '\n')
         channel = root / 'channel.json'
@@ -91,14 +116,19 @@ def main():
                 'Instalar sobre la versión anterior, sin borrar datos. '
                 'SHA-256 y firma del manifiesto verificados antes de publicar.')
         gh('release', 'upload', tag, str(apk), str(checksum), '--repo', REPO, '--clobber')
+        checkpoint('apk_uploaded', tag, manifest)
         gh('release', 'edit', tag, '--repo', REPO, '--draft=false', '--prerelease')
+        checkpoint('apk_published', tag, manifest)
         # Update this small stable endpoint only after the APK is available.
         release('android-channel', 'Canal Android firmado',
                 'Manifiesto RSA del canal de desarrollo. La aplicación verifica su autenticidad.')
         gh('release', 'upload', 'android-channel', str(channel), '--repo', REPO, '--clobber')
+        checkpoint('channel_uploaded', tag, manifest)
         gh('release', 'edit', 'android-channel', '--repo', REPO, '--draft=false', '--prerelease')
+        checkpoint('channel_published', tag, manifest)
         print(json.dumps({'tag': tag, 'apk': expected_url, 'sha256': manifest['sha256'],
                           'version_code': manifest['version_code'], 'published': True}))
 
 if __name__ == '__main__':
     main()
+

@@ -19,9 +19,17 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 publish_release.py
+      - name: Save publication checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: publication-checkpoint-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-checkpoint.json
+          if-no-files-found: warn
       - name: Remove temporary binary transport branch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           test "${GITHUB_REF_NAME#staging/}" != "$GITHUB_REF_NAME"
           gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${GITHUB_REF_NAME}"
+
