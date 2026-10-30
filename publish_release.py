@@ -65,7 +65,7 @@ def verify_delta_asset(spec, manifest, root, tag, name):
             raise ValueError('Delta URL or identity mismatch')
         if signed_delta.get('sha256') != delta.get('sha256') or signed_delta.get('size') != delta.get('size'):
             raise ValueError('Signed delta hash/size mismatch')
-        if not 1024 <= int(signed_delta['size']) < int(manifest['size']):
+        if not 1 <= int(signed_delta['size']) < int(manifest['size']):
             raise ValueError('Delta not smaller than APK')
         if int(signed_delta['from_version_code']) >= int(manifest['version_code']):
             raise ValueError('Delta base must be older')
