@@ -9,6 +9,23 @@ from unittest.mock import patch
 import publish_release as publisher
 
 class RecoveryTests(unittest.TestCase):
+    def test_public_download_must_match_before_channel_publication(self):
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'download.apk'
+            data = b'public signed APK bytes'
+            def downloaded(*args, **kwargs):
+                target.write_bytes(data)
+                return subprocess.CompletedProcess([], 0)
+            with patch.object(publisher.subprocess, 'run', side_effect=downloaded):
+                publisher.verify_public_download('https://example.test/app.apk', target,
+                                                 len(data), hashlib.sha256(data).hexdigest())
+                with self.assertRaises(ValueError):
+                    publisher.verify_public_download('https://example.test/app.apk', target,
+                                                     len(data), '0' * 64)
+                with self.assertRaises(ValueError):
+                    publisher.verify_public_download('https://example.test/app.apk', target,
+                                                     len(data) + 1, hashlib.sha256(data).hexdigest())
+
     def test_transient_release_edit_retries_same_operation(self):
         failure = subprocess.CompletedProcess([], 1, '', 'HTTP 500 temporary error')
         success = subprocess.CompletedProcess([], 0, '{}', '')
