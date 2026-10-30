@@ -1,0 +1,24 @@
+name: Verify Android release publisher
+on:
+  push:
+    paths:
+      - publish_release.py
+      - test_publication_recovery.py
+      - .github/workflows/test-publisher.yml
+  pull_request:
+    paths:
+      - publish_release.py
+      - test_publication_recovery.py
+      - .github/workflows/test-publisher.yml
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest -v test_publication_recovery
+      - run: python3 -m py_compile publish_release.py

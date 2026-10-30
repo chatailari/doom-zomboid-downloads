@@ -1,4 +1,6 @@
 import json
+import os
+import hashlib
 import subprocess
 import tempfile
 import unittest
@@ -40,5 +42,41 @@ class RecoveryTests(unittest.TestCase):
             self.assertEqual(state['stage'], 'apk_published')
             self.assertEqual(state['version_code'], 20007)
             self.assertFalse((Path(directory)/'publication-checkpoint.tmp').exists())
+
+
+    def test_delta_publication_verifies_bytes_and_metadata(self):
+        with tempfile.TemporaryDirectory() as directory:
+            before = os.getcwd()
+            try:
+                os.chdir(directory)
+                Path("delta_parts").mkdir()
+                payload = b"valid signed delta segment" * 100
+                Path("delta_parts/000.deltapart").write_bytes(payload)
+                name = "DOOM-ZOMBOID-0.2.0-dev.9-arm64.apk"
+                patch_name = name + ".dzp"
+                h = hashlib.sha256(payload).hexdigest()
+                spec = {"delta":{"name":patch_name,"size":len(payload),"sha256":h,
+                                 "parts":[{"path":"delta_parts/000.deltapart","sha256":h}]}}
+                manifest = {"size":99999,"version_code":20009,"delta":{
+                    "url":f"https://github.com/{publisher.REPO}/releases/download/v0.2.0-dev.9/{patch_name}",
+                    "from_version_code":20008,"size":len(payload),"sha256":h}}
+                assets = publisher.verify_delta_asset(spec,manifest,Path(directory),"v0.2.0-dev.9",name)
+                self.assertEqual(len(assets),1)
+                self.assertEqual(Path(assets[0]).read_bytes(),payload)
+                Path("delta_parts/000.deltapart").write_bytes(b"corrupt")
+                with self.assertRaises(ValueError):
+                    publisher.verify_delta_asset(spec,manifest,Path(directory),"v0.2.0-dev.9",name)
+            finally:
+                os.chdir(before)
+
+    def test_wrong_delta_base_version_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            name = "DOOM-ZOMBOID-0.2.0-dev.9-arm64.apk"
+            manifest = {"size":100000,"version_code":20009,"delta":{
+                "url":f"https://github.com/{publisher.REPO}/releases/download/v0.2.0-dev.9/{name}.dzp",
+                "from_version_code":20009,"size":2000,"sha256":"a"*64}}
+            spec = {"delta":{"name":name+".dzp","size":2000,"sha256":"a"*64,"parts":[]}}
+            with self.assertRaises(ValueError):
+                publisher.verify_delta_asset(spec,manifest,Path(directory),"v0.2.0-dev.9",name)
 
 if __name__ == '__main__':unittest.main()

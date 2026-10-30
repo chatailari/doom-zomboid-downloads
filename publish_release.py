@@ -51,6 +51,36 @@ def release(tag, title, notes):
         gh('release', 'create', tag, '--repo', REPO, '--target', 'main',
            '--draft', '--prerelease', '--title', title, '--notes', notes)
 
+def verify_delta_asset(spec, manifest, root, tag, name):
+    """Validate optional delta against the already RSA-verified manifest."""
+    extra_assets = []
+    if 'delta' in manifest:
+        signed_delta = manifest['delta']
+        delta = spec.get('delta')
+        if not isinstance(delta, dict) or not isinstance(signed_delta, dict):
+            raise ValueError('Signed delta metadata or transport missing')
+        patch_name = name + '.dzp'
+        patch_url = f'https://github.com/{REPO}/releases/download/{tag}/{patch_name}'
+        if signed_delta.get('url') != patch_url or delta.get('name') != patch_name:
+            raise ValueError('Delta URL or identity mismatch')
+        if signed_delta.get('sha256') != delta.get('sha256') or signed_delta.get('size') != delta.get('size'):
+            raise ValueError('Signed delta hash/size mismatch')
+        if not 1 <= int(signed_delta['size']) < int(manifest['size']):
+            raise ValueError('Delta not smaller than APK')
+        if int(signed_delta['from_version_code']) >= int(manifest['version_code']):
+            raise ValueError('Delta base must be older')
+        patch = root / patch_name
+        with patch.open('wb') as output:
+            for i, chunk in enumerate(delta['parts']):
+                path = Path(f'delta_parts/{i:03d}.deltapart')
+                if chunk['path'] != str(path) or digest(path) != chunk['sha256']:
+                    raise ValueError('Missing or corrupt delta transport')
+                output.write(path.read_bytes())
+        if patch.stat().st_size != int(signed_delta['size']) or digest(patch) != signed_delta['sha256']:
+            raise ValueError('Delta payload verification failed')
+        extra_assets.append(str(patch))
+    return extra_assets
+
 def main():
     spec = json.loads(Path('publish.json').read_text())
     tag, name = spec['tag'], spec['apk_name']
@@ -91,6 +121,7 @@ def main():
         checkpoint('verified_apk', tag, manifest)
         checksum = root / (name + '.sha256')
         checksum.write_text(manifest['sha256'] + '  ' + name + '\n')
+        extra_assets = verify_delta_asset(spec, manifest, root, tag, name)
         channel = root / 'channel.json'
         channel.write_text(json.dumps(envelope, indent=2) + '\n')
         existing = gh('release', 'view', 'android-channel', '--repo', REPO,
@@ -115,7 +146,7 @@ def main():
                 'Versión de desarrollo Android firmada. No certificada en teléfono físico. '
                 'Instalar sobre la versión anterior, sin borrar datos. '
                 'SHA-256 y firma del manifiesto verificados antes de publicar.')
-        gh('release', 'upload', tag, str(apk), str(checksum), '--repo', REPO, '--clobber')
+        gh('release', 'upload', tag, str(apk), str(checksum), *extra_assets, '--repo', REPO, '--clobber')
         checkpoint('apk_uploaded', tag, manifest)
         gh('release', 'edit', tag, '--repo', REPO, '--draft=false', '--prerelease')
         checkpoint('apk_published', tag, manifest)
