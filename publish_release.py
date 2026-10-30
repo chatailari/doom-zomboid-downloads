@@ -45,6 +45,13 @@ def digest(path):
             h.update(block)
     return h.hexdigest()
 
+def verify_public_download(url, destination, expected_size, expected_sha256):
+    """Gate channel publication on an unauthenticated HTTPS download."""
+    subprocess.run(['curl', '--fail', '--location', '--retry', '3',
+                    '--max-time', '300', '--output', str(destination), url], check=True)
+    if destination.stat().st_size != int(expected_size) or digest(destination) != expected_sha256:
+        raise ValueError('Public APK download size or SHA-256 mismatch')
+
 def release(tag, title, notes):
     result = gh('release', 'view', tag, '--repo', REPO, '--json', 'isDraft', check=False)
     if result.returncode:
@@ -150,6 +157,9 @@ def main():
         checkpoint('apk_uploaded', tag, manifest)
         gh('release', 'edit', tag, '--repo', REPO, '--draft=false', '--prerelease')
         checkpoint('apk_published', tag, manifest)
+        verify_public_download(expected_url, root / 'public-download.apk',
+                               manifest['size'], manifest['sha256'])
+        checkpoint('public_download_verified', tag, manifest)
         # Update this small stable endpoint only after the APK is available.
         release('android-channel', 'Canal Android firmado',
                 'Manifiesto RSA del canal de desarrollo. La aplicación verifica su autenticidad.')
