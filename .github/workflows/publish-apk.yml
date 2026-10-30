@@ -1,0 +1,27 @@
+name: Publish verified signed APK
+on:
+  push:
+    branches:
+      - 'staging/**'
+    paths:
+      - 'publish.json'
+permissions:
+  contents: write
+concurrency:
+  group: android-release-publication
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify signed manifest, transport and APK; publish development release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 publish_release.py
+      - name: Remove temporary binary transport branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "${GITHUB_REF_NAME#staging/}" != "$GITHUB_REF_NAME"
+          gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${GITHUB_REF_NAME}"

@@ -1,5 +1,7 @@
 # DOOM-ZOMBOID — descargas Android
 
-Canal público oficial de APK y manifiestos firmados. La fuente del juego se conserva en el repositorio privado independiente. Este repositorio distribuye versiones de desarrollo y beta identificadas de forma explícita.
+APK y manifiestos firmados del proyecto independiente. Las versiones dev son pruebas, sin certificación en teléfono físico.
 
-Paquete Android: `cl.nazaret.doomzomboid`. No desinstales ni borres datos para actualizar.
+El código del juego permanece en el repositorio privado. La herramienta de distribución valida la firma RSA del manifiesto y el SHA-256 del binario antes de publicar. Las claves privadas no se incorporan aquí.
+
+Las ramas staging son transporte temporal; los binarios se conservan en Releases. El canal permanente es el archivo channel.json del tag android-channel.
