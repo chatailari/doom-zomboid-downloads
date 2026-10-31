@@ -1,0 +1,20 @@
+name: FRONTERA - verificar transporte privado por objetos Git
+on:
+  push:
+    branches: ['staging/frontera-0.1.1']
+    paths: ['.github/workflows/frontera-blob-check.yml']
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Comprobar bytes de objeto no referenciado
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/git/blobs/211535e5a80ff0519277981ecb3a5b6ebbcfef07" --jq '.content' | base64 -d > /tmp/part.bin
+          test "$(stat -c %s /tmp/part.bin)" = 1048576
+          echo "d06c85e36e4fcc3cab1ee4452e188c81f0c9e2c0a481fe9792f4759e6e3059d9  /tmp/part.bin" | sha256sum -c -
+          echo 'TRANSFER PASS: SHA-256 correcto desde GitHub API sin introducir el APK en git history'
