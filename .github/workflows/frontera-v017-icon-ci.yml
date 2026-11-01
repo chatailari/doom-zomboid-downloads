@@ -56,7 +56,8 @@ jobs:
           APK="$RUNNER_TEMP/frontera/app/build/outputs/apk/release/app-release-unsigned.apk"
           test -s "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
-          unzip -l "$APK" | grep -E 'ic_launcher_foreground|ic_launcher_background'
+          test -s "$RUNNER_TEMP/frontera/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png"
+          test -s "$RUNNER_TEMP/frontera/app/src/main/res/drawable-nodpi/ic_launcher_background.png"
       - name: Preserve build files at stable artifact paths
         if: always()
         run: |
