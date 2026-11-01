@@ -1,0 +1,81 @@
+name: FRONTERA 0.1.3 - compilar y probar Godot Android
+on:
+  push:
+    branches:
+      - build/frontera-base-0.1.3
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android-debug-ci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - name: Preparar fuente, Android SDK y Godot 4.5.1
+        run: |
+          set -euo pipefail
+          unzip -q ci/frontera-0.1.3-source.zip -d app
+          test -f app/project.godot
+          sdkmanager 'platform-tools' 'platforms;android-35' 'build-tools;35.0.0'
+          curl -fLsS --retry 3 -o /tmp/godot.zip 'https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64.zip'
+          unzip -q /tmp/godot.zip -d /tmp
+          sudo install -m 755 /tmp/Godot_v4.5.1-stable_linux.x86_64 /usr/local/bin/godot
+          curl -fLsS --retry 3 -o /tmp/templates.tpz 'https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz'
+          mkdir -p "$HOME/.local/share/godot/export_templates/4.5.1.stable"
+          unzip -q /tmp/templates.tpz 'templates/android*' -d /tmp
+          cp /tmp/templates/android* "$HOME/.local/share/godot/export_templates/4.5.1.stable/"
+          godot --version
+          mkdir -p "$HOME/.config/godot" "$HOME/.android"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          f=Path.home()/'.config/godot/editor_settings-4.5.tres'
+          f.write_text('[gd_resource type="EditorSettings" format=3]\n\n[resource]\nexport/android/android_sdk_path = "'+os.environ['ANDROID_HOME']+'"\nexport/android/java_sdk_path = "'+os.environ['JAVA_HOME']+'"\n')
+          PY
+          keytool -genkeypair -keystore "$HOME/.android/debug.keystore" -storepass android -keypass android -alias androiddebugkey -dname 'CN=Android Debug,O=Frontera CI,C=CL' -keyalg RSA -keysize 2048 -validity 10000 -noprompt
+      - name: Pruebas de manifiesto y proyecto
+        working-directory: app
+        run: |
+          python3 -m pip install 'cryptography>=42,<47'
+          python3 tests_manifest.py
+          python3 tests_recuperacion.py
+          python3 -m unittest discover -s tests -v
+      - name: Importar y verificar arranque con Godot
+        working-directory: app
+        run: |
+          set -euo pipefail
+          godot --headless --path . --editor --quit 2>&1 | tee ../godot-import.log
+          godot --headless --path . --quit-after 45 2>&1 | tee ../godot-startup.log
+          grep -F 'FRONTERA: menu principal visible (ready)' ../godot-startup.log
+          if grep -Ei 'SCRIPT ERROR|Parse Error|Invalid call' ../godot-import.log ../godot-startup.log; then exit 1; fi
+      - name: Exportar APK ARM64 de prueba (firma debug, NO actualización)
+        working-directory: app
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PATH="$HOME/.android/debug.keystore"
+          export GODOT_ANDROID_KEYSTORE_DEBUG_USER=androiddebugkey
+          export GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=android
+          godot --headless --path . --export-debug 'Android ARM64' 'build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk' 2>&1 | tee ../godot-export.log
+          python3 tests_export_apk.py build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk > ../firma-ci.txt
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk | grep "name='cl.nazaret.fronteradefuego' versionCode='4'"
+          sha256sum build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk > ../apk-ci.sha256
+      - name: Adjuntar evidencia incluso ante fallo
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontera-0.1.3-ci-evidencia-y-debug-apk
+          path: |
+            app/build/*.apk
+            godot-*.log
+            apk-ci.sha256
+            firma-ci.txt
+          if-no-files-found: warn
+          retention-days: 14
