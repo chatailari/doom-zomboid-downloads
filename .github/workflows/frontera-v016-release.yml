@@ -1,0 +1,84 @@
+name: FRONTERA 0.1.6 - Verificar instalacion y publicar
+on:
+  push:
+    branches:
+      - staging/frontera-v0.1.6-ci
+    paths:
+      - 'frontera-de-fuego/v0.1.6/signed_*.txt'
+      - '.github/workflows/frontera-v016-release.yml'
+permissions:
+  contents: write
+jobs:
+  android-upgrade:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Verify signed APK cryptographic identity and Android version
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          cat frontera-de-fuego/v0.1.6/signed_*.txt | base64 -d > /tmp/frontera-v016.apk
+          echo '2caf1a200d70293cddce8712744e6ccd6884bc1e977638f699495fc42f216322  /tmp/frontera-v016.apk' | sha256sum -c -
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs /tmp/frontera-v016.apk | tee /tmp/frontera-v016-certificate.txt
+          grep -qi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' /tmp/frontera-v016-certificate.txt
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging /tmp/frontera-v016.apk | tee /tmp/frontera-v016-package.txt
+          grep -F "name='cl.nazaret.fronteradefuego' versionCode='7' versionName='0.1.6'" /tmp/frontera-v016-package.txt
+      - name: Accelerate Android emulator with KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Verify in-place update Android 14 from 0.1.5 to 0.1.6
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            set -eu
+            curl --fail --location --retry 3 --output /tmp/frontera-v015.apk 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk'
+            adb install /tmp/frontera-v015.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 2
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            adb install -r /tmp/frontera-v016.apk
+            adb logcat -c
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 1
+            adb shell screencap -p /sdcard/frontera-016-a.png
+            adb pull /sdcard/frontera-016-a.png ./frontera-016-a.png
+            sleep 1.3
+            adb shell screencap -p /sdcard/frontera-016-b.png
+            adb pull /sdcard/frontera-016-b.png ./frontera-016-b.png
+            sleep 5
+            adb shell dumpsys package cl.nazaret.fronteradefuego | grep 'versionCode=7'
+            adb logcat -d > ./frontera-016-logcat.txt
+            ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' ./frontera-016-logcat.txt
+      - name: Preserve Android 14 test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-v016-android14-upgrade-and-intro
+          path: |
+            frontera-016-a.png
+            frontera-016-b.png
+            frontera-016-logcat.txt
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publish verified APK only after Android install passes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release view frontera-v0.1.6 >/dev/null 2>&1 && { echo 'Release already exists, refusing overwrite'; exit 1; }
+          cp /tmp/frontera-v016.apk /tmp/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk
+          sha256sum /tmp/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk > /tmp/frontera-v016.sha256
+          gh release create frontera-v0.1.6 /tmp/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk /tmp/frontera-v016.sha256 \
+            --target "$GITHUB_SHA" --title 'FRONTERA DE FUEGO 0.1.6 - Viento y humo' \
+            --notes 'Intro con banderas y capas rojas ondeando y humo en movimiento. Personajes, textos y paisaje inmóviles. Android 14: actualización instalada sobre 0.1.5, firma original conservada. La escena de carga queda como recurso listo para el motor de juego. Actualizar canal firmado después de esta validación.' --prerelease
