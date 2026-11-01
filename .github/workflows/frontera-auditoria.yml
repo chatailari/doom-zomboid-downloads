@@ -8,10 +8,12 @@ on:
       - 'tests/test_frontera_audit.py'
       - 'tests/test_frontera_release_guard.py'
       - '.github/workflows/frontera-v017-publicar-manual.yml'
+      - '.github/workflows/frontera-v017-verify-promote.yml'
   workflow_run:
     workflows:
       - 'FRONTERA 0.1.7 - APK firmada y canal de actualizacion'
       - 'FRONTERA 0.1.7 - adaptive launcher icon verification'
+      - 'FRONTERA 0.1.7 - verificar APK publicada y activar actualizador'
     types: [completed]
   schedule:
     - cron: '15 09 * * *'
