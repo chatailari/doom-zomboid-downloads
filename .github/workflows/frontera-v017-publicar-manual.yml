@@ -1,5 +1,6 @@
 name: FRONTERA 0.1.7 - APK firmada y canal de actualizacion
 on:
+  workflow_call:
   workflow_dispatch:
 permissions:
   contents: write
@@ -151,7 +152,7 @@ jobs:
           retention-days: 14
       - name: Publish signed APK and verify public bytes
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.FRONTERA_PUBLISH_TOKEN || github.token }}
         run: |
           set -euo pipefail
           # RESUMABLE RELEASE: existing verified bytes are reused, never clobbered.
@@ -194,7 +195,7 @@ jobs:
           rm "$RUNNER_TEMP/original-rsa.pem"
       - name: Promote verified Frontera channel (safe to retry)
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.FRONTERA_PUBLISH_TOKEN || github.token }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -246,7 +247,7 @@ jobs:
         if: always()
         continue-on-error: true
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.FRONTERA_PUBLISH_TOKEN || github.token }}
           BUILD_STATUS: ${{ job.status }}
         run: |
           gh issue comment 3 --body "FRONTERA 0.1.7 | ejecución CI $GITHUB_RUN_ID | resultado: $BUILD_STATUS | https://github.com/chatailari/doom-zomboid-downloads/actions/runs/$GITHUB_RUN_ID . El artefacto solo está disponible si el paso de firma y las pruebas pasaron. No publicar ni desactivar Play Protect para forzar la instalación."
