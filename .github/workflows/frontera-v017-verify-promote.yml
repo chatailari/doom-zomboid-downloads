@@ -1,0 +1,130 @@
+name: FRONTERA 0.1.7 - verificar APK publicada y activar actualizador
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: frontera-publicacion-017
+  cancel-in-progress: false
+jobs:
+  verificar-y-promover:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.release.tag_name == 'frontera-v0.1.7' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: android-actions/setup-android@v3
+      - name: Descargar SOLO el APK firmado v0.1.7 y comprobar huella exacta
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          test "$(gh release view frontera-v0.1.7 --json isDraft --jq '.isDraft')" = false
+          gh release view frontera-v0.1.7 --json assets --jq '.assets[].name' | grep -Fx 'FRONTERA_DE_FUEGO_0.1.7_ARM64.apk'
+          mkdir -p "$RUNNER_TEMP/frontera"
+          curl -fL --retry 5 --retry-delay 2 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.7/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk' -o "$RUNNER_TEMP/frontera/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk"
+          echo '3cc6df6613b7c7f48b3acc9d4b90c87936dfd71df583083c2376fb8aef890d5f  '"$RUNNER_TEMP/frontera/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" | sha256sum -c -
+          A="$RUNNER_TEMP/frontera/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "$A" | tee "$RUNNER_TEMP/frontera/certificate.txt"
+          grep -qi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' "$RUNNER_TEMP/frontera/certificate.txt"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$A" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
+      - name: Verificar canal RSA firmado originalmente y APK exacta
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,hashlib,json,pathlib,subprocess,os
+          channel=pathlib.Path('frontera-de-fuego/v0.1.7/channel-signed.json')
+          envelope=json.loads(channel.read_text())
+          payload=json.loads(envelope['payload'])
+          expected='3cc6df6613b7c7f48b3acc9d4b90c87936dfd71df583083c2376fb8aef890d5f'
+          assert payload['package']=='cl.nazaret.fronteradefuego'
+          assert payload['version']=='0.1.7' and payload['version_code']==8
+          assert payload['sha256']==expected
+          assert payload['apk_url']=='https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.7/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk'
+          apk=pathlib.Path(os.environ['RUNNER_TEMP'])/'frontera/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk'
+          assert hashlib.sha256(apk.read_bytes()).hexdigest()==expected
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'frontera/payload.txt').write_bytes(envelope['payload'].encode())
+          (pathlib.Path(os.environ['RUNNER_TEMP'])/'frontera/signature.bin').write_bytes(base64.b64decode(envelope['signature'],validate=True))
+          subprocess.run(['openssl','dgst','-sha256','-verify','frontera-de-fuego/v0.1.7/update_public.pem',
+                          '-signature',str(pathlib.Path(os.environ['RUNNER_TEMP'])/'frontera/signature.bin'),
+                          str(pathlib.Path(os.environ['RUNNER_TEMP'])/'frontera/payload.txt')],check=True)
+          print('Signature RSA and signed APK SHA256 are verified')
+          PY
+      - name: Probar instalacion de la 0.1.7 encima de 0.1.6 en Android 14
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            set -euo pipefail
+            curl -fL --retry 3 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.6/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk' -o /tmp/frontera-016.apk
+            echo '2caf1a200d70293cddce8712744e6ccd6884bc1e977638f699495fc42f216322  /tmp/frontera-016.apk' | sha256sum -c -
+            adb install /tmp/frontera-016.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 3
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            adb install -r "$RUNNER_TEMP/frontera/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk"
+            adb logcat -c
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 6
+            adb shell dumpsys package cl.nazaret.fronteradefuego | grep 'versionCode=8'
+            adb logcat -d > "$RUNNER_TEMP/frontera/android14-logcat.txt"
+            ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' "$RUNNER_TEMP/frontera/android14-logcat.txt"
+      - name: Publicar canal ya firmado (idempotente, no regresion)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import base64,json,subprocess,time,urllib.request
+          remote_path='repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json'
+          intended=json.loads(open('frontera-de-fuego/v0.1.7/channel-signed.json').read())
+          target=json.loads(intended['payload'])
+          response=json.loads(subprocess.check_output(['gh','api',remote_path],text=True))
+          existing=json.loads(base64.b64decode(response['content']))
+          old=json.loads(existing['payload'])
+          assert old['package']==target['package']
+          assert old['version_code']<=8, 'Refusing downgrade'
+          if old['version_code']==8:
+              assert existing==intended, 'Same version with different signed content: refuse overwrite'
+              print('Already published, no change needed')
+          else:
+              encoded=base64.b64encode(open('frontera-de-fuego/v0.1.7/channel-signed.json','rb').read()).decode()
+              subprocess.run(['gh','api','-X','PUT',remote_path,
+                              '-f','message=release(frontera): activate audited 0.1.7 signed channel',
+                              '-f','content='+encoded,'-f','sha='+response['sha'],'-f','branch=main'],
+                              stdout=subprocess.DEVNULL,check=True)
+          checked=json.loads(subprocess.check_output(['gh','api',remote_path],text=True))
+          assert json.loads(base64.b64decode(checked['content']))==intended
+          public='https://raw.githubusercontent.com/chatailari/doom-zomboid-downloads/main/frontera-de-fuego/channel.json'
+          for i in range(12):
+              try:
+                  req=urllib.request.Request(public,headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(req,timeout=15) as response:
+                      if json.loads(response.read())==intended:
+                          print('SUCCESS: exact verified 0.1.7 signed channel visible through public HTTPS')
+                          break
+              except (OSError,ValueError):
+                  pass
+              time.sleep(5)
+          else:
+              raise SystemExit('Channel committed but public CDN not yet confirmed; safe to rerun')
+          PY
+      - name: Guardar evidencia tecnica
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-017-release-verification
+          path: |
+            ${{ runner.temp }}/frontera/certificate.txt
+            ${{ runner.temp }}/frontera/android14-logcat.txt
+          if-no-files-found: warn
+          retention-days: 30
