@@ -7,6 +7,7 @@ on:
       - 'tools/frontera_audit.py'
       - 'tests/test_frontera_audit.py'
       - 'tests/test_frontera_release_guard.py'
+      - 'tests/test_frontera_single_command.py'
       - '.github/workflows/frontera-v017-publicar-manual.yml'
       - '.github/workflows/frontera-una-orden.yml'
       - '.github/workflows/frontera-v017-verify-promote.yml'
