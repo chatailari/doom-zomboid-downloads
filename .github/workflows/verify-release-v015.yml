@@ -1,0 +1,73 @@
+name: Verify and release Frontera 0.1.5 signed APK
+on:
+  push:
+    branches:
+      - staging/frontera-v0.1.5-ci
+    paths:
+      - 'frontera-de-fuego/v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk'
+permissions:
+  contents: write
+jobs:
+  android-14-upgrade:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Install signing diagnostics
+        run: sdkmanager 'build-tools;35.0.0' 'platforms;android-35'
+      - name: Verify production APK signature and Android package metadata
+        run: |
+          set -euo pipefail
+          APK=frontera-de-fuego/v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$APK" | tee /tmp/firma.txt
+          grep -qi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' /tmp/firma.txt
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | tee /tmp/badging.txt
+          grep -F "name='cl.nazaret.fronteradefuego' versionCode='6' versionName='0.1.5'" /tmp/badging.txt
+          sha256sum "$APK" > /tmp/frontera-015.sha256
+      - name: Install over previous release on Android 14
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            set -euo pipefail
+            curl --fail --location --retry 3 --output /tmp/frontera-014.apk 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.4/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk'
+            adb install /tmp/frontera-014.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 4
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            adb install -r frontera-de-fuego/v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk
+            adb logcat -c
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 8
+            adb shell dumpsys package cl.nazaret.fronteradefuego | grep 'versionCode=6'
+            adb shell screencap -p /sdcard/frontera-015.png
+            adb pull /sdcard/frontera-015.png ./frontera-015-test.png
+            adb logcat -d > ./frontera-015-logcat.txt
+            ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' ./frontera-015-logcat.txt
+      - name: Save emulator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-v015-android14-install-over-v014
+          path: |
+            frontera-015-test.png
+            frontera-015-logcat.txt
+          if-no-files-found: warn
+      - name: Publish only after both signature and Android upgrade pass
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          APK=frontera-de-fuego/v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk
+          gh release view frontera-v0.1.5 >/dev/null 2>&1 && { echo 'Release already exists: refusing overwrite'; exit 1; }
+          gh release create frontera-v0.1.5 "$APK" /tmp/frontera-015.sha256 \
+            --target "$GITHUB_SHA" --title 'Frontera de Fuego 0.1.5 - Actualizador corregido' \
+            --notes 'Icono español vs mapuche, introducción animada y descarga SHA-256 dentro de la app desde 0.1.5. Instalación confirmada sobre 0.1.4 en emulador Android 14. El canal público RSA se actualizará tras verificar este release.' --prerelease
