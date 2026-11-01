@@ -1,0 +1,74 @@
+{
+  "run_id": 41358467034,
+  "workflow": "FRONTERA 0.1.7 - preparar publicacion sin duplicados",
+  "event": "push",
+  "head_sha": "b363994a50badf933480aebde793c928f1d8ac89",
+  "head_branch": "main",
+  "created_at": "2026-11-01T22:42:22Z",
+  "finished_at": "2026-11-01T22:42:30Z",
+  "result": "failure",
+  "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41358467034",
+  "jobs": [
+    {
+      "job_id": 125003521404,
+      "name": "prepare-draft",
+      "result": "failure",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T22:42:25Z",
+          "completed_at": "2026-11-01T22:42:26Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T22:42:26Z",
+          "completed_at": "2026-11-01T22:42:27Z"
+        },
+        {
+          "number": 3,
+          "name": "Crear borrador seguro de la Release 0.1.7 si no existe",
+          "status": "completed",
+          "result": "failure",
+          "started_at": "2026-11-01T22:42:27Z",
+          "completed_at": "2026-11-01T22:42:28Z"
+        },
+        {
+          "number": 6,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T22:42:28Z",
+          "completed_at": "2026-11-01T22:42:28Z"
+        },
+        {
+          "number": 7,
+          "name": "Complete job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T22:42:28Z",
+          "completed_at": "2026-11-01T22:42:28Z"
+        }
+      ],
+      "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41358467034/job/125003521404"
+    }
+  ],
+  "failed_steps": [
+    "Crear borrador seguro de la Release 0.1.7 si no existe"
+  ],
+  "passed_steps": [
+    "Set up job",
+    "Run actions/checkout@v4",
+    "Post Run actions/checkout@v4",
+    "Complete job"
+  ],
+  "error_codes": [
+    "FALLO_ETAPA_CREAR_BORRADOR_SEGURO_DE_LA_RELEASE_0_1_7_SI_NO_EXISTE"
+  ],
+  "artifacts": []
+}

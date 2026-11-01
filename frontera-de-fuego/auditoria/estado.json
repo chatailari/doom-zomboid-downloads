@@ -2,9 +2,9 @@
   "schema": 1,
   "proyecto": "FRONTERA DE FUEGO",
   "paquete": "cl.nazaret.fronteradefuego",
-  "corridas_registradas": 35,
+  "corridas_registradas": 36,
   "resultados": {
-    "failure": 26,
+    "failure": 27,
     "success": 9
   },
   "ultimo_build_compilado_correcto": {
@@ -93,6 +93,16 @@
         "Require original signing credentials"
       ],
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159"
+    },
+    {
+      "codigo": "FALLO_ETAPA_CREAR_BORRADOR_SEGURO_DE_LA_RELEASE_0_1_7_SI_NO_EXISTE",
+      "ocurrencias": 1,
+      "primer_run": 41358467034,
+      "ultimo_run": 41358467034,
+      "etapas": [
+        "Crear borrador seguro de la Release 0.1.7 si no existe"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41358467034"
     },
     {
       "codigo": "FALLO_ETAPA_RUN_ANDROID_ACTIONS_SETUP_ANDROID_V3",

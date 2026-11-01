@@ -2,7 +2,7 @@
 
 Registro generado a partir de la API de GitHub Actions. No contiene secretos ni logs completos.
 
-**Corridas registradas:** 35.
+**Corridas registradas:** 36.
 **Última compilación aprobada:** 0.1.7 (run 41350181200).
 **Última publicación aprobada por todos los controles CI:** ninguna
 **Canal público observado:** 0.1.6 (solo versión anunciada).
@@ -47,6 +47,7 @@ Registro generado a partir de la API de GitHub Actions. No contiene secretos ni 
 | 41350056549 | success | sí | ninguna | [GitHub Actions](https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350056549) |
 | 41350177159 | failure | sí | Require original signing credentials | [GitHub Actions](https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159) |
 | 41350181200 | success | sí | ninguna | [GitHub Actions](https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350181200) |
+| 41358467034 | failure | no | Crear borrador seguro de la Release 0.1.7 si no existe | [GitHub Actions](https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41358467034) |
 
 ## Fallos agrupados (para no repetir diagnósticos)
 
@@ -57,6 +58,7 @@ Registro generado a partir de la API de GitHub Actions. No contiene secretos ni 
 - **FALLO_ETAPA_EXPORTAR_APK_ARM64_DE_PRUEBA_FIRMA_DEBUG_NO_ACTUALIZACION**: 2 ocasión(es), último run 41281705512; Exportar APK ARM64 de prueba (firma debug, NO actualización).
 - **FALLO_ETAPA_PREPARAR_FUENTE_ANDROID_SDK_Y_GODOT_4_5_1**: 2 ocasión(es), último run 41279430384; Preparar fuente, Android SDK y Godot 4.5.1.
 - **FALTA_FIRMA_ANDROID_ORIGINAL**: 2 ocasión(es), último run 41350177159; Require original signing credentials.
+- **FALLO_ETAPA_CREAR_BORRADOR_SEGURO_DE_LA_RELEASE_0_1_7_SI_NO_EXISTE**: 1 ocasión(es), último run 41358467034; Crear borrador seguro de la Release 0.1.7 si no existe.
 - **FALLO_ETAPA_RUN_ANDROID_ACTIONS_SETUP_ANDROID_V3**: 1 ocasión(es), último run 41279355056; Run android-actions/setup-android@v3.
 - **FALLO_ETAPA_VERIFY_OLD_SOURCE_AND_CREATE_CORRECTED_ICON**: 1 ocasión(es), último run 41349760762; Verify old source and create corrected icon.
 
