@@ -15,6 +15,7 @@ import json
 import os
 from pathlib import Path
 import re
+import unicodedata
 import subprocess
 
 REPOSITORY = "chatailari/doom-zomboid-downloads"
@@ -83,7 +84,9 @@ def classify_error(step_name: str) -> str:
         "Sign Frontera update manifest with ORIGINAL RSA key": "MANIFIESTO_RSA_NO_VERIFICADO",
         "Promote only authenticated Frontera channel and verify": "CANAL_DE_ACTUALIZACION_NO_VERIFICADO",
     }
-    return known.get(step_name, "FALLO_DE_ETAPA_NO_CLASIFICADO")
+    normalized = unicodedata.normalize("NFKD", step_name).encode("ascii", "ignore").decode().upper()
+    label = re.sub(r"[^A-Z0-9]+", "_", normalized).strip("_")[:75]
+    return known.get(step_name, "FALLO_ETAPA_" + (label or "DESCONOCIDA"))
 
 
 def run_has_step(run: dict, name: str) -> bool:
@@ -121,6 +124,8 @@ def compute_summary(runs: list[dict], channel: dict, previous: dict | None = Non
             if not good_build or (candidate["fecha"] or "") >= (good_build.get("fecha") or ""):
                 good_build = candidate
         for step, code in zip(r.get("failed_steps", []), r.get("error_codes", [])):
+            if code == "FALLO_DE_ETAPA_NO_CLASIFICADO":
+                code = classify_error(step)  # Reclassify historical snapshots without editing immutable evidence.
             entry = errors.setdefault(code, {"codigo": code, "ocurrencias": 0,
                                              "primer_run": r["run_id"], "ultimo_run": r["run_id"],
                                              "etapas": [], "url_ultimo": r["url"]})
