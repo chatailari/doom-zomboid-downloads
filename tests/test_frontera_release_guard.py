@@ -34,7 +34,8 @@ class GateRegressionTests(unittest.TestCase):
             "Promote verified Frontera channel (safe to retry)"]
         self.assertEqual([s.index(step) for step in stages],sorted(s.index(step) for step in stages))
         self.assertIn("gh release create frontera-v0.1.7",s)
-        self.assertIn("ref: fix/frontera-adaptive-icon-v017",s)
+        self.assertIn("ref: b8bd2e0130ae30c8ba609bae905cbe26b413b1d3",s)
+        self.assertIn("--target b8bd2e0130ae30c8ba609bae905cbe26b413b1d3",s)
 
     def test_manual_publication_and_no_new_certificates(self):
         s=self.release
