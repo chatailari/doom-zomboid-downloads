@@ -1,0 +1,42 @@
+name: FRONTERA - UNA ORDEN corregir compilar publicar
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontera-de-fuego/release-requests/current.json'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+  issues: write
+concurrency:
+  group: frontera-entrega-una-orden
+  cancel-in-progress: false
+jobs:
+  validar-solicitud:
+    if: github.repository == 'chatailari/doom-zomboid-downloads' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Bloquear cambios de identidad y versiones incompatibles
+        run: |
+          python3 - <<'PY'
+          import json,re
+          request=json.load(open('frontera-de-fuego/release-requests/current.json'))
+          assert request['app']=='cl.nazaret.fronteradefuego'
+          assert request['version']=='0.1.7' and request['version_code']==8
+          assert request['source_commit']=='b8bd2e0130ae30c8ba609bae905cbe26b413b1d3'
+          assert request['previous_version']=='0.1.6' and request['previous_code']==7
+          print('Solicitud de entrega verificada: codigo original + icono 0.1.7')
+          PY
+  entregar:
+    needs: validar-solicitud
+    uses: ./.github/workflows/frontera-v017-publicar-manual.yml
+    permissions:
+      contents: write
+      actions: read
+      issues: write
+    secrets: inherit
