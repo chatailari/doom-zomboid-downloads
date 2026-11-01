@@ -1,0 +1,10 @@
+{
+  "app": "cl.nazaret.fronteradefuego",
+  "version": "0.1.7",
+  "version_code": 8,
+  "previous_version": "0.1.6",
+  "previous_code": 7,
+  "source_commit": "b8bd2e0130ae30c8ba609bae905cbe26b413b1d3",
+  "original_certificate_sha256": "823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0",
+  "notes": "Agranda icono Android, conserva animaciones, firma y datos. Publicar solo despues de verificar."
+}
