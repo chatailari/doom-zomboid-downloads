@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
       - name: Descargar SOLO el APK firmado v0.1.7 y comprobar huella exacta
         env:
           GH_TOKEN: ${{ github.token }}
