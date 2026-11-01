@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: fix/frontera-adaptive-icon-v017
+          ref: b8bd2e0130ae30c8ba609bae905cbe26b413b1d3
       - name: Require original signing credentials
         env:
           B64: ${{ secrets.FRONTERA_KEYSTORE_BASE64 }}
@@ -156,7 +156,7 @@ jobs:
           set -euo pipefail
           # RESUMABLE RELEASE: existing verified bytes are reused, never clobbered.
           if ! gh release view frontera-v0.1.7 --json isDraft >/dev/null 2>&1; then
-            gh release create frontera-v0.1.7 "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256" --target fix/frontera-adaptive-icon-v017 --title 'FRONTERA 0.1.7: icono Android corregido' --notes 'Icono adaptable y versiones legacy grandes. Firma Android original, actualizacion sobre 0.1.6 probada, resto del juego intacto.' --prerelease
+            gh release create frontera-v0.1.7 "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256" --target b8bd2e0130ae30c8ba609bae905cbe26b413b1d3 --title 'FRONTERA 0.1.7: icono Android corregido' --notes 'Icono adaptable y versiones legacy grandes. Firma Android original, actualizacion sobre 0.1.6 probada, resto del juego intacto.' --prerelease
           else
             echo 'Publication checkpoint: release already exists; verifying exact APK bytes before resuming.'
           fi
