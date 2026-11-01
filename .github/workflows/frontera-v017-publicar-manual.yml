@@ -192,23 +192,54 @@ jobs:
           (r/'channel-017.json').write_text(json.dumps({'payload':payload,'signature':base64.b64encode(signature).decode()},ensure_ascii=False,indent=2)+'\n')
           PY
           rm "$RUNNER_TEMP/original-rsa.pem"
-      - name: Promote only authenticated Frontera channel and verify
+      - name: Promote verified Frontera channel (safe to retry)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          SHA=$(gh api repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json --jq .sha)
-          PAYLOAD=$(base64 -w0 "$RUNNER_TEMP/channel-017.json")
-          gh api -X PUT repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json -f 'message=release(frontera): promote verified signed APK 0.1.7' -f "content=$PAYLOAD" -f "sha=$SHA" -f branch=main > /dev/null
-          curl -fL --retry 3 'https://raw.githubusercontent.com/chatailari/doom-zomboid-downloads/main/frontera-de-fuego/channel.json' -o "$RUNNER_TEMP/remote-channel.json"
           python3 - <<'PY'
-          import json,os,pathlib
-          p=pathlib.Path(os.environ['RUNNER_TEMP'])
-          expected=json.loads((p/'channel-017.json').read_text())
-          actual=json.loads((p/'remote-channel.json').read_text())
-          assert expected==actual,'Update channel not yet visible/does not match'
-          assert json.loads(actual['payload'])['version_code']==8
-          print('VERIFIED: signed Frontera 0.1.7 public APK + automatic update channel')
+          import base64,json,os,pathlib,subprocess,sys,time,urllib.request
+          path='repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json'
+          target=pathlib.Path(os.environ['RUNNER_TEMP'])/'channel-017.json'
+          requested=json.loads(target.read_text())
+          requested_payload=json.loads(requested['payload'])
+          response=json.loads(subprocess.check_output(['gh','api',path],text=True))
+          current=json.loads(base64.b64decode(response['content']))
+          current_payload=json.loads(current['payload'])
+          if current_payload['package'] != requested_payload['package']:
+              raise SystemExit('Refusing to replace a different package channel')
+          old_code=int(current_payload['version_code'])
+          next_code=int(requested_payload['version_code'])
+          if old_code>next_code:
+              raise SystemExit('No downgrade: channel newer than requested version')
+          if old_code==next_code and current != requested:
+              raise SystemExit('Same version has different signed bytes: refusing overwrite')
+          if current != requested:
+              encoded=base64.b64encode(target.read_bytes()).decode()
+              subprocess.run(['gh','api','-X','PUT',path,
+                '-f','message=release(frontera): promote verified signed APK 0.1.7',
+                '-f','content='+encoded,'-f','sha='+response['sha'],
+                '-f','branch=main'],check=True,stdout=subprocess.DEVNULL)
+              print('Publication checkpoint: signed channel 0.1.7 committed')
+          else:
+              print('Publication checkpoint: matching channel already published, no changes')
+          latest=json.loads(subprocess.check_output(['gh','api',path],text=True))
+          actual=json.loads(base64.b64decode(latest['content']))
+          if actual!=requested:
+              raise SystemExit('GitHub channel readback does not match exact signed payload')
+          public='https://raw.githubusercontent.com/chatailari/doom-zomboid-downloads/main/frontera-de-fuego/channel.json'
+          for attempt in range(12):
+              try:
+                  req=urllib.request.Request(public,headers={'Cache-Control':'no-cache'})
+                  with urllib.request.urlopen(req,timeout=20) as response:
+                      remote=json.loads(response.read())
+                  if remote==requested:
+                      print('VERIFIED: APK public + signed Frontera channel visible anonymously')
+                      sys.exit(0)
+              except (OSError,ValueError) as ex:
+                  print('Public CDN not yet confirmed; retry',attempt+1,type(ex).__name__)
+              time.sleep(5)
+          raise SystemExit('Signed channel committed but anonymous CDN not yet synced; safe to retry')
           PY
 
       - name: Record signed-build result without exposing secrets
