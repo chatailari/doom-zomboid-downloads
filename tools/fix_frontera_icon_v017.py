@@ -6,7 +6,7 @@ Run on the extracted v0.1.6 source; preserves applicationId, updater and assets.
 from pathlib import Path
 import argparse
 import xml.etree.ElementTree as ET
-from PIL import Image
+from PIL import Image, ImageDraw
 
 SOURCE = "app/src/main/res/drawable-nodpi/frontera_icon.png"
 RES = "app/src/main/res"
@@ -49,6 +49,23 @@ def patch(root):
     drawable = root / RES / "drawable-nodpi"
     foreground.save(drawable / "ic_launcher_foreground.png", optimize=True)
     dark_background.save(drawable / "ic_launcher_background.png", optimize=True)
+    # Legacy fallback for Android 7 and earlier. An adaptive-only resource
+    # can be unresolved on devices below API 26.
+    legacy_artwork = crop_padding(Image.open(icon))
+    legacy_artwork.thumbnail((368, 368), Image.Resampling.LANCZOS)
+    legacy = dark_background.copy()
+    legacy.alpha_composite(legacy_artwork, ((SIZE - legacy_artwork.width)//2,
+                                          (SIZE - legacy_artwork.height)//2))
+    round_mask = Image.new("L", (SIZE, SIZE), 0)
+    ImageDraw.Draw(round_mask).ellipse((0, 0, SIZE - 1, SIZE - 1), fill=255)
+    legacy_round = legacy.copy()
+    legacy_round.putalpha(round_mask)
+    for density, px in (("mdpi",48), ("hdpi",72), ("xhdpi",96),
+                        ("xxhdpi",144), ("xxxhdpi",192)):
+        folder = root / RES / ("mipmap-" + density)
+        folder.mkdir(parents=True, exist_ok=True)
+        legacy.resize((px, px), Image.Resampling.LANCZOS).save(folder / "ic_launcher.png")
+        legacy_round.resize((px, px), Image.Resampling.LANCZOS).save(folder / "ic_launcher_round.png")
     adaptive = root / RES / "mipmap-anydpi-v26"
     adaptive.mkdir(parents=True, exist_ok=True)
     xml = ('<?xml version="1.0" encoding="utf-8"?>\n'
