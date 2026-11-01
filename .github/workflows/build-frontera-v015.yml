@@ -1,0 +1,101 @@
+name: Build and verify Frontera Android 0.1.5
+on:
+  push:
+    branches:
+      - staging/frontera-v0.1.5-ci
+    paths:
+      - 'frontera-de-fuego/v0.1.5/**'
+      - '.github/workflows/build-frontera-v015.yml'
+permissions:
+  contents: write
+jobs:
+  build-android:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0' 'platform-tools'
+      - name: Extract independent Frontera source
+        run: |
+          mkdir -p /tmp/frontera-build
+          unzip -q frontera-de-fuego/v0.1.5/source.zip -d /tmp/frontera-build
+          python3 /tmp/frontera-build/scripts/verify_source.py
+      - name: Test security properties
+        run: python3 /tmp/frontera-build/scripts/test_updater_security.py
+      - name: Compile candidate APK
+        run: gradle --no-daemon --project-dir /tmp/frontera-build :app:assembleRelease
+      - name: Preserve unsigned build before signing gate
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-0.1.5-unsigned-only-not-installable
+          path: /tmp/frontera-build/app/build/outputs/apk/release/app-release-unsigned.apk
+          retention-days: 7
+      - name: Require original keystore credentials
+        env:
+          KEYSTORE_B64: ${{ secrets.FRONTERA_KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.FRONTERA_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.FRONTERA_KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE_B64" || (echo 'BLOCKED: missing original Android keystore secret'; exit 1)
+          test -n "$KEY_ALIAS" || (echo 'BLOCKED: missing keystore alias'; exit 1)
+          test -n "$KEY_PASS" || (echo 'BLOCKED: missing keystore password'; exit 1)
+      - name: Sign and verify with original certificate
+        env:
+          KEYSTORE_B64: ${{ secrets.FRONTERA_KEYSTORE_BASE64 }}
+          KEY_ALIAS: ${{ secrets.FRONTERA_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.FRONTERA_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          INPUT=/tmp/frontera-build/app/build/outputs/apk/release/app-release-unsigned.apk
+          OUTPUT="$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.5_BASE_NATIVA_ARM64.apk"
+          test -s "$INPUT"
+          printf '%s' "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/frontera.p12"
+          unset KEYSTORE_B64
+          chmod 600 "$RUNNER_TEMP/frontera.p12"
+          export ANDROID_SDK_BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
+          "$ANDROID_SDK_BUILD_TOOLS/zipalign" -f -p 4 "$INPUT" "$RUNNER_TEMP/aligned.apk"
+          "$ANDROID_SDK_BUILD_TOOLS/apksigner" sign --ks "$RUNNER_TEMP/frontera.p12" --ks-type PKCS12 --ks-key-alias "$KEY_ALIAS" --ks-pass env:KEY_PASS --key-pass env:KEY_PASS --out "$OUTPUT" "$RUNNER_TEMP/aligned.apk"
+          "$ANDROID_SDK_BUILD_TOOLS/apksigner" verify --verbose --print-certs "$OUTPUT" | tee "$RUNNER_TEMP/cert-check.txt"
+          grep -qi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' "$RUNNER_TEMP/cert-check.txt"
+          "$ANDROID_SDK_BUILD_TOOLS/aapt" dump badging "$OUTPUT" | grep -E "package: name='cl.nazaret.fronteradefuego' versionCode='6' versionName='0.1.5'"
+          sha256sum "$OUTPUT" | tee "$RUNNER_TEMP/frontera.sha256"
+          rm -f "$RUNNER_TEMP/frontera.p12" "$RUNNER_TEMP/aligned.apk"
+      - name: Verify upgrade on Android 14 (0.1.4 -> 0.1.5)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          script: |
+            set -euo pipefail
+            cp "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.5_BASE_NATIVA_ARM64.apk" /tmp/frontera-015.apk
+            curl --fail --location --retry 3 --output /tmp/frontera-014.apk 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.4/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk'
+            echo 'Baseline 0.1.4:'
+            adb install /tmp/frontera-014.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            echo 'Upgrading to signed 0.1.5:'
+            adb install -r /tmp/frontera-015.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 8
+            adb shell dumpsys package cl.nazaret.fronteradefuego | grep -E 'versionCode=6|versionName=0.1.5'
+            adb logcat -d -t 2000 > /tmp/frontera-015-logcat.txt
+            ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' /tmp/frontera-015-logcat.txt
+      - name: Publish APK candidate (do not modify signed channel)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release view frontera-v0.1.5 >/dev/null 2>&1 && { echo 'Release already exists, refusing overwrite'; exit 1; }
+          gh release create frontera-v0.1.5 "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.5_BASE_NATIVA_ARM64.apk" "$RUNNER_TEMP/frontera.sha256" \
+            --target "${GITHUB_SHA}" --title 'FRONTERA DE FUEGO 0.1.5 - Beta Android' \
+            --notes 'Nueva iconografía e intro animada. Actualización con certificado original. Canal de actualización pendiente de revisión final.' --prerelease
