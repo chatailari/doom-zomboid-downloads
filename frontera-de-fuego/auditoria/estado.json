@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "proyecto": "FRONTERA DE FUEGO",
+  "paquete": "cl.nazaret.fronteradefuego",
+  "corridas_registradas": 4,
+  "resultados": {
+    "failure": 3,
+    "success": 1
+  },
+  "ultimo_build_compilado_correcto": {
+    "run_id": 41350177159,
+    "fecha": "2026-11-01T21:06:39Z",
+    "version": "0.1.7",
+    "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159",
+    "alcance": "compilacion_aprobada_no_equivale_a_apk_firmada"
+  },
+  "ultima_publicacion_verificada_ci": null,
+  "canal_publico_actual": {
+    "version": "0.1.6",
+    "version_code": 7,
+    "apk_sha256": "2caf1a200d70293cddce8712744e6ccd6884bc1e977638f699495fc42f216322",
+    "url": "https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.6/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk",
+    "status": "canal_anunciado_no_certifica_telefono"
+  },
+  "prueba_en_telefono_fisico": "PENDIENTE_NO_CERTIFICADA",
+  "incidentes_agrupados": [
+    {
+      "codigo": "COMPROBACION_DE_RECURSOS_APK",
+      "ocurrencias": 1,
+      "primer_run": 41349893200,
+      "ultimo_run": 41349893200,
+      "etapas": [
+        "Build Android APK without any signing keys"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349893200"
+    },
+    {
+      "codigo": "FALTA_FIRMA_ANDROID_ORIGINAL",
+      "ocurrencias": 1,
+      "primer_run": 41350177159,
+      "ultimo_run": 41350177159,
+      "etapas": [
+        "Require original signing credentials"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159"
+    },
+    {
+      "codigo": "PRUEBAS_DE_VERSION_EN_ORDEN_INCORRECTO",
+      "ocurrencias": 1,
+      "primer_run": 41349673211,
+      "ultimo_run": 41349673211,
+      "etapas": [
+        "Apply launcher-icon fix and version 0.1.7"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349673211"
+    }
+  ],
+  "politica": "NO REGRESION: conservar ultimo release validado; fallos no actualizan canal ni borran partidas"
+}
