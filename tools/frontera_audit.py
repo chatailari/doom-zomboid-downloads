@@ -28,7 +28,7 @@ RELEASE_STEPS = frozenset({"Sign APK using original certificate",
                            "Test Android 14 upgrade without deleting data",
                            "Publish signed APK and verify public bytes",
                            "Sign Frontera update manifest with ORIGINAL RSA key",
-                           "Promote only authenticated Frontera channel and verify"})
+                           "Promote verified Frontera channel (safe to retry)"})
 
 
 def gh_api(path: str) -> dict:
@@ -82,7 +82,7 @@ def classify_error(step_name: str) -> str:
         "Test Android 14 upgrade without deleting data": "ACTUALIZACION_ANDROID14_FALLIDA",
         "Publish signed APK and verify public bytes": "DESCARGA_APK_NO_VERIFICADA",
         "Sign Frontera update manifest with ORIGINAL RSA key": "MANIFIESTO_RSA_NO_VERIFICADO",
-        "Promote only authenticated Frontera channel and verify": "CANAL_DE_ACTUALIZACION_NO_VERIFICADO",
+        "Promote verified Frontera channel (safe to retry)": "CANAL_DE_ACTUALIZACION_NO_VERIFICADO",
     }
     normalized = unicodedata.normalize("NFKD", step_name).encode("ascii", "ignore").decode().upper()
     label = re.sub(r"[^A-Z0-9]+", "_", normalized).strip("_")[:75]
