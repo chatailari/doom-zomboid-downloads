@@ -1,0 +1,64 @@
+name: FRONTERA 0.1.7 - adaptive launcher icon verification
+on:
+  push:
+    branches:
+      - fix/frontera-adaptive-icon-v017
+    paths:
+      - 'tools/fix_frontera_icon_v017.py'
+      - 'tests/test_frontera_icon_v017.py'
+      - '.github/workflows/frontera-v017-icon-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check-and-build-unsigned:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - uses: android-actions/setup-android@v4
+      - name: Install SDK and image tools
+        run: |
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          python3 -m pip install --user Pillow
+      - name: Verify generator does not shrink artwork or change package
+        run: PYTHONPATH=. python3 tests/test_frontera_icon_v017.py
+      - name: Recover and verify exact prior source
+        run: |
+          set -euo pipefail
+          cat frontera-de-fuego/v0.1.6/part_*.txt | base64 -d > "$RUNNER_TEMP/frontera-016.zip"
+          echo "d132830ba81c78f7ed14b58b28e57868af75c5f459ae4c745fc4c879f00477e1  $RUNNER_TEMP/frontera-016.zip" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/frontera"
+          unzip -q "$RUNNER_TEMP/frontera-016.zip" -d "$RUNNER_TEMP/frontera"
+      - name: Apply launcher-icon fix and version 0.1.7
+        run: |
+          set -euo pipefail
+          python3 tools/fix_frontera_icon_v017.py "$RUNNER_TEMP/frontera"
+          python3 "$RUNNER_TEMP/frontera/scripts/test_updater_security.py"
+          grep -F 'android:icon="@mipmap/ic_launcher"' "$RUNNER_TEMP/frontera/app/src/main/AndroidManifest.xml"
+      - name: Build Android APK without any signing keys
+        run: |
+          set -euo pipefail
+          gradle --no-daemon --project-dir "$RUNNER_TEMP/frontera" :app:assembleRelease
+          APK="$RUNNER_TEMP/frontera/app/build/outputs/apk/release/app-release-unsigned.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
+          unzip -l "$APK" | grep -E 'ic_launcher_foreground|ic_launcher_background'
+      - name: Retain unsigned APK and icon assets for gated signing
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-017-unsigned-NOT-INSTALLABLE
+          path: |
+            /home/runner/work/_temp/frontera/app/build/outputs/apk/release/app-release-unsigned.apk
+            /home/runner/work/_temp/frontera/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
+            /home/runner/work/_temp/frontera/app/src/main/res/drawable-nodpi/ic_launcher_background.png
+          if-no-files-found: warn
+          retention-days: 14
