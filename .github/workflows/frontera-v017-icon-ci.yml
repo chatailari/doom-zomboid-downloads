@@ -46,8 +46,8 @@ jobs:
       - name: Apply launcher-icon fix and version 0.1.7
         run: |
           set -euo pipefail
-          python3 tools/fix_frontera_icon_v017.py "$RUNNER_TEMP/frontera"
           (cd "$RUNNER_TEMP/frontera" && python3 scripts/test_updater_security.py)
+          python3 tools/fix_frontera_icon_v017.py "$RUNNER_TEMP/frontera"
           grep -F 'android:icon="@mipmap/ic_launcher"' "$RUNNER_TEMP/frontera/app/src/main/AndroidManifest.xml"
       - name: Build Android APK without any signing keys
         run: |
