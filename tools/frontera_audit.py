@@ -209,11 +209,18 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--run-id", type=int, action="append", default=[])
     p.add_argument("--bootstrap", action="store_true")
+    p.add_argument("--reconcile", action="store_true", help="Revisar runs recientes y recuperar eventos omitidos")
     p.add_argument("--root", type=Path, default=Path.cwd())
     args = p.parse_args()
     ids = list(args.run_id)
     if args.bootstrap:
         ids += list(BASELINE_RUNS)
+    if args.reconcile:
+        recent = gh_api(f"repos/{REPOSITORY}/actions/runs?per_page=100")
+        ids += [int(r["id"]) for r in recent.get("workflow_runs", [])
+                if r.get("status") == "completed"
+                and str(r.get("name", "")).startswith("FRONTERA 0.")]
+
     if not ids:
         raise SystemExit("No run ids; refuse empty/misleading audit")
     save_ledger(os.environ.get("GITHUB_REPOSITORY", REPOSITORY), ids, args.root)
