@@ -1,0 +1,173 @@
+name: FRONTERA 0.1.7 - APK firmada y canal de actualizacion
+on:
+  push:
+    branches: [fix/frontera-adaptive-icon-v017]
+    paths:
+      - '.github/workflows/frontera-v017-signed-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build-sign-release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - uses: android-actions/setup-android@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify old source and create corrected icon
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+          python3 -m pip install Pillow
+          PYTHONPATH=. python3 tests/test_frontera_icon_v017.py
+          cat frontera-de-fuego/v0.1.6/part_*.txt | base64 -d > "$RUNNER_TEMP/frontera-016.zip"
+          echo "d132830ba81c78f7ed14b58b28e57868af75c5f459ae4c745fc4c879f00477e1  $RUNNER_TEMP/frontera-016.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/frontera-016.zip" -d "$RUNNER_TEMP/frontera"
+          (cd "$RUNNER_TEMP/frontera" && python3 scripts/verify_source.py)
+          python3 tools/fix_frontera_icon_v017.py "$RUNNER_TEMP/frontera"
+          (cd "$RUNNER_TEMP/frontera" && python3 scripts/test_updater_security.py)
+      - name: Compile and verify version 0.1.7
+        run: |
+          set -euo pipefail
+          gradle --no-daemon --project-dir "$RUNNER_TEMP/frontera" :app:assembleRelease
+          APK="$RUNNER_TEMP/frontera/app/build/outputs/apk/release/app-release-unsigned.apk"
+          test -s "$APK"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
+          unzip -l "$APK" | grep -q 'ic_launcher_foreground.png'
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump permissions "$APK" > "$RUNNER_TEMP/android-permissions.txt"
+      - name: Require original signing credentials
+        env:
+          B64: ${{ secrets.FRONTERA_KEYSTORE_BASE64 }}
+          ALIAS: ${{ secrets.FRONTERA_KEY_ALIAS }}
+          PASS: ${{ secrets.FRONTERA_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$B64" && test -n "$ALIAS" && test -n "$PASS" || { echo "::error::Original Android signing secrets unavailable. Stopping; never invent a new certificate."; exit 1; }
+      - name: Sign APK using original certificate
+        env:
+          B64: ${{ secrets.FRONTERA_KEYSTORE_BASE64 }}
+          ALIAS: ${{ secrets.FRONTERA_KEY_ALIAS }}
+          PASS: ${{ secrets.FRONTERA_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          T="$ANDROID_HOME/build-tools/35.0.0"
+          printf '%s' "$B64" | base64 -d > "$RUNNER_TEMP/frontera-original.p12"
+          chmod 600 "$RUNNER_TEMP/frontera-original.p12"
+          unset B64
+          "$T/zipalign" -f -p 4 "$RUNNER_TEMP/frontera/app/build/outputs/apk/release/app-release-unsigned.apk" "$RUNNER_TEMP/aligned.apk"
+          "$T/apksigner" sign --ks "$RUNNER_TEMP/frontera-original.p12" --ks-type PKCS12 --ks-key-alias "$ALIAS" --ks-pass env:PASS --key-pass env:PASS --out "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" "$RUNNER_TEMP/aligned.apk"
+          "$T/apksigner" verify --print-certs "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" | tee "$RUNNER_TEMP/signature.txt"
+          grep -qi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' "$RUNNER_TEMP/signature.txt"
+          "$T/aapt" dump badging "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
+          (cd "$RUNNER_TEMP" && sha256sum FRONTERA_DE_FUEGO_0.1.7_ARM64.apk > FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256)
+          rm -f "$RUNNER_TEMP/frontera-original.p12" "$RUNNER_TEMP/aligned.apk"
+      - name: Keep signed APK if following checks fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: FRONTERA-0.1.7-APK-FIRMADA
+          path: |
+            ${{ runner.temp }}/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk
+            ${{ runner.temp }}/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256
+          retention-days: 30
+          if-no-files-found: error
+      - name: Test Android 14 upgrade without deleting data
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            set -euo pipefail
+            curl -fL --retry 3 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.6/FRONTERA_DE_FUEGO_0.1.6_ARM64.apk' -o /tmp/frontera-016.apk
+            echo '2caf1a200d70293cddce8712744e6ccd6884bc1e977638f699495fc42f216322  /tmp/frontera-016.apk' | sha256sum -c -
+            adb install /tmp/frontera-016.apk
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 3
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            adb install -r "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk"
+            adb logcat -c
+            adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
+            sleep 7
+            adb shell dumpsys package cl.nazaret.fronteradefuego | grep 'versionCode=8'
+            adb logcat -d > "$RUNNER_TEMP/android14-017-logcat.txt"
+            ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' "$RUNNER_TEMP/android14-017-logcat.txt"
+      - name: Save Android test records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: FRONTERA-017-android-tests
+          path: |
+            ${{ runner.temp }}/android14-017-logcat.txt
+            ${{ runner.temp }}/android-permissions.txt
+            ${{ runner.temp }}/signature.txt
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Publish signed APK and verify public bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view frontera-v0.1.7 >/dev/null 2>&1; then
+            echo 'Release already exists: refusing overwrite'
+            exit 1
+          fi
+          gh release create frontera-v0.1.7 "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256" --target "$GITHUB_SHA" --title 'FRONTERA 0.1.7: icono Android corregido' --notes 'Icono adaptable y versiones legacy grandes. Firma Android original, actualizacion sobre 0.1.6 probada, resto del juego intacto.' --prerelease
+          curl -fL --retry 3 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.7/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk' -o "$RUNNER_TEMP/public-017.apk"
+          test "$(sha256sum "$RUNNER_TEMP/public-017.apk" | cut -d' ' -f1)" = "$(sha256sum "$RUNNER_TEMP/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk" | cut -d' ' -f1)"
+      - name: Sign Frontera update manifest with ORIGINAL RSA key
+        env:
+          RSA_KEY: ${{ secrets.FRONTERA_MANIFEST_PRIVATE_KEY_BASE64 || secrets.FRONTERA_RSA_PRIVATE_KEY_BASE64 || secrets.UPDATE_MANIFEST_PRIVATE_KEY_BASE64 }}
+        run: |
+          set -euo pipefail
+          test -n "$RSA_KEY" || { echo "::error::Original RSA manifest key missing. Signed APK published, but automatic update channel NOT promoted."; exit 1; }
+          printf '%s' "$RSA_KEY" | base64 -d > "$RUNNER_TEMP/original-rsa.pem"
+          chmod 600 "$RUNNER_TEMP/original-rsa.pem"
+          unset RSA_KEY
+          python3 - <<'PY'
+          import os,json,base64,hashlib,subprocess,pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])
+          apk=r/'FRONTERA_DE_FUEGO_0.1.7_ARM64.apk'
+          obj={'package':'cl.nazaret.fronteradefuego','version_code':8,'version':'0.1.7',
+               'apk_url':'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.7/FRONTERA_DE_FUEGO_0.1.7_ARM64.apk',
+               'sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),
+               'notes':'Icono más grande, fondo oscuro, animaciones, partidas y actualizador conservados.',
+               'content':{'version_code':0,'url':'','sha256':'','required_app_code':1}}
+          payload=json.dumps(obj,separators=(',',':'),ensure_ascii=False)
+          (r/'payload.txt').write_bytes(payload.encode('utf8'))
+          signature=subprocess.check_output(['openssl','dgst','-sha256','-sign',str(r/'original-rsa.pem'),str(r/'payload.txt')])
+          (r/'signature.bin').write_bytes(signature)
+          pub=r/'frontera/app/src/main/assets/update_public.pem'
+          subprocess.run(['openssl','dgst','-sha256','-verify',str(pub),'-signature',str(r/'signature.bin'),str(r/'payload.txt')],check=True)
+          (r/'channel-017.json').write_text(json.dumps({'payload':payload,'signature':base64.b64encode(signature).decode()},ensure_ascii=False,indent=2)+'\n')
+          PY
+          rm "$RUNNER_TEMP/original-rsa.pem"
+      - name: Promote only authenticated Frontera channel and verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SHA=$(gh api repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json --jq .sha)
+          PAYLOAD=$(base64 -w0 "$RUNNER_TEMP/channel-017.json")
+          gh api -X PUT repos/chatailari/doom-zomboid-downloads/contents/frontera-de-fuego/channel.json -f 'message=release(frontera): promote verified signed APK 0.1.7' -f "content=$PAYLOAD" -f "sha=$SHA" -f branch=main > /dev/null
+          curl -fL --retry 3 'https://raw.githubusercontent.com/chatailari/doom-zomboid-downloads/main/frontera-de-fuego/channel.json' -o "$RUNNER_TEMP/remote-channel.json"
+          python3 - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])
+          expected=json.loads((p/'channel-017.json').read_text())
+          actual=json.loads((p/'remote-channel.json').read_text())
+          assert expected==actual,'Update channel not yet visible/does not match'
+          assert json.loads(actual['payload'])['version_code']==8
+          print('VERIFIED: signed Frontera 0.1.7 public APK + automatic update channel')
+          PY
