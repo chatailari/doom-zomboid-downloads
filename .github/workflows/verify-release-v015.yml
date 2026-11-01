@@ -5,6 +5,7 @@ on:
       - staging/frontera-v0.1.5-ci
     paths:
       - 'frontera-de-fuego/v0.1.5/FRONTERA_DE_FUEGO_0.1.5_ARM64.apk'
+      - '.github/workflows/verify-release-v015.yml'
 permissions:
   contents: write
 jobs:
@@ -28,6 +29,11 @@ jobs:
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | tee /tmp/badging.txt
           grep -F "name='cl.nazaret.fronteradefuego' versionCode='6' versionName='0.1.5'" /tmp/badging.txt
           sha256sum "$APK" > /tmp/frontera-015.sha256
+      - name: Enable KVM acceleration for Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
       - name: Install over previous release on Android 14
         uses: reactivecircus/android-emulator-runner@v2
         with:
