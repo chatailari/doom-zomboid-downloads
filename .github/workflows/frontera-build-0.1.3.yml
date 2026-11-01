@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - build/frontera-base-0.1.3
+      - experiment/frontera-vulkan-android
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,6 +25,10 @@ jobs:
           set -euo pipefail
           unzip -q ci/frontera-0.1.3-source.zip -d app
           test -f app/project.godot
+          sed -i 's/renderer\/rendering_method="gl_compatibility"/renderer\/rendering_method="mobile"/' app/project.godot
+          sed -i 's/renderer\/rendering_method.mobile="gl_compatibility"/renderer\/rendering_method.mobile="mobile"/' app/project.godot
+          sed -i 's/"GL Compatibility"/"Mobile"/' app/project.godot
+          grep 'rendering_method' app/project.godot
           sed -i '/textures\/default_filters\/use_nearest_mipmap_filter=false/a textures/vram_compression/import_etc2_astc=true' app/project.godot
           grep 'import_etc2_astc=true' app/project.godot
           command -v sdkmanager
