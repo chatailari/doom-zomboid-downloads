@@ -24,10 +24,13 @@ jobs:
         with:
           gradle-version: '8.11.1'
       - uses: android-actions/setup-android@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install SDK and image tools
         run: |
           sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
-          python3 -m pip install --user Pillow
+          python3 -m pip install Pillow
       - name: Verify generator does not shrink artwork or change package
         run: PYTHONPATH=. python3 tests/test_frontera_icon_v017.py
       - name: Recover and verify exact prior source
@@ -41,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 tools/fix_frontera_icon_v017.py "$RUNNER_TEMP/frontera"
-          python3 "$RUNNER_TEMP/frontera/scripts/test_updater_security.py"
+          (cd "$RUNNER_TEMP/frontera" && python3 scripts/test_updater_security.py)
           grep -F 'android:icon="@mipmap/ic_launcher"' "$RUNNER_TEMP/frontera/app/src/main/AndroidManifest.xml"
       - name: Build Android APK without any signing keys
         run: |
@@ -51,14 +54,18 @@ jobs:
           test -s "$APK"
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging "$APK" | grep -F "name='cl.nazaret.fronteradefuego' versionCode='8' versionName='0.1.7'"
           unzip -l "$APK" | grep -E 'ic_launcher_foreground|ic_launcher_background'
+      - name: Preserve build files at stable artifact paths
+        if: always()
+        run: |
+          mkdir -p icon-artifacts
+          cp "$RUNNER_TEMP/frontera/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png" icon-artifacts/ 2>/dev/null || true
+          cp "$RUNNER_TEMP/frontera/app/src/main/res/drawable-nodpi/ic_launcher_background.png" icon-artifacts/ 2>/dev/null || true
+          cp "$RUNNER_TEMP/frontera/app/build/outputs/apk/release/app-release-unsigned.apk" icon-artifacts/ 2>/dev/null || true
       - name: Retain unsigned APK and icon assets for gated signing
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: frontera-017-unsigned-NOT-INSTALLABLE
-          path: |
-            /home/runner/work/_temp/frontera/app/build/outputs/apk/release/app-release-unsigned.apk
-            /home/runner/work/_temp/frontera/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
-            /home/runner/work/_temp/frontera/app/src/main/res/drawable-nodpi/ic_launcher_background.png
+          path: icon-artifacts/
           if-no-files-found: warn
           retention-days: 14
