@@ -1,0 +1,47 @@
+name: FRONTERA 0.1.4 - publicar beta nativa firmada
+on:
+  push:
+    branches:
+      - experiment/frontera-native-shell
+permissions:
+  contents: write
+jobs:
+  publicar-beta:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+      - name: Verificar APK exacta y certificado antes de publicar
+        run: |
+          set -euo pipefail
+          APK=ci/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk
+          test -s "$APK"
+          echo 'e67eb0e171a705f05ca70eac68a16bbdb475ba363af8fe1f8f65d899d018427d  ci/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk' | sha256sum -c -
+          sdkmanager 'build-tools;35.0.0'
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs "$APK" | tee firma.txt
+          grep -Fi '823d6f6c52a5d47d6fd8d1a16a1d6447e98c19fa938427a90734b1cfb3a70ea0' firma.txt
+          python3 - <<'PY'
+          import zipfile
+          p='ci/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk'
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              assert 'classes.dex' in z.namelist()
+              assert z.read('assets/update_public.pem').startswith(b'-----BEGIN PUBLIC KEY-----')
+          print('APK NATIVA REVISADA')
+          PY
+      - name: Publicar beta en GitHub Releases, sin tocar el canal
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG=frontera-v0.1.4
+          APK=ci/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK" --clobber
+          else
+            gh release create "$TAG" "$APK" --target "$GITHUB_SHA" --prerelease --title 'FRONTERA DE FUEGO 0.1.4 - Beta Android' --notes 'Beta nativa con menús y botón ACTUALIZAR probado en emulador Android 14. Misma identidad de firma de FRONTERA 0.1.0-0.1.3. Sin juego jugable. Instalación sobre teléfono físico y actualización entre APK aún requieren validación.'
+          fi
+          gh release view "$TAG" --json url,assets,isPrerelease
