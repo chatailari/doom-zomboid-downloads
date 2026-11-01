@@ -6,6 +6,8 @@ on:
       - '.github/workflows/frontera-auditoria.yml'
       - 'tools/frontera_audit.py'
       - 'tests/test_frontera_audit.py'
+      - 'tests/test_frontera_release_guard.py'
+      - '.github/workflows/frontera-v017-publicar-manual.yml'
   workflow_run:
     workflows:
       - 'FRONTERA 0.1.7 - APK firmada y canal de actualizacion'
@@ -36,7 +38,7 @@ jobs:
           ref: main
           persist-credentials: true
       - name: Test audit safety rules and known-good gates
-        run: python3 -m unittest discover -s tests -p test_frontera_audit.py -v
+        run: python3 -m unittest discover -s tests -p 'test_frontera_*.py' -v
       - name: Collect every finished step and GitHub artifact, with no secrets
         env:
           GH_TOKEN: ${{ github.token }}
