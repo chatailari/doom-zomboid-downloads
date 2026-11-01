@@ -1,0 +1,73 @@
+name: FRONTERA - bitacora permanente de pruebas y errores
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/frontera-auditoria.yml'
+      - 'tools/frontera_audit.py'
+      - 'tests/test_frontera_audit.py'
+  workflow_run:
+    workflows:
+      - 'FRONTERA 0.1.7 - APK firmada y canal de actualizacion'
+      - 'FRONTERA 0.1.7 - adaptive launcher icon verification'
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Optional completed GitHub Actions run ID; empty backfills known history'
+        required: false
+        type: string
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: frontera-auditoria-serializada
+  cancel-in-progress: false
+jobs:
+  guardar-evidencia:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Read ONLY trusted main branch (never execute fork / CI head code)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Test audit safety rules and known-good gates
+        run: python3 -m unittest discover -s tests -p test_frontera_audit.py -v
+      - name: Collect every finished step and GitHub artifact, with no secrets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUDIT_TRIGGER: ${{ github.event_name }}
+          AUDIT_RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id || '' }}
+        run: |
+          set -euo pipefail
+          if [ "$AUDIT_TRIGGER" = push ] || [ -z "$AUDIT_RUN_ID" ]; then
+            python3 tools/frontera_audit.py --bootstrap
+          else
+            if ! [[ "$AUDIT_RUN_ID" =~ ^[0-9]+$ ]]; then
+              echo 'Invalid run id'; exit 1
+            fi
+            python3 tools/frontera_audit.py --run-id "$AUDIT_RUN_ID"
+          fi
+      - name: Commit immutable per-run JSON, searchable history and stable checkpoints
+        run: |
+          set -euo pipefail
+          git config user.name 'Frontera CI auditor'
+          git config user.email 'frontera-audit@users.noreply.github.com'
+          git add frontera-de-fuego/auditoria/
+          if git diff --cached --quiet; then
+            echo 'No new evidence; idempotent replay'
+            exit 0
+          fi
+          git commit -m 'audit(frontera): append verified CI run evidence, errors and last-known-good checkpoints'
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Keep independent evidence if repository write fails
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontera-audit-write-failure-${{ github.run_id }}
+          path: frontera-de-fuego/auditoria/
+          if-no-files-found: warn
+          retention-days: 14
