@@ -7,6 +7,9 @@ on:
       - 'tools/fix_frontera_icon_v017.py'
       - 'tests/test_frontera_icon_v017.py'
       - '.github/workflows/frontera-v017-icon-ci.yml'
+  pull_request:
+    branches:
+      - staging/frontera-v0.1.6-ci
   workflow_dispatch:
 permissions:
   contents: read
