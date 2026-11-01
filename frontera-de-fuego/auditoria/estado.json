@@ -25,21 +25,6 @@
   "prueba_en_telefono_fisico": "PENDIENTE_NO_CERTIFICADA",
   "incidentes_agrupados": [
     {
-      "codigo": "FALLO_DE_ETAPA_NO_CLASIFICADO",
-      "ocurrencias": 14,
-      "primer_run": 41279355056,
-      "ultimo_run": 41349919054,
-      "etapas": [
-        "Run android-actions/setup-android@v3",
-        "Preparar fuente, Android SDK y Godot 4.5.1",
-        "Exportar APK ARM64 de prueba (firma debug, NO actualización)",
-        "Iniciar y fotografiar menú Android 14",
-        "Verify old source and create corrected icon",
-        "Compile and verify version 0.1.7"
-      ],
-      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349919054"
-    },
-    {
       "codigo": "PRUEBAS_DE_VERSION_EN_ORDEN_INCORRECTO",
       "ocurrencias": 7,
       "primer_run": 41349093840,
@@ -48,6 +33,16 @@
         "Apply launcher-icon fix and version 0.1.7"
       ],
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349766181"
+    },
+    {
+      "codigo": "FALLO_ETAPA_INICIAR_Y_FOTOGRAFIAR_MENU_ANDROID_14",
+      "ocurrencias": 6,
+      "primer_run": 41279877354,
+      "ultimo_run": 41282069688,
+      "etapas": [
+        "Iniciar y fotografiar menú Android 14"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41282069688"
     },
     {
       "codigo": "COMPROBACION_DE_RECURSOS_APK",
@@ -60,6 +55,36 @@
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349923412"
     },
     {
+      "codigo": "FALLO_ETAPA_COMPILE_AND_VERIFY_VERSION_0_1_7",
+      "ocurrencias": 2,
+      "primer_run": 41349890435,
+      "ultimo_run": 41349919054,
+      "etapas": [
+        "Compile and verify version 0.1.7"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349919054"
+    },
+    {
+      "codigo": "FALLO_ETAPA_EXPORTAR_APK_ARM64_DE_PRUEBA_FIRMA_DEBUG_NO_ACTUALIZACION",
+      "ocurrencias": 2,
+      "primer_run": 41279468590,
+      "ultimo_run": 41281705512,
+      "etapas": [
+        "Exportar APK ARM64 de prueba (firma debug, NO actualización)"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41281705512"
+    },
+    {
+      "codigo": "FALLO_ETAPA_PREPARAR_FUENTE_ANDROID_SDK_Y_GODOT_4_5_1",
+      "ocurrencias": 2,
+      "primer_run": 41279397842,
+      "ultimo_run": 41279430384,
+      "etapas": [
+        "Preparar fuente, Android SDK y Godot 4.5.1"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41279430384"
+    },
+    {
       "codigo": "FALTA_FIRMA_ANDROID_ORIGINAL",
       "ocurrencias": 2,
       "primer_run": 41350052387,
@@ -68,6 +93,26 @@
         "Require original signing credentials"
       ],
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159"
+    },
+    {
+      "codigo": "FALLO_ETAPA_RUN_ANDROID_ACTIONS_SETUP_ANDROID_V3",
+      "ocurrencias": 1,
+      "primer_run": 41279355056,
+      "ultimo_run": 41279355056,
+      "etapas": [
+        "Run android-actions/setup-android@v3"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41279355056"
+    },
+    {
+      "codigo": "FALLO_ETAPA_VERIFY_OLD_SOURCE_AND_CREATE_CORRECTED_ICON",
+      "ocurrencias": 1,
+      "primer_run": 41349760762,
+      "ultimo_run": 41349760762,
+      "etapas": [
+        "Verify old source and create corrected icon"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349760762"
     }
   ],
   "politica": "NO REGRESION: conservar ultimo release validado; fallos no actualizan canal ni borran partidas"

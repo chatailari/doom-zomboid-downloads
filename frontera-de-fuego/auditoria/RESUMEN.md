@@ -50,10 +50,15 @@ Registro generado a partir de la API de GitHub Actions. No contiene secretos ni 
 
 ## Fallos agrupados (para no repetir diagnósticos)
 
-- **FALLO_DE_ETAPA_NO_CLASIFICADO**: 14 ocasión(es), último run 41349919054; Run android-actions/setup-android@v3, Preparar fuente, Android SDK y Godot 4.5.1, Exportar APK ARM64 de prueba (firma debug, NO actualización), Iniciar y fotografiar menú Android 14, Verify old source and create corrected icon, Compile and verify version 0.1.7.
 - **PRUEBAS_DE_VERSION_EN_ORDEN_INCORRECTO**: 7 ocasión(es), último run 41349766181; Apply launcher-icon fix and version 0.1.7.
+- **FALLO_ETAPA_INICIAR_Y_FOTOGRAFIAR_MENU_ANDROID_14**: 6 ocasión(es), último run 41282069688; Iniciar y fotografiar menú Android 14.
 - **COMPROBACION_DE_RECURSOS_APK**: 3 ocasión(es), último run 41349923412; Build Android APK without any signing keys.
+- **FALLO_ETAPA_COMPILE_AND_VERIFY_VERSION_0_1_7**: 2 ocasión(es), último run 41349919054; Compile and verify version 0.1.7.
+- **FALLO_ETAPA_EXPORTAR_APK_ARM64_DE_PRUEBA_FIRMA_DEBUG_NO_ACTUALIZACION**: 2 ocasión(es), último run 41281705512; Exportar APK ARM64 de prueba (firma debug, NO actualización).
+- **FALLO_ETAPA_PREPARAR_FUENTE_ANDROID_SDK_Y_GODOT_4_5_1**: 2 ocasión(es), último run 41279430384; Preparar fuente, Android SDK y Godot 4.5.1.
 - **FALTA_FIRMA_ANDROID_ORIGINAL**: 2 ocasión(es), último run 41350177159; Require original signing credentials.
+- **FALLO_ETAPA_RUN_ANDROID_ACTIONS_SETUP_ANDROID_V3**: 1 ocasión(es), último run 41279355056; Run android-actions/setup-android@v3.
+- **FALLO_ETAPA_VERIFY_OLD_SOURCE_AND_CREATE_CORRECTED_ICON**: 1 ocasión(es), último run 41349760762; Verify old source and create corrected icon.
 
 ## Reglas
 
