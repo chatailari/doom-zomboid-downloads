@@ -75,7 +75,8 @@ jobs:
           godot --headless --path . --export-debug 'Android ARM64' 'build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk' 2>&1 | tee ../godot-export.log
           python3 tests_export_apk.py build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk > ../firma-ci.txt
-          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk | grep "name='cl.nazaret.fronteradefuego' versionCode='4'"
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk > ../apk-badging.txt 2>&1 || true
+          grep -F "package: name='cl.nazaret.fronteradefuego' versionCode='4' versionName='0.1.3'" ../apk-badging.txt
           sha256sum build/FRONTERA_0.1.3_CI_DEBUG_NO_ACTUALIZAR.apk > ../apk-ci.sha256
       - name: Exportar APK x86_64 exclusivamente para emulador
         working-directory: app
@@ -108,17 +109,20 @@ jobs:
           script: |
             adb install app/build/FRONTERA_0.1.3_CI_X86_EMULATOR.apk
             adb logcat -c
-            adb shell monkey -p cl.nazaret.fronteradefuego 1
+            adb shell am force-stop cl.nazaret.fronteradefuego
+            adb shell am start -W -n cl.nazaret.fronteradefuego/com.godot.game.GodotApp
             sleep 7
             # Cerrar el aviso inmersivo del sistema y el eventual ANR del Pixel Launcher.
             adb shell input tap 1190 400
             sleep 1
-            adb shell input tap 650 515
+            # No tocar botones desconocidos: un tap puede cerrar la propia aplicación.
             sleep 6
             adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || true
             adb shell screencap -p /sdcard/frontera-ci.png
             adb pull /sdcard/frontera-ci.png frontera-emulator.png
             adb logcat -d > emulator-logcat.txt
+            adb shell dumpsys activity activities | grep -E 'topResumedActivity|mResumedActivity' || true
+            if grep -q "Condition \\"!_start_success\\"" emulator-logcat.txt; then echo 'GODOT_START_FAILURE'; exit 1; fi
             grep -F 'FRONTERA: menu principal visible' emulator-logcat.txt
             python3 -m pip install --user Pillow
             python3 - <<'PY'
