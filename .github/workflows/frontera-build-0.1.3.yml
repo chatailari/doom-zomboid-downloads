@@ -104,7 +104,13 @@ jobs:
             adb install app/build/FRONTERA_0.1.3_CI_X86_EMULATOR.apk
             adb logcat -c
             adb shell monkey -p cl.nazaret.fronteradefuego 1
-            sleep 14
+            sleep 7
+            # Cerrar el aviso inmersivo del sistema y el eventual ANR del Pixel Launcher.
+            adb shell input tap 1190 400
+            sleep 1
+            adb shell input tap 650 515
+            sleep 6
+            adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || true
             adb shell screencap -p /sdcard/frontera-ci.png
             adb pull /sdcard/frontera-ci.png frontera-emulator.png
             adb logcat -d > emulator-logcat.txt
@@ -117,6 +123,10 @@ jobs:
             saturated=sum(1 for r,g,b in pixels if max(r,g,b)-min(r,g,b)>14)
             print('SCREENSHOT',im.size,'COLORED_PIXELS',saturated)
             assert saturated>600,'Pantalla aparentemente monocromatica: revisar captura'
+            # Se prohíben falsas pruebas aprobadas por avisos azules del sistema.
+            blue=sum(1 for r,g,b in pixels if b>g*1.2 and g>r*1.2 and b>90)
+            print('SYSTEM_BLUE_PIXELS',blue)
+            assert blue<2500,'Posible diálogo inmersivo azul todavía encima de FRONTERA'
             PY
       - name: Adjuntar evidencia incluso ante fallo
         uses: actions/upload-artifact@v4
