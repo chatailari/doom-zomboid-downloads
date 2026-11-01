@@ -106,37 +106,7 @@ jobs:
           arch: x86_64
           profile: pixel_6
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          script: |
-            adb install app/build/FRONTERA_0.1.3_CI_X86_EMULATOR.apk
-            adb logcat -c
-            adb shell am force-stop cl.nazaret.fronteradefuego
-            adb shell am start -W -n cl.nazaret.fronteradefuego/com.godot.game.GodotApp
-            sleep 7
-            # Cerrar el aviso inmersivo del sistema y el eventual ANR del Pixel Launcher.
-            adb shell input tap 1190 400
-            sleep 1
-            # No tocar botones desconocidos: un tap puede cerrar la propia aplicación.
-            sleep 6
-            adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' || true
-            adb shell screencap -p /sdcard/frontera-ci.png
-            adb pull /sdcard/frontera-ci.png frontera-emulator.png
-            adb logcat -d > emulator-logcat.txt
-            adb shell dumpsys activity activities | grep -E 'topResumedActivity|mResumedActivity' || true
-            if grep -q "Condition \\"!_start_success\\"" emulator-logcat.txt; then echo 'GODOT_START_FAILURE'; exit 1; fi
-            grep -F 'FRONTERA: menu principal visible' emulator-logcat.txt
-            python3 -m pip install --user Pillow
-            python3 - <<'PY'
-            from PIL import Image
-            im=Image.open('frontera-emulator.png').convert('RGB')
-            pixels=list(im.resize((160,90)).getdata())
-            saturated=sum(1 for r,g,b in pixels if max(r,g,b)-min(r,g,b)>14)
-            print('SCREENSHOT',im.size,'COLORED_PIXELS',saturated)
-            assert saturated>600,'Pantalla aparentemente monocromatica: revisar captura'
-            # Se prohíben falsas pruebas aprobadas por avisos azules del sistema.
-            blue=sum(1 for r,g,b in pixels if b>g*1.2 and g>r*1.2 and b>90)
-            print('SYSTEM_BLUE_PIXELS',blue)
-            assert blue<2500,'Posible diálogo inmersivo azul todavía encima de FRONTERA'
-            PY
+          script: bash .github/scripts/frontera-emulator-smoke.sh
       - name: Adjuntar evidencia incluso ante fallo
         uses: actions/upload-artifact@v4
         if: always()
@@ -147,6 +117,8 @@ jobs:
             godot-*.log
             frontera-emulator.png
             emulator-logcat.txt
+            emulator-windows.txt
+            emulator-activities.txt
             apk-ci.sha256
             firma-ci.txt
           if-no-files-found: warn
