@@ -43,7 +43,7 @@ jobs:
           profile: pixel_6
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
-            set -euo pipefail
+            set -eu
             curl --fail --location --retry 3 --output /tmp/frontera-014.apk 'https://github.com/chatailari/doom-zomboid-downloads/releases/download/frontera-v0.1.4/FRONTERA_DE_FUEGO_0.1.4_BASE_NATIVA_ARM64.apk'
             adb install /tmp/frontera-014.apk
             adb shell am start -n cl.nazaret.fronteradefuego/.LauncherActivity
