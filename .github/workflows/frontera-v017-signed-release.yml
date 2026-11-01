@@ -170,3 +170,12 @@ jobs:
           assert json.loads(actual['payload'])['version_code']==8
           print('VERIFIED: signed Frontera 0.1.7 public APK + automatic update channel')
           PY
+
+      - name: Record signed-build result without exposing secrets
+        if: always()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_STATUS: ${{ job.status }}
+        run: |
+          gh issue comment 3 --body "FRONTERA 0.1.7 | ejecución CI $GITHUB_RUN_ID | resultado: $BUILD_STATUS | https://github.com/chatailari/doom-zomboid-downloads/actions/runs/$GITHUB_RUN_ID . El artefacto solo está disponible si el paso de firma y las pruebas pasaron. No publicar ni desactivar Play Protect para forzar la instalación."
