@@ -1,0 +1,33 @@
+name: FRONTERA 0.1.7 - preparar publicacion sin duplicados
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/frontera-v017-prepare-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: frontera-v017-prepare-release
+  cancel-in-progress: false
+jobs:
+  prepare-draft:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Crear borrador seguro de la Release 0.1.7 si no existe
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG=frontera-v0.1.7
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo 'CHECKPOINT: release already exists, no changes'
+            exit 0
+          fi
+          gh release create "$TAG" \
+            --target b8bd2e0130ae30c8ba609bae905cbe26b413b1d3 \
+            --title 'Frontera de Fuego 0.1.7 - Icono Android corregido' \
+            --notes 'Publicacion preparada. Adjuntar exactamente FRONTERA_DE_FUEGO_0.1.7_ARM64.apk (SHA-256 3cc6df6613b7c7f48b3acc9d4b90c87936dfd71df583083c2376fb8aef890d5f). No publicar si se altera la firma Android original. El workflow de verificacion comprobara APK, Android 14, RSA y actualizacion.' \
+            --draft
+          echo 'BORRADOR CREADO: adjuntar APK verificada; publicar tras asociar asset'
