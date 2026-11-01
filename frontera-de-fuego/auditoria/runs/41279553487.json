@@ -1,0 +1,141 @@
+{
+  "run_id": 41279553487,
+  "workflow": "FRONTERA 0.1.3 - compilar y probar Godot Android",
+  "event": "push",
+  "head_sha": "c426ac5548198f53da7fe549c168e10ebb470fde",
+  "head_branch": "build/frontera-base-0.1.3",
+  "created_at": "2026-11-01T06:07:47Z",
+  "finished_at": "2026-11-01T06:09:00Z",
+  "result": "success",
+  "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41279553487",
+  "jobs": [
+    {
+      "job_id": 124768485665,
+      "name": "android-debug-ci",
+      "result": "success",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:07:50Z",
+          "completed_at": "2026-11-01T06:07:52Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:07:52Z",
+          "completed_at": "2026-11-01T06:07:55Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:07:55Z",
+          "completed_at": "2026-11-01T06:07:55Z"
+        },
+        {
+          "number": 4,
+          "name": "Run android-actions/setup-android@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:07:55Z",
+          "completed_at": "2026-11-01T06:08:05Z"
+        },
+        {
+          "number": 5,
+          "name": "Preparar fuente, Android SDK y Godot 4.5.1",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:05Z",
+          "completed_at": "2026-11-01T06:08:30Z"
+        },
+        {
+          "number": 6,
+          "name": "Pruebas de manifiesto y proyecto",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:30Z",
+          "completed_at": "2026-11-01T06:08:35Z"
+        },
+        {
+          "number": 7,
+          "name": "Importar y verificar arranque con Godot",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:35Z",
+          "completed_at": "2026-11-01T06:08:41Z"
+        },
+        {
+          "number": 8,
+          "name": "Exportar APK ARM64 de prueba (firma debug, NO actualización)",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:41Z",
+          "completed_at": "2026-11-01T06:08:52Z"
+        },
+        {
+          "number": 9,
+          "name": "Adjuntar evidencia incluso ante fallo",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:52Z",
+          "completed_at": "2026-11-01T06:08:56Z"
+        },
+        {
+          "number": 17,
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:56Z",
+          "completed_at": "2026-11-01T06:08:56Z"
+        },
+        {
+          "number": 18,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:56Z",
+          "completed_at": "2026-11-01T06:08:56Z"
+        },
+        {
+          "number": 19,
+          "name": "Complete job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T06:08:56Z",
+          "completed_at": "2026-11-01T06:08:57Z"
+        }
+      ],
+      "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41279553487/job/124768485665"
+    }
+  ],
+  "failed_steps": [],
+  "passed_steps": [
+    "Set up job",
+    "Run actions/checkout@v4",
+    "Run actions/setup-java@v4",
+    "Run android-actions/setup-android@v4",
+    "Preparar fuente, Android SDK y Godot 4.5.1",
+    "Pruebas de manifiesto y proyecto",
+    "Importar y verificar arranque con Godot",
+    "Exportar APK ARM64 de prueba (firma debug, NO actualización)",
+    "Adjuntar evidencia incluso ante fallo",
+    "Post Run actions/setup-java@v4",
+    "Post Run actions/checkout@v4",
+    "Complete job"
+  ],
+  "error_codes": [],
+  "artifacts": [
+    {
+      "name": "frontera-0.1.3-ci-evidencia-y-debug-apk",
+      "size_bytes": 27484613,
+      "expired": false,
+      "artifact_id": 13072940867
+    }
+  ]
+}

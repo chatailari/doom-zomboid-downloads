@@ -1,0 +1,89 @@
+{
+  "run_id": 41283329074,
+  "workflow": "FRONTERA 0.1.4 - publicar beta nativa firmada",
+  "event": "push",
+  "head_sha": "daed64fa07815810602e816ea10497ed055326ba",
+  "head_branch": "experiment/frontera-native-shell",
+  "created_at": "2026-11-01T07:04:52Z",
+  "finished_at": "2026-11-01T07:05:10Z",
+  "result": "success",
+  "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41283329074",
+  "jobs": [
+    {
+      "job_id": 124779535679,
+      "name": "publicar-beta",
+      "result": "success",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:04:55Z",
+          "completed_at": "2026-11-01T07:04:56Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:04:56Z",
+          "completed_at": "2026-11-01T07:04:57Z"
+        },
+        {
+          "number": 3,
+          "name": "Run android-actions/setup-android@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:04:57Z",
+          "completed_at": "2026-11-01T07:05:02Z"
+        },
+        {
+          "number": 4,
+          "name": "Verificar APK exacta y certificado antes de publicar",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:05:02Z",
+          "completed_at": "2026-11-01T07:05:04Z"
+        },
+        {
+          "number": 5,
+          "name": "Publicar beta en GitHub Releases, sin tocar el canal",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:05:04Z",
+          "completed_at": "2026-11-01T07:05:07Z"
+        },
+        {
+          "number": 10,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:05:07Z",
+          "completed_at": "2026-11-01T07:05:07Z"
+        },
+        {
+          "number": 11,
+          "name": "Complete job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T07:05:07Z",
+          "completed_at": "2026-11-01T07:05:07Z"
+        }
+      ],
+      "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41283329074/job/124779535679"
+    }
+  ],
+  "failed_steps": [],
+  "passed_steps": [
+    "Set up job",
+    "Run actions/checkout@v4",
+    "Run android-actions/setup-android@v4",
+    "Verificar APK exacta y certificado antes de publicar",
+    "Publicar beta en GitHub Releases, sin tocar el canal",
+    "Post Run actions/checkout@v4",
+    "Complete job"
+  ],
+  "error_codes": [],
+  "artifacts": []
+}

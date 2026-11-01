@@ -1,0 +1,195 @@
+{
+  "run_id": 41350181200,
+  "workflow": "FRONTERA 0.1.7 - adaptive launcher icon verification",
+  "event": "pull_request",
+  "head_sha": "426120c31f98e54bf553600c3a19cc38f6734a84",
+  "head_branch": "fix/frontera-adaptive-icon-v017",
+  "created_at": "2026-11-01T21:05:33Z",
+  "finished_at": "2026-11-01T21:07:22Z",
+  "result": "success",
+  "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350181200",
+  "jobs": [
+    {
+      "job_id": 124978464586,
+      "name": "check-and-build-unsigned",
+      "result": "success",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:05:37Z",
+          "completed_at": "2026-11-01T21:05:41Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:05:41Z",
+          "completed_at": "2026-11-01T21:05:44Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:05:44Z",
+          "completed_at": "2026-11-01T21:05:44Z"
+        },
+        {
+          "number": 4,
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:05:44Z",
+          "completed_at": "2026-11-01T21:06:02Z"
+        },
+        {
+          "number": 5,
+          "name": "Run android-actions/setup-android@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:02Z",
+          "completed_at": "2026-11-01T21:06:12Z"
+        },
+        {
+          "number": 6,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:12Z",
+          "completed_at": "2026-11-01T21:06:12Z"
+        },
+        {
+          "number": 7,
+          "name": "Install SDK and image tools",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:12Z",
+          "completed_at": "2026-11-01T21:06:18Z"
+        },
+        {
+          "number": 8,
+          "name": "Verify generator does not shrink artwork or change package",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:18Z",
+          "completed_at": "2026-11-01T21:06:18Z"
+        },
+        {
+          "number": 9,
+          "name": "Recover and verify exact prior source",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:18Z",
+          "completed_at": "2026-11-01T21:06:18Z"
+        },
+        {
+          "number": 10,
+          "name": "Apply launcher-icon fix and version 0.1.7",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:18Z",
+          "completed_at": "2026-11-01T21:06:18Z"
+        },
+        {
+          "number": 11,
+          "name": "Build Android APK without any signing keys",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:06:18Z",
+          "completed_at": "2026-11-01T21:07:16Z"
+        },
+        {
+          "number": 12,
+          "name": "Preserve build files at stable artifact paths",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:16Z",
+          "completed_at": "2026-11-01T21:07:16Z"
+        },
+        {
+          "number": 13,
+          "name": "Retain unsigned APK and icon assets for gated signing",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:16Z",
+          "completed_at": "2026-11-01T21:07:18Z"
+        },
+        {
+          "number": 23,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:18Z",
+          "completed_at": "2026-11-01T21:07:18Z"
+        },
+        {
+          "number": 24,
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:18Z",
+          "completed_at": "2026-11-01T21:07:18Z"
+        },
+        {
+          "number": 25,
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:18Z",
+          "completed_at": "2026-11-01T21:07:19Z"
+        },
+        {
+          "number": 26,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:19Z",
+          "completed_at": "2026-11-01T21:07:19Z"
+        },
+        {
+          "number": 27,
+          "name": "Complete job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:07:19Z",
+          "completed_at": "2026-11-01T21:07:19Z"
+        }
+      ],
+      "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350181200/job/124978464586"
+    }
+  ],
+  "failed_steps": [],
+  "passed_steps": [
+    "Set up job",
+    "Run actions/checkout@v4",
+    "Run actions/setup-java@v4",
+    "Run gradle/actions/setup-gradle@v4",
+    "Run android-actions/setup-android@v4",
+    "Run actions/setup-python@v5",
+    "Install SDK and image tools",
+    "Verify generator does not shrink artwork or change package",
+    "Recover and verify exact prior source",
+    "Apply launcher-icon fix and version 0.1.7",
+    "Build Android APK without any signing keys",
+    "Preserve build files at stable artifact paths",
+    "Retain unsigned APK and icon assets for gated signing",
+    "Post Run actions/setup-python@v5",
+    "Post Run gradle/actions/setup-gradle@v4",
+    "Post Run actions/setup-java@v4",
+    "Post Run actions/checkout@v4",
+    "Complete job"
+  ],
+  "error_codes": [],
+  "artifacts": [
+    {
+      "name": "frontera-017-unsigned-NOT-INSTALLABLE",
+      "size_bytes": 6693618,
+      "expired": false,
+      "artifact_id": 13100786804
+    }
+  ]
+}

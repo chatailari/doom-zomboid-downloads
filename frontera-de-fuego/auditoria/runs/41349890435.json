@@ -1,0 +1,210 @@
+{
+  "run_id": 41349890435,
+  "workflow": "FRONTERA 0.1.7 - APK firmada y canal de actualizacion",
+  "event": "push",
+  "head_sha": "e7eeaa37c3e84d0bae15e1c44451aa1c896658fb",
+  "head_branch": "fix/frontera-adaptive-icon-v017",
+  "created_at": "2026-11-01T21:02:17Z",
+  "finished_at": "2026-11-01T21:03:38Z",
+  "result": "failure",
+  "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349890435",
+  "jobs": [
+    {
+      "job_id": 124977587493,
+      "name": "build-sign-release",
+      "result": "failure",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:20Z",
+          "completed_at": "2026-11-01T21:02:25Z"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:25Z",
+          "completed_at": "2026-11-01T21:02:28Z"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:28Z",
+          "completed_at": "2026-11-01T21:02:28Z"
+        },
+        {
+          "number": 4,
+          "name": "Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:28Z",
+          "completed_at": "2026-11-01T21:02:33Z"
+        },
+        {
+          "number": 5,
+          "name": "Run android-actions/setup-android@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:33Z",
+          "completed_at": "2026-11-01T21:02:40Z"
+        },
+        {
+          "number": 6,
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:40Z",
+          "completed_at": "2026-11-01T21:02:40Z"
+        },
+        {
+          "number": 7,
+          "name": "Verify old source and create corrected icon",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:02:40Z",
+          "completed_at": "2026-11-01T21:02:46Z"
+        },
+        {
+          "number": 8,
+          "name": "Compile and verify version 0.1.7",
+          "status": "completed",
+          "result": "failure",
+          "started_at": "2026-11-01T21:02:46Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 9,
+          "name": "Require original signing credentials",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 10,
+          "name": "Sign APK using original certificate",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 11,
+          "name": "Keep signed APK if following checks fail",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 12,
+          "name": "Test Android 14 upgrade without deleting data",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 13,
+          "name": "Save Android test records",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 14,
+          "name": "Publish signed APK and verify public bytes",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 15,
+          "name": "Sign Frontera update manifest with ORIGINAL RSA key",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 16,
+          "name": "Promote only authenticated Frontera channel and verify",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 29,
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "result": "skipped",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:33Z"
+        },
+        {
+          "number": 30,
+          "name": "Post Run gradle/actions/setup-gradle@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:03:33Z",
+          "completed_at": "2026-11-01T21:03:34Z"
+        },
+        {
+          "number": 31,
+          "name": "Post Run actions/setup-java@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:03:34Z",
+          "completed_at": "2026-11-01T21:03:34Z"
+        },
+        {
+          "number": 32,
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:03:34Z",
+          "completed_at": "2026-11-01T21:03:34Z"
+        },
+        {
+          "number": 33,
+          "name": "Complete job",
+          "status": "completed",
+          "result": "success",
+          "started_at": "2026-11-01T21:03:34Z",
+          "completed_at": "2026-11-01T21:03:34Z"
+        }
+      ],
+      "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349890435/job/124977587493"
+    }
+  ],
+  "failed_steps": [
+    "Compile and verify version 0.1.7"
+  ],
+  "passed_steps": [
+    "Set up job",
+    "Run actions/checkout@v4",
+    "Run actions/setup-java@v4",
+    "Run gradle/actions/setup-gradle@v4",
+    "Run android-actions/setup-android@v4",
+    "Run actions/setup-python@v5",
+    "Verify old source and create corrected icon",
+    "Save Android test records",
+    "Post Run gradle/actions/setup-gradle@v4",
+    "Post Run actions/setup-java@v4",
+    "Post Run actions/checkout@v4",
+    "Complete job"
+  ],
+  "error_codes": [
+    "FALLO_DE_ETAPA_NO_CLASIFICADO"
+  ],
+  "artifacts": []
+}

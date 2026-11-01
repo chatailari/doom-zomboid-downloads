@@ -2,16 +2,16 @@
   "schema": 1,
   "proyecto": "FRONTERA DE FUEGO",
   "paquete": "cl.nazaret.fronteradefuego",
-  "corridas_registradas": 4,
+  "corridas_registradas": 35,
   "resultados": {
-    "failure": 3,
-    "success": 1
+    "failure": 26,
+    "success": 9
   },
   "ultimo_build_compilado_correcto": {
-    "run_id": 41350177159,
-    "fecha": "2026-11-01T21:06:39Z",
+    "run_id": 41350181200,
+    "fecha": "2026-11-01T21:07:22Z",
     "version": "0.1.7",
-    "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159",
+    "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350181200",
     "alcance": "compilacion_aprobada_no_equivale_a_apk_firmada"
   },
   "ultima_publicacion_verificada_ci": null,
@@ -25,34 +25,49 @@
   "prueba_en_telefono_fisico": "PENDIENTE_NO_CERTIFICADA",
   "incidentes_agrupados": [
     {
+      "codigo": "FALLO_DE_ETAPA_NO_CLASIFICADO",
+      "ocurrencias": 14,
+      "primer_run": 41279355056,
+      "ultimo_run": 41349919054,
+      "etapas": [
+        "Run android-actions/setup-android@v3",
+        "Preparar fuente, Android SDK y Godot 4.5.1",
+        "Exportar APK ARM64 de prueba (firma debug, NO actualización)",
+        "Iniciar y fotografiar menú Android 14",
+        "Verify old source and create corrected icon",
+        "Compile and verify version 0.1.7"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349919054"
+    },
+    {
+      "codigo": "PRUEBAS_DE_VERSION_EN_ORDEN_INCORRECTO",
+      "ocurrencias": 7,
+      "primer_run": 41349093840,
+      "ultimo_run": 41349766181,
+      "etapas": [
+        "Apply launcher-icon fix and version 0.1.7"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349766181"
+    },
+    {
       "codigo": "COMPROBACION_DE_RECURSOS_APK",
-      "ocurrencias": 1,
-      "primer_run": 41349893200,
-      "ultimo_run": 41349893200,
+      "ocurrencias": 3,
+      "primer_run": 41349885758,
+      "ultimo_run": 41349923412,
       "etapas": [
         "Build Android APK without any signing keys"
       ],
-      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349893200"
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349923412"
     },
     {
       "codigo": "FALTA_FIRMA_ANDROID_ORIGINAL",
-      "ocurrencias": 1,
-      "primer_run": 41350177159,
+      "ocurrencias": 2,
+      "primer_run": 41350052387,
       "ultimo_run": 41350177159,
       "etapas": [
         "Require original signing credentials"
       ],
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159"
-    },
-    {
-      "codigo": "PRUEBAS_DE_VERSION_EN_ORDEN_INCORRECTO",
-      "ocurrencias": 1,
-      "primer_run": 41349673211,
-      "ultimo_run": 41349673211,
-      "etapas": [
-        "Apply launcher-icon fix and version 0.1.7"
-      ],
-      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41349673211"
     }
   ],
   "politica": "NO REGRESION: conservar ultimo release validado; fallos no actualizan canal ni borran partidas"
