@@ -189,11 +189,16 @@ def save_ledger(repo: str, run_ids: list[int], root: Path) -> None:
     folder = root / ROOT
     (folder / "runs").mkdir(parents=True, exist_ok=True)
     for run_id in sorted(set(run_ids)):
-        data = fetch_run(repo, run_id)
         path = folder / "runs" / f"{run_id}.json"
-        # Preserve immutable first observed snapshot once completed.
-        if not path.exists():
-            path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        # Immutable snapshot: previously captured runs never cause repeated API
+        # requests or silent overwrites. Only newly finished runs are fetched.
+        if path.exists():
+            archived = json.loads(path.read_text(encoding="utf-8"))
+            if archived.get("run_id") != run_id or "jobs" not in archived:
+                raise ValueError(f"Audit checkpoint corrupt for run {run_id}; refuse overwrite")
+            continue
+        data = fetch_run(repo, run_id)
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     runs = [json.loads(p.read_text(encoding="utf-8"))
             for p in (folder / "runs").glob("*.json") if p.stem.isdigit()]
     channel = read_public_channel(repo)
