@@ -31,7 +31,7 @@ class GateRegressionTests(unittest.TestCase):
             "Test Android 14 upgrade without deleting data",
             "Publish signed APK and verify public bytes",
             "Sign Frontera update manifest with ORIGINAL RSA key",
-            "Promote only authenticated Frontera channel and verify"]
+            "Promote verified Frontera channel (safe to retry)"]
         self.assertEqual([s.index(step) for step in stages],sorted(s.index(step) for step in stages))
         self.assertIn("gh release create frontera-v0.1.7",s)
         self.assertIn("ref: fix/frontera-adaptive-icon-v017",s)
