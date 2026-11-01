@@ -1,6 +1,6 @@
 """Unit tests for the append-only Frontera audit and release gates."""
 import unittest
-from tools.frontera_audit import compute_summary, format_report, RELEASE_STEPS
+from tools.frontera_audit import compute_summary, format_report, RELEASE_STEPS, classify_error
 
 CHANNEL_016 = {"version": "0.1.6", "version_code": 7,
                "apk_sha256": "a" * 64,
@@ -32,6 +32,12 @@ class AuditTests(unittest.TestCase):
         state = compute_summary(runs, CHANNEL_016)
         self.assertEqual(state["corridas_registradas"], 2)
         self.assertEqual(state["incidentes_agrupados"][0]["ocurrencias"], 2)
+
+    def test_unknown_old_steps_preserve_distinct_failure_categories(self):
+        a = classify_error("Preparar fuente, Android SDK y Godot 4.5.1")
+        b = classify_error("Iniciar y fotografiar menú Android 14")
+        self.assertNotEqual(a, b)
+        self.assertTrue(a.startswith("FALLO_ETAPA_"))
 
     def test_only_fully_verified_release_promotes_good_checkpoint(self):
         old = make_run(99, "success", ["Compile and verify version 0.1.7"])
