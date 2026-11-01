@@ -1,9 +1,5 @@
 name: FRONTERA 0.1.7 - preparar publicacion sin duplicados
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/frontera-v017-prepare-release.yml'
   workflow_dispatch:
 permissions:
   contents: write
