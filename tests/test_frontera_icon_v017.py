@@ -23,6 +23,11 @@ def test_adaptive_icon():
         bbox=fg.getchannel("A").getbbox()
         assert 230<=bbox[2]-bbox[0]<=264, bbox
         assert bg.getpixel((0,0))[:3]==(19,21,19)
+        # Legacy launchers must resolve the icon at every density.
+        for density, size in (("mdpi",48),("hdpi",72),("xhdpi",96),
+                              ("xxhdpi",144),("xxxhdpi",192)):
+            for filename in ("ic_launcher.png", "ic_launcher_round.png"):
+                assert Image.open(root/"app/src/main/res"/("mipmap-"+density)/filename).size == (size,size)
         assert '@mipmap/ic_launcher' in manifest.read_text()
         assert 'versionCode 8' in gradle.read_text()
         assert "versionName '0.1.7'" in gradle.read_text()
