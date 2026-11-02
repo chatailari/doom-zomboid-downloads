@@ -2,16 +2,16 @@
   "schema": 1,
   "proyecto": "FRONTERA DE FUEGO",
   "paquete": "cl.nazaret.fronteradefuego",
-  "corridas_registradas": 36,
+  "corridas_registradas": 37,
   "resultados": {
-    "failure": 27,
+    "failure": 28,
     "success": 9
   },
   "ultimo_build_compilado_correcto": {
-    "run_id": 41350181200,
-    "fecha": "2026-11-01T21:07:22Z",
+    "run_id": 41443572240,
+    "fecha": "2026-11-02T12:34:07Z",
     "version": "0.1.7",
-    "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350181200",
+    "url": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41443572240",
     "alcance": "compilacion_aprobada_no_equivale_a_apk_firmada"
   },
   "ultima_publicacion_verificada_ci": null,
@@ -93,6 +93,16 @@
         "Require original signing credentials"
       ],
       "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41350177159"
+    },
+    {
+      "codigo": "ACTUALIZACION_ANDROID14_FALLIDA",
+      "ocurrencias": 1,
+      "primer_run": 41443572240,
+      "ultimo_run": 41443572240,
+      "etapas": [
+        "Test Android 14 upgrade without deleting data"
+      ],
+      "url_ultimo": "https://github.com/chatailari/doom-zomboid-downloads/actions/runs/41443572240"
     },
     {
       "codigo": "FALLO_ETAPA_CREAR_BORRADOR_SEGURO_DE_LA_RELEASE_0_1_7_SI_NO_EXISTE",
