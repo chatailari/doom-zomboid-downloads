@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: b8bd2e0130ae30c8ba609bae905cbe26b413b1d3
       - name: Require original signing credentials
@@ -27,15 +27,15 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$RSA_KEY" || { echo "::error::Original RSA manifest key absent: do not rebuild or publish an update that cannot be activated."; exit 1; }
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '17'
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: '8.11.1'
       - uses: android-actions/setup-android@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.11'
       - name: Verify old source and create corrected icon
@@ -108,7 +108,7 @@ jobs:
           (cd "$RUNNER_TEMP" && sha256sum FRONTERA_DE_FUEGO_0.1.7_ARM64.apk > FRONTERA_DE_FUEGO_0.1.7_ARM64.apk.sha256)
           rm -f "$RUNNER_TEMP/frontera-original.p12" "$RUNNER_TEMP/aligned.apk"
       - name: Keep signed APK if following checks fail
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FRONTERA-0.1.7-APK-FIRMADA
           path: |
@@ -141,7 +141,7 @@ jobs:
             ! grep -E 'FATAL EXCEPTION|Process: cl.nazaret.fronteradefuego' "$RUNNER_TEMP/android14-017-logcat.txt"
       - name: Save Android test records
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: FRONTERA-017-android-tests
           path: |
