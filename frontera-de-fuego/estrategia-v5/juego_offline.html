@@ -1,0 +1,593 @@
+<!doctype html><html lang="es-CL"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101a18"><title>FRONTERA DE FUEGO · Territorios y asentamientos</title><meta name="description" content="Construye asentamientos, produce alimentos y armas, organiza trabajadores y participa en guerras históricas de Chile.">
+<style>
+:root{color-scheme:dark;--paper:#ede4d0;--gold:#f6c17b;--green:#a6d1b6;--muted:#adbbb4;--surface:#1a2824;--edge:#53665b;--warn:#e9a18d}*{box-sizing:border-box}body{background:#0d1715;color:var(--paper);font:15px/1.47 system-ui,-apple-system,'Segoe UI',sans-serif;margin:0}button,a{touch-action:manipulation}button{font:inherit;cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}h1,h2,h3{font-family:Georgia,'Times New Roman',serif;margin:0}.page{max-width:1040px;margin:auto;padding:16px 14px 38px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0 18px}.mark{letter-spacing:.18em;color:var(--gold);font-weight:850;font-size:11px}.brand{font:700 25px Georgia,serif;letter-spacing:.02em}.minor{color:var(--muted);font-size:12px}.small{font-size:12px;color:var(--muted)}.link{color:var(--gold);text-decoration:none}.btn{background:#34463b;color:var(--paper);border:1px solid #67806b;border-radius:12px;padding:12px 13px;font-weight:750;min-height:46px}.btn.primary{background:linear-gradient(110deg,#ffcf87,#d39d5b);border-color:#ffcd85;color:#241c13}.btn.secondary{background:#20362f}.btn.ghost{background:transparent;border-color:#526859}.btn:active:not(:disabled){transform:scale(.99)}.card{background:linear-gradient(155deg,#20322a,#16231f);border:1px solid #415a4a;border-radius:17px;overflow:hidden}.hero{position:relative;isolation:isolate;padding:22px;border:1px solid #866d48;border-radius:20px;background:radial-gradient(ellipse at 78% 9%,#a47b3945,transparent 52%),linear-gradient(145deg,#28392b 0%,#152521 72%);min-height:300px;box-shadow:0 16px 40px #0005}.hero:before{content:'✦';font:250px Georgia,serif;position:absolute;right:1%;top:2%;color:#f6c17b0b;z-index:-1}.section-label{font-size:11px;color:var(--gold);letter-spacing:.16em;font-weight:800;text-transform:uppercase}.hero h1{font-size:clamp(29px,5.5vw,44px);line-height:1.11;margin:12px 0 8px}.year{font:800 30px Georgia,serif;color:var(--gold)}.eyebrow{display:flex;align-items:center;justify-content:space-between;gap:14px}.hero p{max-width:680px;font-size:14px;color:#d1dad0}.goal{margin-top:14px;border-left:3px solid #f2c783;background:#e6bb7030;border-radius:0 10px 10px 0;padding:11px 14px}.goal strong{display:block}.topstats{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:13px 0}.pill{font-size:12px;border:1px solid #4e6657;border-radius:24px;padding:5px 10px;background:#1c2b24}.pill.gold{border-color:#c39b61;color:var(--gold)}.timeline{display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin;padding:10px 1px 15px}.epoch{flex:0 0 auto;border:1px solid #506452;border-radius:13px;background:#1a2b24;color:var(--paper);padding:9px 12px;min-width:90px;max-width:184px;font-size:12px}.epoch strong{display:block;color:var(--gold);font-size:14px}.epoch.locked{opacity:.55}.epoch.current{border-color:#f0c27b;box-shadow:inset 0 0 0 1px #efc17f}.epoch.done{background:#304b3e}.layout{display:grid;grid-template-columns:1fr 0.86fr;gap:14px;margin-top:3px}.inner{padding:17px}.inner h2{font-size:22px}.explain{font-size:12px;color:#b6c5b8;margin:7px 0 13px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.preps .btn{text-align:left;min-height:75px;font-size:13px}.preps .btn small{display:block;font-size:11px;color:#d0d5c9;font-weight:400}.choice{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.choice button{min-height:58px;background:#1a2e27;border:1px solid #4a6050;border-radius:12px;color:var(--paper);text-align:left;padding:10px 11px;font-size:13px}.choice button.selected{background:#57503b;border:2px solid #f3c47e}.chance{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#283a2f;border-radius:11px;padding:11px;margin-bottom:10px}.chance strong{color:var(--gold);font-size:25px}.full{width:100%;font-size:15px;min-height:54px}.grid-two{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:14px}.field{font-size:13px;color:#c1cebf}.field p{margin:6px 0}.battle-map{height:260px;position:relative;overflow:hidden;background:linear-gradient(100deg,#1b3c40 0%,#273d37 30%,#475547 73%,#72735c 100%)}.battle-map svg{height:100%;width:100%;display:block}.map-note{position:absolute;bottom:10px;left:10px;font-size:10px;border:1px solid #e0b97886;border-radius:8px;padding:5px 8px;background:#11251fce}.history{border-left:3px solid var(--gold);padding-left:13px}.history p{margin:6px 0;font-size:13px}.history a{color:#f1c481}.report{border:1px solid #c29d63;background:linear-gradient(110deg,#3c402d,#23352d);border-radius:14px;padding:17px;margin:10px 0}.report.fail{border-color:#a87e70;background:#352822}.report h2{font-size:24px;margin:7px 0}.report p{font-size:13px}.report .btn{width:100%}.subtle{color:var(--muted)}.detail{padding:12px 16px;border-bottom:1px solid #3d5345}.log{padding:13px 16px}.log article{border-top:1px solid #334b3d;padding:9px 0}.log article:first-child{border:0}.log strong{font-size:12px;color:#eccc92}.log p{font-size:12px;margin:3px 0;color:#bfcec1}.footer{font-size:11px;color:#9aa99e;margin:18px 0;line-height:1.6}.hidden{display:none!important}.welcome{position:fixed;inset:0;z-index:20;background:#0b1412f7;display:grid;place-items:center;overflow:auto;padding:12px}.welcome .dialog{width:min(100%,560px);background:linear-gradient(160deg,#304233,#172420 80%);border:1px solid #c2a06b;border-radius:20px;padding:22px;max-height:96svh;overflow:auto}.dialog h2{font-size:35px;line-height:1.08;margin:10px 0}.dialog p{font-size:13px;color:#d5ddce}.scenario-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px}.scenario-tabs button{padding:9px;font-size:12px}.side-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.side-options button{min-height:74px;padding:12px 8px}.side-options button small{display:block;font-size:10px;font-weight:400}.side-options button.on,.scenario-tabs button.on{border-color:#eac184;background:#67543a}.welcome .cta{width:100%;margin:8px 0}.notice{border:1px solid #8a7855;border-radius:9px;padding:10px;background:#e9be8122}.controls-bottom{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;margin:14px 0}.controls-bottom .btn{font-size:12px;min-height:38px;padding:7px 11px}.status-toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#354d3d;border:1px solid #deb879;color:#fff;border-radius:12px;padding:12px;z-index:40;font-size:13px;max-width:90%;box-shadow:0 6px 25px #0009}.instruction{display:flex;gap:9px;align-items:flex-start;background:#f1c5851a;border:1px solid #8b8052;border-radius:11px;padding:11px 13px;margin:12px 0;font-size:12px}.instruction strong{color:#f3ca87}a{color:#eac184}.final-title{color:#ffd494}.screen-overlay{position:fixed;inset:0;z-index:12;background:#08120fe9;display:grid;place-items:center;padding:16px}.screen-overlay>div{width:min(96vw,580px);border:1px solid #b99462;border-radius:18px;background:linear-gradient(150deg,#334334,#18251f);padding:24px}.screen-overlay h2{font-size:28px}.screen-overlay p{font-size:14px}.screen-overlay .btn{width:100%}@media(max-width:730px){.layout,.grid-two{grid-template-columns:1fr}.page{padding:10px 10px 24px}.hero{padding:16px;min-height:260px}.hero h1{font-size:31px}.inner{padding:14px}.battle-map{height:235px}.brand{font-size:20px}.topstats{font-size:11px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}} 
+
+.settlement{margin:12px 0 16px}.town-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px}.town-stats>span{background:#243d30;border:1px solid #50715a;border-radius:11px;padding:11px 6px;text-align:center}.town-stats b{font-size:19px;color:#f3c98c}.town-stats small{display:block;color:#b9c9bb;font-size:10px}.settlement-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0 12px 14px}.town-scene{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:14px;border-radius:14px;border:2px solid #69816a;background:repeating-linear-gradient(124deg,#344e32 0 32px,#3d5639 33px 66px);min-height:290px;align-content:center}.town-tile{aspect-ratio:1/1;border:1px solid #839b7350;border-radius:9px;display:grid;justify-items:center;align-content:center;background:#17251d78;overflow:hidden}.town-tile span{font-size:clamp(18px,3vw,34px)}.town-tile small{color:#f7e5ba;font-size:9px;line-height:1.1;text-align:center}.town-tile.built{background:#866b434c;border-color:#e2b47685}.town-controls{min-width:0;padding:4px 0}.town-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:8px 0}.build-btn{border:1px solid #617b67;border-radius:12px;background:#263a2d;color:#ecdfc6;text-align:left;padding:10px;min-height:83px;overflow:hidden}.build-btn b,.build-btn small{display:block;line-height:1.3}.build-btn b{font-size:12px}.build-btn small{font-size:10px;color:#b8caba;margin-top:5px}.build-btn .price{color:#f3ce89}.build-btn:disabled{opacity:.36}.build-btn:active:not(:disabled){background:#5a563b}@media(max-width:730px){.settlement-layout{grid-template-columns:1fr}.town-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.town-scene{min-height:240px}.town-tile span{font-size:28px}}
+
+/* Mundo 0.5: los edificios se ubican en una parcela real del escenario. */
+.settlement-layout{grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);align-items:start}
+.world-column{min-width:0}
+.world-toolbar{display:flex;justify-content:space-between;align-items:center;padding:4px 5px 12px;gap:8px;font-size:13px;color:#e6c78f;font-weight:750}
+.world-toolbar small{font-size:10px;color:#afc4af}
+.world-toolbar .btn{font-size:11px;padding:6px;min-height:34px}
+.town-scene{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:2px;padding:8px;border-radius:14px;border:2px solid #708f72;background:#354b39;min-height:0;align-content:start;box-shadow:inset 0 2px 15px #0005;user-select:none}
+.world-cell{position:relative;min-width:0;aspect-ratio:1/1;display:grid;place-items:center;padding:0;border:1px solid #d2e0b21b;border-radius:4px;font-size:clamp(13px,2.3vw,25px);background:#4e7042;color:#fff;overflow:hidden;cursor:pointer;line-height:1.0;touch-action:manipulation}
+.world-cell.terrain-forest{background:#234f32}.world-cell.terrain-game{background:#486240}.world-cell.terrain-fertile{background:#758a43}.world-cell.terrain-river{background:#225e72}.world-cell.terrain-hills{background:#71634d}.world-cell.terrain-ore{background:#8e7659}.world-cell.terrain-plain{background:#597b48}.world-cell.terrain-road{background:#90754b}
+.world-cell.has-building{background-image:linear-gradient(150deg,#0001,#20140e70);border-color:#e5c78a78}
+.world-cell.can-build{box-shadow:inset 0 0 0 2px #d4e37cb6}
+.world-cell.chosen{outline:3px solid #fff1bb;outline-offset:-3px;z-index:2}
+.world-cell .landmark{position:absolute;left:1px;top:1px;font-size:9px;opacity:.72}
+.world-cell .quantity{position:absolute;bottom:0;right:1px;font-size:9px;color:#fff;line-height:1.1;text-shadow:0 1px 3px #111}
+.world-cell .worker-anim{position:absolute;bottom:1px;left:1px;font-size:10px;animation:workday 2.3s ease-in-out infinite alternate}
+@keyframes workday{from{transform:translateX(0) translateY(0)}to{transform:translateX(8px) translateY(-4px)}}
+.world-cell:focus-visible{outline:3px solid white;z-index:3}
+.world-legend{display:flex;flex-wrap:wrap;gap:4px 12px;padding:7px 2px;font-size:10px;color:#dfdcc9}
+.map-caveat{padding:0 3px;margin:3px 0 9px}
+.tile-detail{min-height:80px;background:#1c322a;border:1px solid #708a67;border-radius:12px;padding:12px;margin:7px 1px;font-size:12px}
+.tile-detail b{color:#f2ce94}
+.tile-detail .tile-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.tile-detail .btn{min-height:36px;padding:7px 10px;font-size:11px}
+.category-select{width:100%;background:#263d31;color:#f6ead2;border:1px solid #69856c;border-radius:9px;padding:10px 8px;margin:4px 0 8px;font:inherit;font-size:12px;min-height:40px}
+#selection-info{color:#f2c884;display:block;margin-top:5px}
+.town-buttons{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.build-btn.selected{border-color:#ffd594;box-shadow:inset 0 0 0 1px #ffd594;background:#5b5338}
+.build-btn small{font-size:10px}
+.world-column #season-button{width:100%;margin:6px 0}
+.quick-builds{display:flex;align-items:stretch;gap:6px;overflow-x:auto;scrollbar-width:thin;margin:6px 0 10px;padding:2px 2px 8px}.quick-builds button{flex:0 0 auto;border:1px solid #84936d;background:#294032;color:#f9dfaf;border-radius:9px;padding:8px 10px;font-size:11px;font-weight:700;min-height:42px}.quick-builds button.selected{background:#705a3b;border-color:#ffe29d}.quick-builds button:disabled{opacity:.44}
+.town-controls .section-label{margin:14px 0 5px}.town-controls .section-label:first-child{margin:0 0 5px}
+.town-controls .market-controls{padding:4px;border-radius:8px;background:#23362b;margin-bottom:12px}
+.town-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:730px){.settlement-layout{grid-template-columns:1fr}.town-scene{padding:4px;gap:2px}.world-cell{font-size:clamp(16px,5vw,27px)}.world-cell .landmark,.world-cell .quantity{font-size:8px}.town-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.world-cell .worker-anim{animation:none}}
+</style></head><body>
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-label="Inicio de campaña"><div class="dialog"><div class="mark">CHILE · HISTORIA ALTERNATIVA</div><h2>FRONTERA<br>DE FUEGO</h2><p><strong>Ahora la historia avanza contigo.</strong> Comienzas en el primer acontecimiento; las guerras siguientes estarán bloqueadas hasta terminar cada episodio. Construye tu asentamiento, produce alimentos y recursos, aumenta la población, desarrolla tecnología y decide las guerras históricas.</p><div class="section-label">1. Elige una época</div><div class="scenario-tabs"><button class="btn on" id="s-arauco">1541 · Conquista</button><button class="btn" id="s-independencia">1810 · Independencia</button></div><div class="section-label" style="margin-top:14px">2. Elige el bando</div><div class="side-options" id="side-options"></div><button id="begin" class="btn primary cta">FUNDAR ASENTAMIENTO Y COMENZAR</button><button id="resume" class="btn secondary cta hidden">CONTINUAR PARTIDA GUARDADA</button><div class="notice small">Los años, líderes y resultados reales se basan en fuentes históricas. El trazado urbano, las estructuras, la producción y las cifras económicas son abstracciones jugables, no reconstrucciones exactas.</div><p class="small">¿Prefieres el mapa completo con todos los controles? <a href="./clasico.html">Abrir modo libre anterior</a>.</p></div></div>
+<div class="page"><header class="top"><div><div class="mark">ESTRATEGIA HISTÓRICA · CAMPAÑA GUIADA</div><div class="brand">FRONTERA DE FUEGO</div><div class="minor" id="side-name">Elige tu bando</div></div><button id="menu" class="btn ghost" style="font-size:12px">Campañas</button></header>
+<div class="eyebrow"><div class="section-label" id="chapter-info">EPISODIO 1</div><div class="minor">Las guerras se desbloquean por año</div></div><div class="timeline" id="timeline" aria-label="Progreso de la historia"></div>
+<section class="hero" id="hero"><div class="eyebrow"><span class="section-label" id="era">CONQUISTA DE CHILE</span><span class="year" id="year">1541</span></div><h1 id="chapter-title">Comienza tu historia</h1><p id="chapter-text"></p><div class="goal"><strong id="goal">Objetivo</strong><span class="minor" id="mission-type">Batalla histórica</span></div></section>
+<div class="topstats"><span class="pill" id="army">⚔️ 20 combatientes</span><span class="pill" id="resources">🍞 70 · 🪵 35 · ⚙️ 35</span><span class="pill gold" id="progress">0 victorias</span></div>
+<div class="instruction" id="tip"><span style="font-size:22px">🎯</span><div><strong>Cómo se juega</strong><div>1. Construye viviendas y cultivos. 2. Pasa una estación para producir y aumentar habitantes. 3. Investiga, recluta y elige tu táctica. 4. Gana la misión para desbloquear la siguiente guerra histórica.</div></div></div>
+<section class="card settlement" id="settlement"><div class="detail"><div class="section-label">MODO CONSTRUCTOR · PUEBLO VIVO</div><h2>Tu asentamiento y su territorio</h2><p class="small">Selecciona una construcción de la barra rápida o del catálogo y luego toca una parcela válida del mapa. Para cortar árboles, cazar o extraer piedra, toca un terreno de recursos. El pueblo seguirá creciendo entre guerras.</p></div>
+<div class="town-stats" id="town-stats" aria-label="Economía y población"></div>
+<div class="settlement-layout">
+ <div class="world-column">
+   <div class="world-toolbar"><span>🗺️ Escenario interactivo <small>(12 × 10 parcelas)</small></span><button class="btn ghost" id="cancel-build">Cancelar obra</button></div>
+   <p class="small" style="margin:2px 0">Construcción rápida. Desliza para ver más opciones:</p><div class="quick-builds" id="quick-builds" aria-label="Accesos directos para construcción"></div>
+   <div class="town-scene" id="town-scene" role="group" aria-label="Mapa interactivo del poblado: toca cada parcela para construir o explotar recursos"></div>
+   <div class="world-legend"><span>🌲 Bosque</span><span>🌾 Cultivo</span><span>⛰️ Cerro</span><span>🦌 Caza</span><span>💧 Río</span><span>🛤️ Camino</span></div>
+   <p class="small map-caveat">Mapa estilizado. No representa posiciones históricas exactas ni condiciones meteorológicas registradas.</p>
+   <div class="tile-detail" id="tile-detail" aria-live="polite">Toca una casilla para consultar el terreno y enviar trabajadores.</div>
+   <p class="small" id="town-message">Tu primera aldea espera.</p>
+   <button id="season-button" class="btn primary full">☀️ Finalizar estación: cosechar, producir y crecer</button>
+   <p class="small">Máximo 8 estaciones por episodio. Tus edificios, caminos, armas y habitantes se conservan al avanzar al siguiente acontecimiento histórico.</p>
+ </div>
+ <div class="town-controls"><div class="section-label">ELIGE QUÉ CONSTRUIR</div>
+  <p class="small">1. Elige una estructura. 2. Toca el terreno. <strong id="selection-info">Ningún edificio seleccionado.</strong></p>
+  <label class="small" for="build-category">Tipo de construcción</label>
+  <select id="build-category" class="category-select"><option value="todos">Todos los edificios</option><option value="poblacion">Población y cultura</option><option value="produccion">Recolección y producción</option><option value="comercio">Comercio</option><option value="ejercito">Ejército y defensa</option><option value="infraestructura">Caminos</option></select>
+  <div class="town-buttons" id="build-buttons"></div>
+  <div class="section-label">⚒️ HERRERÍA · ARMAS</div><p class="small">Construye una herrería para transformar metal y madera en armamento.</p><button class="btn full secondary" id="forge-button">Forjar 7 armas (⚙️9 · 🪵5 · 🪙6)</button>
+  <div class="section-label">🛡️ CUARTEL · EJÉRCITOS</div><p class="small">Construye un cuartel para entrenar grupos de cinco soldados. Cada recluta sale de tu población civil.</p><div class="actions" style="margin-bottom:12px"><button class="btn secondary" data-train="infanteria">⚔️ Entrenar combatientes</button><button class="btn secondary" data-train="exploradores">🏹 Entrenar exploradores</button></div>
+  <div class="section-label">🏺 MERCADO · CARAVANAS</div><p class="small">Construye un mercado y compra o vende productos.</p>
+  <div class="market-controls"><select id="trade-resource" class="category-select"><option value="food">Alimentos</option><option value="wood">Madera</option><option value="metal">Metal</option><option value="stone">Piedra</option></select><div class="actions"><button class="btn" data-trade="buy">Comprar 10</button><button class="btn" data-trade="sell">Vender 10</button></div></div>
+  <div class="section-label">INVESTIGACIONES</div><div class="town-buttons" id="research-buttons"></div>
+ </div>
+</div></section>
+<div id="outcome" class="hidden" aria-live="polite"></div>
+<div class="layout"><section class="card" id="mission-panel"><div class="inner"><div class="section-label">CONSEJO DE GUERRA</div><h2 id="action-head">Prepara la operación</h2><p class="explain" id="action-hint">Tus decisiones cambian tus posibilidades; no hay resultados obligatorios.</p><div class="actions preps"><button class="btn" data-prepare="recruit">⚔️ Reclutar combatientes<small>+7 tropas · −13 alimentos · −6 metal</small></button><button class="btn" data-prepare="scout">🔭 Explorar el terreno<small>Mejor emboscada · −9 madera · −6 alimentos</small></button><button class="btn" data-prepare="supply">🥖 Mejorar suministros<small>Mejor resistencia · −10 alimentos · −7 madera</small></button><button class="btn ghost" id="skip">Preparativos: 0/3<small>No son obligatorios. Puedes combatir ahora.</small></button></div><div class="section-label" style="margin-top:18px">ELIGE TU ESTRATEGIA</div><div class="choice" id="strategies"><button data-tactic="frontal" class="selected">⚔️ Ataque frontal</button><button data-tactic="terreno">🌲 Usar el terreno</button><button data-tactic="sorpresa">🌘 Sorpresa</button><button data-tactic="reserva">🛡️ Reservas</button></div><div class="chance"><div><strong id="chance">55%</strong><div class="small">Posibilidad estimada de éxito</div></div><div class="small" style="max-width:47%;text-align:right" id="weather">Condiciones simuladas</div></div><button class="btn primary full" id="fight">RESOLVER EPISODIO</button><p class="small">La probabilidad incluye incertidumbre, así que ninguna decisión garantiza ganar. La victoria modifica la línea histórica del juego.</p></div></section>
+<section class="card"><div class="detail"><div class="section-label">MAPA DE LA HISTORIA</div><h2 style="margin-top:6px">Territorios descubiertos</h2><p class="small">Solo aparecen los lugares de los episodios que has abierto. El resto sigue bloqueado.</p></div><div class="battle-map"><svg id="the-map" viewBox="0 0 100 60" role="img" aria-label="Mapa esquemático de los lugares de campaña"></svg><div class="map-note">MAPA ARTÍSTICO · NO GEOREFERENCIADO</div></div><div class="inner history"><div class="section-label">HECHO DOCUMENTADO</div><p id="fact"></p><a id="source" href="https://www.memoriachilena.gob.cl/" target="_blank" rel="noopener noreferrer">Consultar fuente histórica</a><hr style="border:0;border-top:1px solid #526150;margin:14px 0"><div class="section-label">TERRENO, CLIMA Y EQUIPAMIENTO</div><p id="land"></p><p id="attire"></p></div></section></div>
+<div class="grid-two"><section class="card"><div class="detail"><h2>Tu crónica alternativa</h2><div class="small">Lo que sucedió en tu partida, no lo que afirma la historia</div></div><div class="log" id="log"></div></section><section class="card"><div class="detail"><h2>¿Qué viene después?</h2><div class="small">Completa el episodio actual para descubrir el siguiente</div></div><div class="inner" id="next-hint"></div></section></div>
+<div class="controls-bottom"><button class="btn ghost" id="save">Exportar partida</button><label class="btn ghost" for="load">Importar partida</label><input type="file" id="load" style="display:none" accept="application/json,.json"><a class="btn ghost" href="./clasico.html" style="text-decoration:none;display:flex;align-items:center">Modo libre</a></div><div class="footer">Prototipo estratégico v0.4.0. Guardado local independiente de la versión anterior. Fuentes documentales de la Biblioteca Nacional de Chile; mapas, estadísticas y efectos tácticos son simulados. El clima NO corresponde a observaciones meteorológicas del día de una batalla. APK instalada sin modificaciones.</div></div>
+<div class="status-toast hidden" id="toast" role="status" aria-live="polite"></div>
+<script>
+/** Datos del juego, mapas interpretativos. No utilizar como cartografía georreferenciada. */
+const FACTIONS = Object.freeze({
+ espanoles:{name:'Expedición española', color:'#d7a966', emblem:'✠'},
+ mapuche:{name:'Fuerzas mapuche y aliadas', color:'#73bc9b',emblem:'✦'},
+ patriotas:{name:'Fuerzas patriotas',color:'#7bb3dc',emblem:'★'},
+ realistas:{name:'Fuerzas realistas',color:'#e3a38f',emblem:'◆'},
+ independiente:{name:'Comunidades y fuerzas locales',color:'#a1a8a2',emblem:'·'}
+});
+const REGIONS = Object.freeze([
+ {id:'aconcagua',name:'Aconcagua',x:46,y:8,terrain:'valle',links:['mapocho'],output:{food:6,wood:2,metal:3},river:'Río Aconcagua'},
+ {id:'mapocho',name:'Mapocho · Santiago',x:48,y:17,terrain:'valle',links:['aconcagua','cachapoal'],output:{food:7,wood:2,metal:2},river:'Río Mapocho'},
+ {id:'cachapoal',name:'Cachapoal · Rancagua',x:50,y:26,terrain:'rio',links:['mapocho','mataquito'],output:{food:6,wood:3,metal:2},river:'Río Cachapoal'},
+ {id:'mataquito',name:'Mataquito · Curicó',x:42,y:35,terrain:'rio',links:['cachapoal','maule'],output:{food:5,wood:3,metal:1},river:'Río Mataquito'},
+ {id:'maule',name:'Maule · Talca',x:43,y:44,terrain:'rio',links:['mataquito','itata'],output:{food:6,wood:4,metal:1},river:'Río Maule'},
+ {id:'itata',name:'Itata · Chillán',x:43,y:53,terrain:'rio',links:['maule','biobio','penco'],output:{food:5,wood:4,metal:1},river:'Río Itata'},
+ {id:'biobio',name:'Biobío',x:44,y:63,terrain:'rio',links:['itata','penco','arauco','tucapel'],output:{food:5,wood:5,metal:1},river:'Río Biobío'},
+ {id:'penco',name:'Penco · Concepción',x:21,y:60,terrain:'costa',links:['itata','biobio','arauco'],output:{food:4,wood:3,metal:1},river:'Bahía de Concepción'},
+ {id:'arauco',name:'Arauco',x:19,y:72,terrain:'bosque',links:['penco','biobio','tucapel','puren'],output:{food:4,wood:6,metal:1},river:'Ríos y humedales costeros'},
+ {id:'tucapel',name:'Tucapel',x:50,y:74,terrain:'bosque',links:['biobio','arauco','puren','imperial'],output:{food:4,wood:6,metal:1},river:'Cuencas costeras de Arauco'},
+ {id:'puren',name:'Purén · Lumaco',x:35,y:83,terrain:'bosque',links:['arauco','tucapel','imperial'],output:{food:4,wood:6,metal:1},river:'Cuenca del Lumaco'},
+ {id:'imperial',name:'La Imperial',x:54,y:86,terrain:'rio',links:['tucapel','puren','valdivia','villarrica'],output:{food:5,wood:5,metal:1},river:'Cuenca del Imperial'},
+ {id:'villarrica',name:'Villarrica',x:77,y:83,terrain:'cordillera',links:['imperial','valdivia'],output:{food:3,wood:6,metal:3},river:'Lago Villarrica y cuencas lacustres'},
+ {id:'valdivia',name:'Valdivia',x:51,y:93,terrain:'rio',links:['imperial','villarrica','osorno'],output:{food:5,wood:6,metal:2},river:'Sistema fluvial de Valdivia'},
+ {id:'osorno',name:'Osorno',x:56,y:103,terrain:'bosque',links:['valdivia','chiloe'],output:{food:5,wood:6,metal:1},river:'Río Rahue'},
+ {id:'chiloe',name:'Chiloé',x:20,y:112,terrain:'archipielago',links:['osorno'],output:{food:5,wood:5,metal:1},river:'Canales y mar interior'}
+]);
+const REGION_INDEX=Object.fromEntries(REGIONS.map(x=>[x.id,x]));
+const SCENARIOS=Object.freeze({
+ arauco:{id:'arauco',name:'Conquista y Guerra de Arauco',start:1541,end:1641,
+  description:'De la fundación de Santiago a la diplomacia de frontera. Resultados históricos y alternativos.',
+  factions:['mapuche','espanoles'],owner:{mapocho:'espanoles',aconcagua:'independiente',cachapoal:'independiente',mataquito:'independiente',maule:'independiente',itata:'independiente',biobio:'independiente',penco:'independiente',arauco:'mapuche',tucapel:'mapuche',puren:'mapuche',imperial:'independiente',villarrica:'independiente',valdivia:'independiente',osorno:'independiente',chiloe:'independiente'},
+  troops:{mapocho:19,arauco:18,tucapel:17,puren:15},capital:{espanoles:'mapocho',mapuche:'tucapel'},
+  objectives:['Controlar dos tercios de las regiones antes de 1641','Sostener una alianza o superioridad territorial','Cambiar el desenlace de Tucapel y Curalaba']},
+ independencia:{id:'independencia',name:'Guerra de Independencia',start:1810,end:1826,
+  description:'La Patria Vieja, Reconquista y Patria Nueva pueden cambiar según la campaña.',
+  factions:['patriotas','realistas'],owner:{aconcagua:'patriotas',mapocho:'patriotas',cachapoal:'realistas',mataquito:'independiente',maule:'independiente',itata:'realistas',biobio:'realistas',penco:'realistas',arauco:'independiente',tucapel:'independiente',puren:'independiente',imperial:'independiente',villarrica:'independiente',valdivia:'realistas',osorno:'realistas',chiloe:'realistas'},
+  troops:{aconcagua:15,mapocho:20,cachapoal:15,itata:13,biobio:15,penco:16,valdivia:11,chiloe:14},capital:{patriotas:'mapocho',realistas:'penco'},
+  objectives:['Controlar dos tercios del territorio','Defender tu capital y asegurar las rutas','Cambiar el resultado de Rancagua, Chacabuco o Maipú']}
+});
+const SOURCES={
+ guerra:'https://www.memoriachilena.gob.cl/602/w3-article-691.html',
+ independencia:'https://www.memoriachilena.gob.cl/602/w3-article-692.html',
+ maipu:'https://www.memoriachilena.gob.cl/602/w3-article-94411.html',
+ mapa:'https://www.bibliotecanacionaldigital.gob.cl/bnd/632/w3-article-553671.html',
+ geo:'https://www.ide.cl/',
+ museo:'https://museo.precolombino.cl/aprende/pueblos-culturas/pueblos-originarios/mapuche/',
+ armas:'https://www.museodetalca.gob.cl/colecciones/armas-de-la-conquista-espanola/armas-blancas-y-defensivas-empleadas-en-la-conquista',
+ clima:'https://www.cr2.cl/arboles-como-archivos-climaticos-reconstruyendo-600-anos-de-historia-de-sequia-en-sudamerica-ladera-sur/'
+};
+const EVENTS={
+ arauco:[
+ {year:1541,name:'Santiago y la resistencia del valle central',location:'mapocho',fact:'En septiembre de 1541 se produjo el ataque a Santiago liderado por Michimalonco.',source:'guerra'},
+ {year:1550,name:'Andalién y Penco',location:'penco',fact:'Las campañas españolas de 1550 incluyeron enfrentamientos en torno al Biobío y Penco.',source:'guerra'},
+ {year:1553,name:'Tucapel y la muerte de Valdivia',location:'tucapel',fact:'Lautaro y fuerzas mapuches derrotaron a las fuerzas españolas; murió Pedro de Valdivia.',source:'guerra',historicalWinner:'mapuche'},
+ {year:1554,name:'Marihueñu',location:'arauco',fact:'Fuerzas mapuches vencieron a Francisco de Villagra.',source:'guerra',historicalWinner:'mapuche'},
+ {year:1557,name:'Mataquito',location:'mataquito',fact:'Lautaro murió tras un ataque español en la zona del Mataquito.',source:'guerra',historicalWinner:'espanoles'},
+ {year:1598,name:'Curalaba',location:'puren',fact:'La derrota española en Curalaba abrió una gran rebelión mapuche.',source:'guerra',historicalWinner:'mapuche'},
+ {year:1641,name:'Parlamento de Quilín',location:'biobio',fact:'Se celebró el Parlamento de Quilín, un hito de diplomacia fronteriza.',source:'guerra'}
+ ],
+ independencia:[
+ {year:1810,name:'Inicio del proceso revolucionario',location:'mapocho',fact:'Se instauró la Primera Junta Nacional de Gobierno en Santiago.',source:'independencia'},
+ {year:1814,name:'Desastre de Rancagua',location:'cachapoal',fact:'La derrota patriota abrió la etapa de Reconquista española.',source:'independencia',historicalWinner:'realistas'},
+ {year:1817,name:'Batalla de Chacabuco',location:'aconcagua',fact:'Las fuerzas del Ejército Libertador obtuvieron la victoria en Chacabuco.',source:'independencia',historicalWinner:'patriotas'},
+ {year:1818,name:'Batalla de Maipú',location:'mapocho',fact:'La victoria patriota consolidó militarmente la Independencia.',source:'maipu',historicalWinner:'patriotas'},
+ {year:1826,name:'Chiloé y el final del proceso',location:'chiloe',fact:'La incorporación de Chiloé marcó el fin de la resistencia realista en el archipiélago.',source:'independencia',historicalWinner:'patriotas'}
+ ]
+};
+const ATTIRE={
+ espanoles:{name:'Expedición española siglo XVI',description:'Casco, capa, prendas de lana o lino y protecciones variables; arcabuces, lanzas, espadas y rodelas según función. No todos llevan coraza.',source:'armas'},
+ mapuche:{name:'Guerreros mapuche siglo XVI',description:'Vestimentas textiles diversas según territorio; lanzas, macanas, arcos, y estrategias de movilidad. Evitar mezclar atuendos ceremoniales posteriores.',source:'museo'},
+ patriotas:{name:'Ejército patriota siglo XIX',description:'Infantería con fusil de chispa y bayoneta, artillería y caballería; uniformes y prendas heterogéneas según unidad y suministro.',source:'independencia'},
+ realistas:{name:'Ejército realista siglo XIX',description:'Infantería con mosquetes y bayonetas, caballería, artillería y uniformidad variable por unidad y momento.',source:'independencia'}
+};
+const TERRAIN={valle:{label:'Valle intermontano',def:1,move:1},rio:{label:'Ríos y vados',def:1.13,move:1.12},bosque:{label:'Bosques y lomajes',def:1.23,move:1.25},costa:{label:'Costa y estuarios',def:1.09,move:1.1},cordillera:{label:'Cordillera y lagos',def:1.37,move:1.5},archipielago:{label:'Canales e islas',def:1.34,move:1.6}};
+function climateAt(s,id){const r=REGION_INDEX[id];if(!r)return null;const rainyBase={valle:0.19,rio:0.31,bosque:0.49,costa:0.39,cordillera:0.54,archipielago:0.60}[r.terrain];const year=s.year,seed=s.worldSeed??1541;const hash=(Math.imul(seed+year*1337+id.length*4201,1103515245)>>>0)%1000;const rainy=hash<rainyBase*1000;return {rainy,name:rainy?'Lluvia probable (simulada)':'Sin lluvia (simulada)',provenance:'Climatología aproximada de la región, NO registro meteorológico de la batalla.'}}
+/** Economía lúdica de asentamientos. Todas las cifras son equilibrio de juego, no reconstrucciones históricas. */
+const SETTLEMENT_VERSION=1;
+const BUILDINGS=Object.freeze({
+ viviendas:{name:'Viviendas',icon:'🏠',description:'+22 plazas para familias',cost:{wood:16,coins:7},max:10},
+ chacras:{name:'Cultivos',icon:'🌾',description:'+13 alimentos por estación',cost:{wood:14,coins:8},max:9},
+ aserradero:{name:'Aserradero',icon:'🪵',description:'+9 madera por estación',cost:{wood:11,coins:10},max:7},
+ mina:{name:'Mina',icon:'⛏️',description:'+7 metal por estación',cost:{wood:17,coins:13},max:7},
+ mercado:{name:'Mercado',icon:'🏺',description:'+10 monedas por estación',cost:{wood:17,metal:6,coins:18},max:6},
+ cuartel:{name:'Cuartel',icon:'🛡️',description:'Refuerza el ejército y la defensa',cost:{wood:23,metal:16,coins:16},max:5},
+ escuela:{name:'Escuela de oficios',icon:'📚',description:'Desbloquea avances técnicos',cost:{wood:20,metal:10,coins:20},max:1},
+ muralla:{name:'Defensas',icon:'🏰',description:'Mayor resistencia en las batallas',cost:{wood:20,metal:20,coins:15},max:5}
+});
+const ADVANCES=Object.freeze({
+ cultivos:{name:'Mejora agrícola',description:'Las chacras producen +5 alimentos por nivel',cost:{coins:28,wood:12},max:2},
+ metalurgia:{name:'Metalurgia',description:'Mejores herramientas y equipo militar',cost:{coins:34,metal:17},max:2},
+ logistica:{name:'Organización',description:'Mejores suministros y comercio',cost:{coins:30,wood:12},max:2}
+});
+const fresh=()=>({schema:SETTLEMENT_VERSION,population:38,happiness:72,coins:36,season:0,buildings:{viviendas:1,chacras:1,aserradero:0,mina:0,mercado:0,cuartel:0,escuela:0,muralla:0},advances:{cultivos:0,metalurgia:0,logistica:0},lastEvent:'Tu asentamiento espera sus primeras decisiones.'});
+function ensureSettlement(s){if(!s.town)s.town=fresh();return s.town;}
+function validateSettlement(t){if(!t || t.schema!==SETTLEMENT_VERSION || !Number.isInteger(t.population) || t.population<5 || t.population>50000 || !Number.isInteger(t.happiness)||t.happiness<0||t.happiness>100||!Number.isInteger(t.coins)||t.coins<0||t.coins>1000000||!Number.isInteger(t.season)||t.season<0||t.season>8)return false;
+ if(!t.buildings||!t.advances||typeof t.lastEvent!=='string'||t.lastEvent.length>500)return false;
+ for(const [k,v] of Object.entries(BUILDINGS))if(!Number.isInteger(t.buildings[k])||t.buildings[k]<0||t.buildings[k]>v.max)return false;
+ for(const [k,v] of Object.entries(ADVANCES))if(!Number.isInteger(t.advances[k])||t.advances[k]<0||t.advances[k]>v.max)return false;
+ return true;}
+const housing=t=>28+t.buildings.viviendas*22;
+function incomes(s){const t=ensureSettlement(s),b=t.buildings,a=t.advances,workers=Math.max(8,t.population),demand=12+8*(b.chacras+b.aserradero+b.mina+b.mercado),labor=Math.min(1,workers/demand);
+ const food=Math.round((5+b.chacras*(13+a.cultivos*5))*labor),wood=Math.round((2+b.aserradero*9)*labor),metal=Math.round((1+b.mina*7)*labor),coins=Math.round((4+b.mercado*(10+a.logistica*3))*labor),upkeep=Math.ceil(t.population/9)+Math.ceil(s.army/7);
+ return {food,wood,metal,coins,upkeep,netFood:food-upkeep,labor,capacity:housing(t)};}
+const townFail=reason=>({ok:false,reason});
+const affordable=(s,c)=>Object.entries(c).every(([k,n])=>(k==='coins'?ensureSettlement(s).coins:s[k])>=n);
+const charge=(s,c)=>{const t=ensureSettlement(s);for(const [k,n] of Object.entries(c))if(k==='coins')t.coins-=n;else s[k]-=n;};
+function construct(s,key){const t=ensureSettlement(s),item=BUILDINGS[key];if(!item)return townFail('Edificio no disponible');if(s.status!=='playing')return townFail('Construye antes de resolver el episodio.');if(t.buildings[key]>=item.max)return townFail('Ya alcanzaste el límite de esta estructura.');if(!affordable(s,item.cost))return townFail('Faltan recursos para construir '+item.name+'.');
+ charge(s,item.cost);t.buildings[key]++;if(key==='cuartel')s.morale=Math.min(100,s.morale+3);if(key==='mercado')t.happiness=Math.min(100,t.happiness+3);
+ t.lastEvent='Se construyó '+item.name+'.';return {ok:true,description:t.lastEvent};}
+function unlockAdvance(s,key){const t=ensureSettlement(s),item=ADVANCES[key];if(!item)return townFail('Avance desconocido');if(s.status!=='playing')return townFail('Investiga antes de resolver el episodio.');if(t.buildings.escuela===0)return townFail('Primero construye una escuela de oficios.');if(t.advances[key]>=item.max)return townFail('Este avance ya alcanzó el nivel máximo.');if(!affordable(s,item.cost))return townFail('Faltan recursos para investigar '+item.name+'.');charge(s,item.cost);t.advances[key]++;t.lastEvent=item.name+' nivel '+t.advances[key]+' investigado.';return {ok:true,description:t.lastEvent};}
+function advanceSeason(s, rainy=false){const t=ensureSettlement(s);if(s.status!=='playing')return townFail('La misión ya está resuelta.');if(t.season>=8)return townFail('Llegó la campaña militar. No puedes seguir produciendo indefinidamente.');const p=incomes(s),crop=Math.round(p.food*(rainy?.80:1)),oldFood=s.food;
+ s.food=Math.max(0,s.food+crop-p.upkeep);s.wood=Math.min(100000,s.wood+p.wood);s.metal=Math.min(100000,s.metal+p.metal);t.coins=Math.min(1000000,t.coins+p.coins);
+ const hungry=oldFood+crop<p.upkeep;
+ if(hungry){t.population=Math.max(5,t.population-Math.max(1,Math.ceil(t.population*.08)));t.happiness=Math.max(0,t.happiness-13);s.morale=Math.max(20,s.morale-7);}
+ else {const growth=t.happiness>=55?Math.max(1,Math.floor(t.population*.055)):0;t.population=Math.min(housing(t),t.population+growth);t.happiness=Math.min(95,t.happiness+(t.population<housing(t)?2:-1));}
+ if(t.buildings.cuartel) s.morale=Math.min(100,s.morale+1);
+ t.season++;t.lastEvent=`Estación ${t.season}/8: +${crop} alimentos, +${p.wood} madera, +${p.metal} metal, +${p.coins} monedas; consumo ${p.upkeep}.${hungry?' Escasez: emigró población.':''}`;
+ return {ok:true,description:t.lastEvent,shortage:hungry};}
+function newChapterSettlement(s){const t=ensureSettlement(s);t.season=0;t.coins=Math.min(1000000,t.coins+12);t.lastEvent='Nueva etapa histórica. Se conservan los edificios, avances y habitantes.';}
+function combatModifier(s){if(!s.town)return 0;const t=ensureSettlement(s);return Math.min(.33,t.advances.metalurgia*.055+t.advances.logistica*.035+t.buildings.muralla*.016+t.buildings.cuartel*.018+(t.happiness>=80?.025:0));}
+function settlementStatus(s){const t=ensureSettlement(s);const b=t.buildings;return {population:t.population,happiness:t.happiness,housing:housing(t),coins:t.coins,season:t.season,buildings:Object.values(b).reduce((a,x)=>a+x,0),production:incomes(s)};}
+/** FRONTERA DE FUEGO 0.5: escenario interactivo con recursos y edificios.
+ * Terreno y rendimientos son abstracciones lúdicas, NO cartografía ni meteorología histórica.
+ * Sin dependencias, completamente reproducible para guardado y pruebas.
+ */
+
+const WIDTH=12, HEIGHT=10, WORLD_SCHEMA=1;
+const LAND=Object.freeze({
+ plain:{name:'Pradera',icon:'🟩',colour:'grass'},
+ fertile:{name:'Suelo cultivable',icon:'🌿',colour:'fertile'},
+ forest:{name:'Bosque',icon:'🌲',colour:'forest'},
+ hills:{name:'Cerros',icon:'⛰️',colour:'hills'},
+ ore:{name:'Veta mineral',icon:'🪨',colour:'ore'},
+ river:{name:'Río',icon:'💧',colour:'river'},
+ game:{name:'Zona de caza',icon:'🦌',colour:'game'},
+ road:{name:'Camino',icon:'🟫',colour:'road'}
+});
+const extra={
+ caza:{name:'Puesto de caza',icon:'🏹',desc:'Cazadores abastecen alimentos; fauna finita',terrain:['game'],cost:{wood:13,coins:9},max:6,workers:4,category:'produccion'},
+ corral:{name:'Corral / criadero',icon:'🐑',desc:'Cría animales y aporta alimento',terrain:['plain','fertile','game'],cost:{wood:20,coins:14},max:5,workers:3,category:'produccion'},
+ herreria:{name:'Herrería y forja',icon:'⚒️',desc:'Permite forjar armas con metal y madera',terrain:['plain','fertile','road'],cost:{wood:21,metal:12,coins:14},max:4,workers:4,category:'ejercito'},
+ templo:{name:'Templo / lugar ceremonial',icon:'⛪',desc:'Mejora bienestar y cohesión',terrain:['plain','fertile','road'],cost:{wood:22,metal:4,coins:20},max:3,workers:2,category:'poblacion'},
+ almacen:{name:'Almacén',icon:'📦',desc:'Resguarda reservas de alimento y materiales',terrain:['plain','fertile','road'],cost:{wood:18,coins:10},max:4,workers:2,category:'produccion'},
+ torre:{name:'Torre de vigilancia',icon:'🗼',desc:'Protege de incursiones y refuerza defensas',terrain:['plain','hills','road'],cost:{wood:22,metal:9,coins:11},max:6,workers:2,category:'ejercito'},
+ fortin:{name:'Fortín fronterizo',icon:'🏯',desc:'Asegura una zona alejada para expandir el asentamiento',terrain:['plain','hills','fertile'],cost:{wood:28,stone:16,metal:8,coins:17},max:4,workers:3,category:'ejercito'},
+ camino:{name:'Camino comercial',icon:'🛤️',desc:'Conecta asentamientos y mejora comercio',terrain:['plain','fertile','forest','game'],cost:{wood:5,coins:3},max:25,workers:0,category:'infraestructura'}
+};
+const baseCategories={viviendas:'poblacion',chacras:'produccion',aserradero:'produccion',mina:'produccion',mercado:'comercio',cuartel:'ejercito',escuela:'poblacion',muralla:'ejercito'};
+const baseTerrain={
+ viviendas:['plain','fertile','road'],chacras:['fertile','plain'],aserradero:['forest'],mina:['hills','ore'],
+ mercado:['plain','fertile','road'],cuartel:['plain','fertile','road'],escuela:['plain','fertile','road'],muralla:['plain','fertile','hills','road']
+};
+const baseWorkers={viviendas:0,chacras:4,aserradero:4,mina:5,mercado:3,cuartel:2,escuela:2,muralla:1};
+const STRUCTURES=Object.freeze(Object.fromEntries([
+ ...Object.entries(BUILDINGS).map(([key,b])=>[key,{name:b.name,icon:b.icon,desc:b.description,cost:b.cost,max:b.max,terrain:baseTerrain[key],workers:baseWorkers[key],category:baseCategories[key]}]),
+ ...Object.entries(extra)
+]));
+const factionLabels={mapuche:{viviendas:'Rucas',aserradero:'Taller de madera',cuartel:'Reunión de guerreros',escuela:'Enseñanza de oficios',templo:'Espacio ceremonial',muralla:'Palisada',mercado:'Intercambio',herreria:'Taller de metal',torre:'Atalaya',fortin:'Fortificación de frontera'},espanoles:{viviendas:'Viviendas coloniales',templo:'Capilla',muralla:'Empalizada',fortin:'Fuerte de madera',herreria:'Herrería',mercado:'Plaza de comercio'},patriotas:{templo:'Iglesia',cuartel:'Cuartel patriota',muralla:'Fortificación',fortin:'Fortín',herreria:'Armería'},realistas:{templo:'Iglesia',cuartel:'Cuartel realista',muralla:'Fortificación',fortin:'Fortín',herreria:'Armería'}};
+const nameFor=(s,k)=>factionLabels[s.faction]?.[k]||STRUCTURES[k]?.name||k;
+const iconFor=(s,k)=>s.faction==='mapuche'?({templo:'🌿',muralla:'🪵',fortin:'🛖',torre:'🏹',herreria:'⚒️'})[k]||STRUCTURES[k]?.icon:STRUCTURES[k]?.icon;
+const error=reason=>({ok:false,reason});
+const terrainSeed=(s,x,y)=>((Math.imul((s.seed>>>0)^(s.scenario==='arauco'?0x392a:0x1810),1664525)+x*3029+y*9059)>>>0)%100;
+const randAt=(s,x,y)=>{let n=((s.seed>>>0)+x*73856093+y*19349663)>>>0; n^=n<<13;n^=n>>>17;n^=n<<5;return (n>>>0)%100;};
+function landAt(s,x,y){
+ if(x===0||(x===1&&y>6))return 'river';
+ if(x===11||(x===10&&y<4))return randAt(s,x,y)%3===0?'ore':'hills';
+ if((y===4||y===5)&&x>=3&&x<=8)return y===4&&x!==4?'road':'plain';
+ const a=randAt(s,x,y),m=s.scenario==='arauco'?13:2;
+ if(x<5&&a<24+m)return 'forest';
+ if(a<11)return 'game';
+ if(a<34)return 'forest';
+ if(a<56)return 'fertile';
+ if(a<68&&x>6)return 'hills';
+ if(a<77&&x>6)return 'ore';
+ return 'plain';
+}
+function initialStock(terrain){return {forest:90,game:46,ore:130,hills:85,river:100,fertile:130,plain:0,road:0}[terrain]||0}
+function newMap(s){const cells=[];for(let y=0;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++){
+ const terrain=landAt(s,x,y);cells.push({terrain,stock:initialStock(terrain),building:null});
+}
+ // resources always available for every faction and scenario
+ cells[2*WIDTH+3]={terrain:'forest',stock:110,building:null};
+ cells[7*WIDTH+3]={terrain:'game',stock:58,building:null};
+ cells[2*WIDTH+9]={terrain:'ore',stock:155,building:null};
+ cells[6*WIDTH+6]={terrain:'fertile',stock:130,building:null};
+ cells[5*WIDTH+5]={terrain:'plain',stock:0,building:null};
+ cells[5*WIDTH+6]={terrain:'plain',stock:0,building:null};
+ return cells;
+}
+const addWorld=(s)=>({schema:WORLD_SCHEMA,w:WIDTH,h:HEIGHT,cells:newMap(s),tools:0,weapons:0,stone:12,herd:0,actions:3,events:[],caravans:0,units:{infanteria:0,exploradores:0},seasonNotes:'Selecciona un edificio y después una parcela del mapa.'});
+function legacyMapping(s,w){
+ const t=ensureSettlement(s);
+ // Represent older town building counts with spatial structures without charging them again.
+ for(const [k,n] of Object.entries(t.buildings))for(let j=0;j<n;j++){
+   const choices=w.cells.map((c,i)=>({c,i})).filter(({c})=>!c.building&&STRUCTURES[k].terrain.includes(c.terrain));
+   if(!choices.length)continue;
+   choices.sort((a,b)=>{const ax=a.i%WIDTH,ay=Math.floor(a.i/WIDTH),bx=b.i%WIDTH,by=Math.floor(b.i/WIDTH);
+      return (Math.abs(ax-5)+Math.abs(ay-5))-(Math.abs(bx-5)+Math.abs(by-5));});
+   choices[0].c.building=k;
+ }
+}
+function ensureWorld(s){ensureSettlement(s);if(!s.world){s.world=addWorld(s);legacyMapping(s,s.world);}return s.world;}
+function validWorld(w){if(!w)return true; if(w.schema!==WORLD_SCHEMA||w.w!==WIDTH||w.h!==HEIGHT||!Array.isArray(w.cells)||w.cells.length!==WIDTH*HEIGHT||!Number.isInteger(w.actions)||w.actions<0||w.actions>3)return false;
+ for(const k of ['tools','weapons','stone','herd','caravans'])if(!Number.isInteger(w[k])||w[k]<0||w[k]>1000000)return false;
+ if(!w.units||!['infanteria','exploradores'].every(k=>Number.isInteger(w.units[k])&&w.units[k]>=0&&w.units[k]<=5000))return false;
+ if(!Array.isArray(w.events)||w.events.length>25||typeof w.seasonNotes!=='string'||w.seasonNotes.length>700)return false;
+ for(const c of w.cells)if(!LAND[c.terrain]||!Number.isInteger(c.stock)||c.stock<0||c.stock>2000||(c.building!==null&&!STRUCTURES[c.building]))return false;
+ return true;
+}
+function buildingCount(s,key){const w=ensureWorld(s);return w.cells.filter(c=>c.building===key).length;}
+const tile=(s,i)=>ensureWorld(s).cells[i];
+const tilePosition=i=>({x:i%WIDTH,y:Math.floor(i/WIDTH)});
+function costEnough(s,c){const t=ensureSettlement(s),w=ensureWorld(s);return Object.entries(c).every(([key,v])=>(key==='coins'?t.coins:key==='stone'?w.stone:s[key])>=v)}
+function spend(s,c){const t=ensureSettlement(s),w=ensureWorld(s);for(const [key,v] of Object.entries(c)){if(key==='coins')t.coins-=v;else if(key==='stone')w.stone-=v;else s[key]-=v;}}
+function log(w,msg){w.seasonNotes=msg;w.events.unshift(msg);w.events=w.events.slice(0,20);}
+function buildOn(s,key,index){
+ const w=ensureWorld(s),t=ensureSettlement(s),def=STRUCTURES[key];
+ if(s.status!=='playing')return error('Primero continúa o comienza un capítulo histórico.');
+ if(!def)return error('Estructura no disponible.');
+ if(!Number.isInteger(index)||index<0||index>=w.cells.length)return error('Parcela inválida.');
+ const c=w.cells[index];if(c.building)return error('Esta parcela ya tiene una construcción.');
+ if(!def.terrain.includes(c.terrain))return error(`El terreno ${LAND[c.terrain].name} no sirve para ${nameFor(s,key)}.`);
+ if(buildingCount(s,key)>=def.max)return error('Ya alcanzaste el máximo de esta estructura.');
+ if(!costEnough(s,def.cost))return error('Faltan materiales o monedas para construir.');
+ const {x,y}=tilePosition(index),near=w.cells.some((v,i)=>v.building&&Math.abs(i%WIDTH-x)+Math.abs(Math.floor(i/WIDTH)-y)<=5);
+ if(!near&&key!=='fortin')return error('Construye cerca de tu poblado o establece un fortín fronterizo.');
+ spend(s,def.cost);c.building=key;
+ if(key in BUILDINGS){t.buildings[key]++;if(key==='cuartel')s.morale=Math.min(100,s.morale+3);}
+ if(key==='templo')t.happiness=Math.min(100,t.happiness+6);
+ if(key==='corral')w.herd+=3;
+ log(w,`Construiste ${nameFor(s,key)} en la parcela ${x+1},${y+1}.`);
+ return {ok:true,description:w.seasonNotes};
+}
+function clearBuilding(s,index){const w=ensureWorld(s);if(s.status!=='playing')return error('Termina el episodio antes de administrar.');const c=w.cells[index];if(!c||!c.building)return error('No hay edificio que retirar.');
+ const k=c.building;if(k==='viviendas'&&buildingCount(s,k)<=1)return error('Conserva al menos una vivienda.');if(k==='chacras'&&buildingCount(s,k)<=1)return error('Conserva al menos una chacra.');
+ const t=ensureSettlement(s);if(k in BUILDINGS)t.buildings[k]--;c.building=null;log(w,'Retiraste una construcción sin recuperar los materiales gastados.');return {ok:true,description:w.seasonNotes};}
+function gather(s,index,kind){const w=ensureWorld(s);if(s.status!=='playing')return error('Solo durante la preparación.');if(w.actions===0)return error('Ya usaste tus tres órdenes de trabajadores esta estación.');
+ const c=w.cells[index];if(!c)return error('Parcela inválida.');let resource,qty;
+ if(kind==='wood'&&c.terrain==='forest'){resource='wood';qty=Math.min(c.stock,12);}else if(kind==='food'&&c.terrain==='game'){resource='food';qty=Math.min(c.stock,9);}else if(kind==='stone'&&['hills','ore'].includes(c.terrain)){resource='stone';qty=Math.min(c.stock,9);}else return error('En esa parcela no se puede realizar esta tarea.');
+ if(!qty)return error('La parcela agotó sus recursos; deja tiempo para que se regenere.');
+ c.stock-=qty;w.actions--;if(resource==='stone')w.stone+=qty;else s[resource]+=qty;
+ log(w,{wood:`Leñadores cortaron ${qty} madera.`,food:`Cazadores consiguieron ${qty} alimentos.`,stone:`Canteros reunieron ${qty} piedra.`}[resource]);
+ return {ok:true,description:w.seasonNotes};
+}
+function forge(s){const w=ensureWorld(s),t=ensureSettlement(s);if(s.status!=='playing')return error('El taller permanece cerrado entre episodios.');if(!buildingCount(s,'herreria'))return error('Primero construye una herrería.');
+ const cost={wood:5,metal:9,coins:6};if(!costEnough(s,cost))return error('Necesitas 5 madera, 9 metal y 6 monedas.');
+ spend(s,cost);w.weapons+=7;log(w,'Herreros fabricaron 7 equipos de armas. Mejorarán el siguiente combate.');return {ok:true,description:w.seasonNotes};}
+const prices={food:3,wood:4,metal:7,stone:4};
+function trade(s,kind,resource,qty=10){const w=ensureWorld(s),t=ensureSettlement(s);if(s.status!=='playing')return error('Comercio no disponible entre episodios.');if(!buildingCount(s,'mercado'))return error('Primero construye un mercado.');if(!prices[resource]||!['buy','sell'].includes(kind)||qty!==10)return error('Operación comercial no válida.');
+ const price=qty*prices[resource]+(kind==='buy'?8:0);
+ const stock=resource==='stone'?w.stone:s[resource];if(kind==='buy'&&t.coins<price)return error('Monedas insuficientes.');if(kind==='sell'&&stock<qty)return error('No hay suficiente mercancía.');
+ if(kind==='buy'){t.coins-=price;if(resource==='stone')w.stone+=qty;else s[resource]+=qty;}
+ else {t.coins+=price;if(resource==='stone')w.stone-=qty;else s[resource]-=qty;}
+ w.caravans++;log(w,`${kind==='buy'?'Compraste':'Vendiste'} ${qty} de ${resource} por ${price} monedas. Caravana ${w.caravans}.`);return {ok:true,description:w.seasonNotes};}
+const jobData={chacras:{workers:4},aserradero:{workers:4},mina:{workers:5},mercado:{workers:3},caza:{workers:4},corral:{workers:3},herreria:{workers:4},templo:{workers:2}};
+function production(s){const w=ensureWorld(s),t=ensureSettlement(s);
+ const jobs=w.cells.map((c,i)=>({key:c.building,index:i,stock:c.stock,terrain:c.terrain})).filter(v=>v.key&&jobData[v.key]);
+ const workers=Math.max(0,Math.floor(t.population*.60)-Math.ceil(s.army*.10));
+ const demand=jobs.reduce((n,j)=>n+jobData[j.key].workers,0);
+ const factor=Math.max(0,Math.min(1,workers/Math.max(1,demand)));
+ const potential={food:0,wood:0,metal:0,coins:2,stone:0};
+ for(const j of jobs){const mul=factor;
+  switch(j.key){case 'chacras':potential.food+=(13+t.advances.cultivos*5)*mul;break;
+   case 'aserradero':potential.wood+=(j.stock>0?Math.min(9,j.stock):0)*mul;break;
+   case 'mina':potential.metal+=(j.stock>0?Math.min(7,j.stock):0)*mul;potential.stone+=(j.stock>0?Math.min(3,j.stock):0)*mul;break;
+   case 'caza':potential.food+=(j.stock>0?Math.min(9,j.stock):0)*mul;break;
+   case 'corral':potential.food+=7*mul;break;
+   case 'mercado':potential.coins+=(9+t.advances.logistica*3)*mul;break;
+   default:break;
+  }
+ }
+ const upkeep=Math.ceil(t.population/9)+Math.ceil(s.army/8)+buildingCount(s,'corral')*2;
+ return {workers,demand,factor,upkeep,potential:Object.fromEntries(Object.entries(potential).map(([k,v])=>[k,Math.round(v)])),free:Math.max(0,workers-demand)};
+}
+function nextSeason(s,rainy=false){const w=ensureWorld(s),t=ensureSettlement(s);if(s.status!=='playing')return error('Continúa la campaña histórica antes de avanzar.');if(t.season>=8)return error('Terminó el período de preparación: ahora debes resolver el episodio.');
+ const p=production(s),before=s.food;let food=0,wood=0,metal=0,stone=0,coins=2;
+ const step=t.season+1;
+ for(const c of w.cells){if(!c.building)continue;
+ const staff=p.factor,adv=t.advances;
+ if(c.building==='chacras')food+=Math.max(0,Math.round((13+adv.cultivos*5)*staff*(rainy?0.8:1)));
+ if(c.building==='aserradero'){const n=Math.min(c.stock,Math.round(9*staff));c.stock-=n;wood+=n;}
+ if(c.building==='mina'){const m=Math.min(c.stock,Math.round(9*staff)),ore=Math.round(m*.7);c.stock-=m;metal+=ore;stone+=m-ore;}
+ if(c.building==='caza'){const n=Math.min(c.stock,Math.round(9*staff));c.stock-=n;food+=n;}
+ if(c.building==='corral')food+=Math.round(7*staff);
+ if(c.building==='mercado')coins+=Math.round((9+adv.logistica*3)*staff);
+ }
+ const upkeep=p.upkeep;
+ s.food=Math.min(200000,Math.max(0,s.food+food-upkeep));s.wood=Math.min(200000,s.wood+wood);s.metal=Math.min(200000,s.metal+metal);w.stone=Math.min(200000,w.stone+stone);t.coins=Math.min(1000000,t.coins+coins);
+ const shortage=before+food<upkeep;
+ if(shortage){t.population=Math.max(5,t.population-Math.max(1,Math.ceil(t.population*.09)));t.happiness=Math.max(0,t.happiness-12);s.morale=Math.max(20,s.morale-6);}
+ else {const growth=t.happiness>55?Math.max(1,Math.floor(t.population*.06)):0;t.population=Math.min(housing(t),t.population+growth);
+   t.happiness=Math.max(0,Math.min(98,t.happiness+(buildingCount(s,'templo')?3:0)+(t.population<housing(t)?1:-1)));}
+ if(buildingCount(s,'cuartel'))s.morale=Math.min(100,s.morale+1);
+ // Controlled wildlife regeneration; saplings recover slowly and minerals never regenerate.
+ for(const c of w.cells){if(c.terrain==='forest'&&c.stock<120)c.stock+=2;if(c.terrain==='game'&&c.stock<60)c.stock+=3;}
+ w.herd=Math.min(150,w.herd+Math.max(0,buildingCount(s,'corral')));
+ t.season=step;w.actions=3;
+ const raid=(step%3===0&&((s.seed+step*33)%7)<3);
+ let attack='';if(raid){const defense=buildingCount(s,'muralla')*3+buildingCount(s,'torre')*4+Math.floor(s.army/8);
+ if(defense<7){const stolen=Math.min(s.food,8);s.food-=stolen;t.happiness=Math.max(0,t.happiness-4);attack=` Incursión: se perdieron ${stolen} alimentos. Construye defensas.`;}else attack=' Los vigías detuvieron una incursión.';}
+ log(w,`Estación ${step}/8: +${food} alimentos, +${wood} madera, +${metal} metal, +${stone} piedra, +${coins} monedas. Consumo ${upkeep}.${shortage?' Escasez: disminuyó la población.':''}${attack}`);
+ t.lastEvent=w.seasonNotes;
+ return {ok:true,description:w.seasonNotes,shortage};}
+function defenseLevel(s){return buildingCount(s,'muralla')*3+buildingCount(s,'torre')*4+buildingCount(s,'cuartel')*2+buildingCount(s,'fortin')*5;}
+function combatWorldBonus(s){if(!s.world)return 0;const w=ensureWorld(s);return Math.min(.24,(w.weapons/Math.max(1,s.army))*.20+defenseLevel(s)*.004+w.units.exploradores*.004);}
+function onBattle(s,losses){if(!s.world)return;const w=ensureWorld(s);w.weapons=Math.max(0,w.weapons-Math.floor(losses*.7));for(const k of ['infanteria','exploradores'])w.units[k]=Math.max(0,w.units[k]-Math.ceil(losses*.3));}
+function trainTroops(s,type){const w=ensureWorld(s),t=ensureSettlement(s);if(s.status!=='playing')return error('Termina el capítulo para reorganizar las tropas.');if(!buildingCount(s,'cuartel'))return error('Primero construye un cuartel o reunión de guerreros.');if(!['infanteria','exploradores'].includes(type))return error('Unidad desconocida.');if(t.population<13)return error('Necesitas una población mínima de 13 habitantes.');const cost=type==='exploradores'?{food:14,wood:8,coins:8}:{food:13,metal:8,coins:8};if(!costEnough(s,cost))return error('Faltan alimentos, equipo o monedas para entrenar.');spend(s,cost);t.population-=5;t.happiness=Math.max(0,t.happiness-1);s.army+=5;w.units[type]+=5;log(w,`Se entrenaron 5 ${type==='exploradores'?'exploradores':'combatientes'}; 5 habitantes ingresaron al ejército.`);return {ok:true,description:w.seasonNotes};}
+function worldSummary(s){const w=ensureWorld(s);return {population:s.town.population,capacity:housing(s.town),happiness:s.town.happiness,coins:s.town.coins,stone:w.stone,weapons:w.weapons,actions:w.actions,herd:w.herd,defense:defenseLevel(s),units:w.units,jobs:production(s),built:w.cells.filter(c=>c.building).length};}
+/** Frontera de Fuego · Campaña narrativa por episodios. Años y hechos reales; fuerzas, tiradas y resultados son ficción lúdica. */
+const VERSION=3;
+const CHAPTERS={
+ arauco:[
+  {year:1541,title:'Santiago en llamas',place:'mapocho',type:'battle',enemy:24,winner:'espanoles',source:'guerra',terrain:'valle',
+   intro:'Michimalonco dirige el ataque a Santiago. La ciudad sufre graves daños, pero el asentamiento español sobrevive. ¿Cambiará el desenlace?',goal:'Decide la suerte de Santiago.',detail:'Choque en un valle atravesado por el río Mapocho. La cifra de tropas es inventada para el juego.'},
+  {year:1550,title:'El avance hacia Penco',place:'penco',type:'battle',enemy:25,winner:'espanoles',source:'guerra',terrain:'costa',
+   intro:'La campaña de Valdivia llega a la zona de Andalién y Penco. El control del litoral y las rutas al sur está en disputa.',goal:'Asegura el acceso a Penco.',detail:'El entorno de bahías, marismas y ríos complica los desplazamientos; los números son simulados.'},
+  {year:1553,title:'Tucapel: el destino de Valdivia',place:'tucapel',type:'battle',enemy:32,winner:'mapuche',source:'guerra',terrain:'bosque',
+   intro:'Lautaro emplea grupos sucesivos de guerreros para desgastar a las fuerzas de Valdivia. En la historia real, triunfan las fuerzas mapuches.',goal:'Gana Tucapel y reescribe las consecuencias.',detail:'En diciembre de 1553, Pedro de Valdivia cae tras la batalla. La reconstrucción táctica es jugable, no documental.'},
+  {year:1554,title:'Marihueñu: batalla de los cerros',place:'arauco',type:'battle',enemy:34,winner:'mapuche',source:'guerra',terrain:'bosque',
+   intro:'Lautaro derrota a Francisco de Villagra cerca de Marihueñu. Las alturas, los accesos y el desgaste se vuelven decisivos.',goal:'Toma la iniciativa en Marihueñu.',detail:'El episodio representa el conflicto de 1554; la localización del nodo es una abstracción regional.'},
+  {year:1557,title:'El último camino de Lautaro',place:'mataquito',type:'battle',enemy:33,winner:'espanoles',source:'guerra',terrain:'rio',
+   intro:'Lautaro muere tras un ataque español en la zona del río Mataquito. En esta campaña puedes impedirlo o consolidar ese desenlace.',goal:'Determina quién domina el Mataquito.',detail:'Río, vados y sorpresa son factores regionales plausibles; el tiempo del día exacto no está reconstruido.'},
+  {year:1598,title:'Curalaba: el vuelco de la guerra',place:'puren',type:'battle',enemy:40,winner:'mapuche',source:'guerra',terrain:'bosque',
+   intro:'Las fuerzas mapuches derrotan a Martín García Óñez de Loyola. El desenlace inicia cambios profundos en la frontera colonial.',goal:'Decide el resultado de Curalaba.',detail:'La batalla es real. El tamaño del ejército y el funcionamiento del combate aquí son simulaciones.'},
+  {year:1641,title:'Parlamento de Quilín',place:'biobio',type:'council',enemy:30,winner:null,source:'guerra',terrain:'rio',
+   intro:'Tras décadas de conflicto, llega un momento decisivo para la diplomacia. Los parlamentos también cambian las fronteras.',goal:'Alcanza un acuerdo o impón tus condiciones políticas.',detail:'Quilín fue un parlamento histórico. No lo transformamos falsamente en una batalla.'}
+ ],
+ independencia:[
+  {year:1810,title:'La Primera Junta',place:'mapocho',type:'council',enemy:24,winner:null,source:'independencia',terrain:'valle',
+   intro:'En Santiago se instala la Primera Junta Nacional de Gobierno. Las decisiones políticas pueden abrir caminos distintos para Chile.',goal:'Consigue apoyo para tu proyecto político.',detail:'La instalación de la Junta fue un acontecimiento político, no una batalla campal.'},
+  {year:1814,title:'Rancagua: resistir o conquistar',place:'cachapoal',type:'battle',enemy:28,winner:'realistas',source:'independencia',terrain:'rio',
+   intro:'El ejército patriota es derrotado históricamente en Rancagua. Puedes darle la victoria al otro bando y alterar la Reconquista.',goal:'Gana Rancagua.',detail:'2 de octubre de 1814; la batalla real fue una derrota patriota.'},
+  {year:1817,title:'Chacabuco: el cruce de los Andes',place:'aconcagua',type:'battle',enemy:32,winner:'patriotas',source:'independencia',terrain:'valle',
+   intro:'El Ejército Libertador cruza los Andes y derrota a las fuerzas realistas en Chacabuco.',goal:'Decide el control de la ruta hacia Santiago.',detail:'12 de febrero de 1817. El cruce cordillerano y la campaña son reales; las estadísticas del juego, no.'},
+  {year:1818,title:'Maipú: el destino de la independencia',place:'mapocho',type:'battle',enemy:38,winner:'patriotas',source:'maipu',terrain:'valle',
+   intro:'Maipú consolida militarmente la independencia en el registro histórico. Tu campaña puede producir un resultado distinto.',goal:'Gana Maipú.',detail:'5 de abril de 1818. Este nodo esquemático no representa la ubicación precisa de la batalla.'},
+  {year:1826,title:'Chiloé: la última frontera',place:'chiloe',type:'battle',enemy:42,winner:'patriotas',source:'independencia',terrain:'archipielago',
+   intro:'La campaña de Chiloé y el Tratado de Tantauco cierran un capítulo de la independencia. El mar afecta el abastecimiento.',goal:'Decide el control del archipiélago.',detail:'El acuerdo de Tantauco es histórico, pero los resultados alternativos son ficticios.'}
+ ]
+};
+const SIDES={arauco:['mapuche','espanoles'],independencia:['patriotas','realistas']};
+function stages(scenario){return CHAPTERS[scenario]??[]}
+function active(s){return stages(s?.scenario)[s?.step]??null}
+function createStory(scenario='arauco',faction='mapuche',seed=1541){
+ if(!SIDES[scenario]?.includes(faction))throw new Error('Campaña o bando inválido');
+ const s={schema:VERSION,scenario,faction,seed:seed>>>0,step:0,year:stages(scenario)[0].year,
+ status:'playing',army:20,food:70,wood:35,metal:35,supply:1,intel:0,morale:75,
+ prepared:0,retries:0,score:0,won:[],history:[],last:null,enemyLoss:0};
+ ensureSettlement(s);ensureWorld(s);return s;
+}
+const random=s=>{s.seed=(Math.imul(1664525,s.seed)+1013904223)>>>0;return s.seed/4294967296;};
+const fail=reason=>({ok:false,reason});
+function record(s,title,body,type){s.history.unshift({year:s.year,title,body,type});s.history=s.history.slice(0,30)}
+function prepare(s,kind){if(s.status!=='playing')return fail('La campaña ya terminó.');
+ if(s.prepared>=3)return fail('Máximo tres preparativos por episodio. Entra en acción.');
+ const changes={recruit:{food:13,metal:6},scout:{wood:9,food:6},supply:{food:10,wood:7}};
+ const c=changes[kind];if(!c)return fail('Preparativo desconocido');
+ if(kind==='recruit'&&ensureSettlement(s).population<15)return fail('Necesitas al menos 15 habitantes para reclutar.');
+ if(s.food<c.food||(c.wood&&s.wood<c.wood)||(c.metal&&s.metal<c.metal))return fail('Faltan recursos. Puedes reabastecerte si fracasas en una misión.');
+ s.food-=c.food;s.wood-=(c.wood??0);s.metal-=(c.metal??0);
+ if(kind==='recruit'){ensureSettlement(s).population-=5;s.army+=7;}else if(kind==='scout')s.intel=Math.min(3,s.intel+1);else s.supply=Math.min(3,s.supply+1);
+ s.prepared++;const names={recruit:'Llegaron 7 combatientes',scout:'Exploradores informaron del terreno',supply:'El ejército recibió suministros'};
+ record(s,names[kind],'Preparativo completado. Queda por elegir la estrategia.','preparacion');return {ok:true,description:names[kind]};
+}
+const tactical={
+ frontal:{name:'Ataque frontal',base:0.08},
+ terreno:{name:'Aprovechar el terreno',base:0.09},
+ sorpresa:{name:'Ataque sorpresa',base:0.02},
+ reserva:{name:'Proteger las reservas',base:0.025}
+};
+function odds(s,tactic='terreno'){
+ const m=active(s);if(!m)return null;
+ const t=tactical[tactic];if(!t)return null;
+ const weather=climateAt({year:s.year,worldSeed:1541},m.place);
+ const terrain=TERRAIN[m.terrain];
+ let bonus=t.base;
+ if(tactic==='terreno')bonus+=(['bosque','rio','cordillera','archipielago'].includes(m.terrain)?0.15:0.04);
+ if(tactic==='sorpresa')bonus+=0.09*s.intel+(m.terrain==='bosque'?0.11:0);
+ if(tactic==='reserva')bonus+=0.075*s.supply;
+ if(tactic==='frontal'&&m.terrain==='valle')bonus+=0.09;
+ if(weather.rainy){bonus+=(tactic==='frontal'?-0.12:0.025);}
+ const strength=s.army*(0.8+s.morale/300)*(1+bonus+s.supply*.06+combatModifier(s)+combatWorldBonus(s));
+ const enemy=Math.max(12,m.enemy-s.enemyLoss)*(0.95+(terrain.def-1)*.48);
+ let chance=Math.max(.17,Math.min(.91,.52+(strength/enemy-1)*.34));
+ if(m.type==='council')chance=Math.max(.2,Math.min(.9,chance+(tactic==='reserva'?.08:0)));
+ return {chance:Math.round(chance*100),weather:weather.name,terrain:terrain.label,enemy:Math.round(enemy),strength:Math.round(strength), tactic:t.name};
+}
+function resolve(s,tactic='terreno'){
+ if(s.status!=='playing')return fail('La campaña está cerrada.');
+ const m=active(s),prediction=odds(s,tactic);if(!m||!prediction)return fail('Estrategia inválida.');
+ const rolled=random(s),victory=rolled<prediction.chance/100;
+ const losses=Math.min(s.army-1,Math.max(1,Math.ceil(s.army*(victory?(m.type==='council'?0.04:.12):.20))));
+ s.army-=losses;onBattle(s,losses);s.morale=Math.max(30,Math.min(100,s.morale+(victory?6:-8)));s.retries+=victory?0:1;
+ const report={chapter:m.title,year:m.year,victory,roll:Math.round(rolled*100),chance:prediction.chance,tactic,losses,remaining:s.army};
+ s.last=report;
+ if(victory){
+  s.score+=100+Math.max(0,60-s.retries*10)+Math.max(0,30-s.prepared*4);
+  s.won.push({year:m.year,title:m.title,winner:s.faction,historicalWinner:m.winner,alternative:!!m.winner&&s.faction!==m.winner});
+  record(s,m.type==='council'?'Acuerdo alcanzado':'Victoria en '+m.title,
+   m.winner?`En tu partida ganó ${FACTIONS[s.faction].name}. En la historia documentada venció ${FACTIONS[m.winner].name}.`:'La resolución política de tu campaña es ficticia y no cambia el registro histórico.','victoria');
+  s.status=s.step===stages(s.scenario).length-1?'won':'chapter-won';
+ }else{
+  s.enemyLoss=Math.min(m.enemy-10,s.enemyLoss+Math.max(2,Math.floor(m.enemy*.13)));
+  s.food+=10;s.wood+=5;s.metal+=4;s.prepared=Math.max(0,s.prepared-1);
+  record(s,'Resistencia y retirada',`La operación falló. Perdimos ${losses} combatientes. El rival quedó desgastado y recibiste suministros para intentarlo de nuevo.`,'derrota');
+ }
+ return {ok:true,description:victory?'Victoria. ¡El futuro cambia!':'Derrota. Puedes reorganizar y volver a intentarlo.',...report};
+}
+function nextChapter(s){if(s.status!=='chapter-won')return fail('Antes debes resolver el episodio actual.');
+ s.step++;const m=active(s);s.year=m.year;s.status='playing';s.army=Math.min(30,Math.max(20,s.army+6));s.food+=30;s.wood+=15;s.metal+=12;s.supply=1;s.intel=0;s.prepared=0;s.retries=0;s.last=null;s.enemyLoss=0;
+ newChapterSettlement(s);if(s.world)s.world.actions=3;
+ record(s,'Se abre '+m.year+' · '+m.title,'Avanzan los años y aparece un nuevo episodio. La historia real sirve de marco y tus resultados siguen registrados.','capitulo');
+ return {ok:true,description:'Nuevo episodio: '+m.title};
+}
+function valid(s){
+ if(!s||s.schema!==VERSION||!SIDES[s.scenario]?.includes(s.faction)||!Number.isInteger(s.step)||s.step<0||s.step>=stages(s.scenario).length)return false;
+ if(s.year!==stages(s.scenario)[s.step].year||!['playing','chapter-won','won'].includes(s.status))return false;
+ if(!Number.isInteger(s.seed)||s.seed<0||s.seed>0xffffffff)return false;
+ for(const k of ['army','food','wood','metal','supply','intel','morale','prepared','retries','score','enemyLoss'])if(!Number.isInteger(s[k])||s[k]<0||s[k]>100000)return false;
+ if(s.town&&!validateSettlement(s.town))return false;
+ if(s.world&&!validWorld(s.world))return false;
+ if(s.army<1||s.army>5000||s.supply>3||s.intel>3||s.prepared>3||s.morale>100||!Array.isArray(s.won)||s.won.length>stages(s.scenario).length||!Array.isArray(s.history)||s.history.length>30)return false;
+ return true;
+}
+function exportStory(s){ensureWorld(s);if(!valid(s))throw new Error('Partida inválida');return JSON.stringify(s)}
+function importStory(raw){const s=JSON.parse(raw);if(!valid(s))throw new Error('Archivo de partida no válido');ensureSettlement(s);ensureWorld(s);return s}
+
+const $=id=>document.getElementById(id),esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const KEY='frontera_defuego_mundo_v5',OLD_KEYS=['frontera_defuego_ciudades_v4','frontera_defuego_historia_guiada_v3'];let s=null,scenario='arauco',faction='mapuche',tactic='terreno',timer,plannedBuild=null,selectedTile=null;
+const saved=()=>{try{const raw=localStorage.getItem(KEY)||OLD_KEYS.map(k=>localStorage.getItem(k)).find(Boolean);return raw?importStory(raw):null}catch{return null}};
+const persist=()=>{if(!s)return;try{const data=exportStory(s);localStorage.setItem(KEY,data)}catch{toast('El navegador impide guardar. Exporta la partida para conservarla.')}};
+function toast(v){const x=$('toast');x.textContent=v;x.classList.remove('hidden');clearTimeout(timer);timer=setTimeout(()=>x.classList.add('hidden'),3100)};
+function setScenario(c){scenario=c;faction=SIDES[c][0];$('s-arauco').classList.toggle('on',c==='arauco');$('s-independencia').classList.toggle('on',c==='independencia');drawSides()}
+function drawSides(){$('side-options').innerHTML=SIDES[scenario].map(f=>`<button class="btn ${f===faction?'on':''}" data-side="${f}">${esc(FACTIONS[f].emblem)} ${esc(FACTIONS[f].name)}<small>${f==='mapuche'?'Resistencia y alianzas':f==='espanoles'?'Expedición y conquista':f==='patriotas'?'Independencia de Chile':'Poder de la Corona'}</small></button>`).join('');document.querySelectorAll('[data-side]').forEach(b=>b.onclick=()=>{faction=b.dataset.side;drawSides()});}
+function menu(){const prev=saved();$('resume').classList.toggle('hidden',!prev);$('welcome').classList.remove('hidden');drawSides()}
+$('s-arauco').onclick=()=>setScenario('arauco');$('s-independencia').onclick=()=>setScenario('independencia');$('menu').onclick=menu;
+$('begin').onclick=()=>{if(saved()&&!confirm('Existe una partida narrativa guardada. ¿Reemplazarla? Puedes exportarla antes.'))return;s=createStory(scenario,faction,Math.floor(Math.random()*0xffffffff));$('welcome').classList.add('hidden');persist();render()};
+$('resume').onclick=()=>{const old=saved();if(!old)return toast('No hay guardado compatible');s=old;scenario=s.scenario;faction=s.faction;$('welcome').classList.add('hidden');persist();render()};
+function stepAction(fn){if(!s)return;try{const r=fn();toast(r.description||r.reason||'Acción completada');if(r.ok){persist();render()}}catch(e){toast('Error: '+e.message)}}
+$('strategies').querySelectorAll('button').forEach(b=>b.onclick=()=>{tactic=b.dataset.tactic;render()});document.querySelectorAll('[data-prepare]').forEach(b=>b.onclick=()=>stepAction(()=>prepare(s,b.dataset.prepare)));
+$('fight').onclick=()=>stepAction(()=>resolve(s,tactic));
+$('season-button').onclick=()=>stepAction(()=>{const c=climateAt({year:s.year,worldSeed:1541},active(s).place);return nextSeason(s,c.rainy)});
+function chooseStructure(k){if(!k)return;plannedBuild=plannedBuild===k?null:k;selectedTile=null;drawSettlement();if(plannedBuild)toast('Ahora toca una parcela válida del mapa para construir '+nameFor(s,k)+'.')}
+$('build-buttons').addEventListener('click',e=>chooseStructure(e.target.closest('[data-build]')?.dataset.build));
+$('quick-builds').addEventListener('click',e=>chooseStructure(e.target.closest('[data-build]')?.dataset.build));
+$('build-category').onchange=()=>drawSettlement();
+$('cancel-build').onclick=()=>{plannedBuild=null;selectedTile=null;drawSettlement()};
+$('town-scene').addEventListener('click',e=>{const el=e.target.closest('[data-tile]');if(!el||!s)return;const i=Number(el.dataset.tile);selectedTile=i;if(plannedBuild){const result=buildOn(s,plannedBuild,i);toast(result.description||result.reason);if(result.ok){plannedBuild=null;persist()}}drawSettlement()});
+$('tile-detail').addEventListener('click',e=>{const harvest=e.target.closest('[data-gather]')?.dataset.gather;const clear=e.target.closest('[data-remove]');if(harvest&&selectedTile!==null)stepAction(()=>gather(s,selectedTile,harvest));if(clear&&selectedTile!==null)stepAction(()=>clearBuilding(s,selectedTile))});
+$('forge-button').onclick=()=>stepAction(()=>forge(s));
+document.querySelectorAll('[data-train]').forEach(b=>b.onclick=()=>stepAction(()=>trainTroops(s,b.dataset.train)));
+document.querySelectorAll('[data-trade]').forEach(b=>b.onclick=()=>stepAction(()=>trade(s,b.dataset.trade,$('trade-resource').value)));
+$('research-buttons').addEventListener('click',e=>{const key=e.target.closest('[data-advance]')?.dataset.advance;if(key)stepAction(()=>unlockAdvance(s,key))});$('skip').onclick=()=>toast('Preparar es opcional. Puedes elegir una táctica y resolver el episodio ahora.');
+function drawMap(){let scene=`<defs><linearGradient id="mount" x1="0" x2="1"><stop stop-color="#75806b"/><stop offset="1" stop-color="#a89d77"/></linearGradient></defs><path d="M0 0 L25 0 Q9 15 25 32 Q10 49 30 122 L0 122Z" fill="#123640"/><path d="M70 0 Q57 18 77 40 Q58 67 82 86 L95 122 L100 122 L100 0Z" fill="url(#mount)" opacity=".38"/><path d="M77 0 Q64 17 81 35 T82 83 T92 122" fill="none" stroke="#d5c9a8" stroke-width="1" opacity=".5"/><path d="M66 45 Q51 43 25 46 M72 64 Q48 61 26 65 M72 93 Q48 92 23 94" stroke="#77a4ac" stroke-width="1" fill="none" opacity=".42"/>`;
+ const revealed=stages(s.scenario).slice(0,s.step+1);for(let i=0;i<revealed.length;i++){const c=revealed[i],p=REGION_INDEX[c.place],previous=i?REGION_INDEX[revealed[i-1].place]:null; if(previous)scene+=`<path d="M${previous.x} ${previous.y} L${p.x} ${p.y}" fill="none" stroke="#f0c482" stroke-width="1.1" stroke-dasharray="2 2"/>`;
+ scene+=`<g><circle cx="${p.x}" cy="${p.y}" r="${i===s.step?5.2:3.1}" fill="${i===s.step?'#ffda94':'#7fbda2'}" stroke="#183025" stroke-width=".85"/><text x="${p.x+7}" y="${p.y+1}" font-size="3.2" font-weight="bold" stroke="#1a2c25" stroke-width=".9" paint-order="stroke" fill="#fff1cf">${esc(p.name.split(' · ')[0])}</text></g>`;}
+ const p=REGION_INDEX[active(s).place];$('the-map').setAttribute('viewBox',`0 ${Math.max(0,Math.min(65,p.y-25))} 100 60`);$('the-map').innerHTML=scene;}
+function outcome(){const m=active(s),r=s.last;const x=$('outcome');if(!r){x.innerHTML='';x.classList.add('hidden');return}x.classList.remove('hidden');
+ if(r.victory){const alt=!!m.winner&&m.winner!==s.faction;x.innerHTML=`<div class="report"><div class="section-label">${s.status==='won'?'CAMPAÑA COMPLETADA':'EPISODIO SUPERADO'}</div><h2>${m.type==='council'?'🤝 Acuerdo conseguido':'🏆 ¡Victoria!'}</h2><p><b>${esc(m.title)}</b> · ${s.year}. ${alt?'Tu victoria cambió el desenlace documentado. Has abierto una línea histórica alternativa.':m.winner?'Tu resultado coincide con el vencedor histórico de este episodio.':'La negociación se resolvió según las decisiones de tu partida.'}</p><p>Perdiste ${r.losses} combatientes; sobrevivieron ${r.remaining}. Puntuación acumulada: ${s.score}.</p>${s.status==='won'?'<strong class="final-title">TERMINASTE LA CAMPAÑA. Todos los episodios quedaron desbloqueados.</strong>':'<button class="btn primary" id="advance">DESCUBRIR EL SIGUIENTE AÑO</button>'}</div>`;
+ const b=$('advance');if(b)b.onclick=()=>{stepAction(()=>nextChapter(s));window.scrollTo({top:0,behavior:'smooth'})};
+ }else x.innerHTML=`<div class="report fail"><div class="section-label">LA GUERRA CONTINÚA</div><h2>⚔️ Derrota temporal</h2><p>Perdiste ${r.losses} combatientes. El rival también sufrió desgaste y recibiste recursos para reorganizarte. Cambia de táctica, recluta y vuelve a combatir.</p><button class="btn" id="retry">REINTENTAR ESTE EPISODIO</button></div>`;
+ const b=$('retry');if(b)b.onclick=()=>{x.classList.add('hidden');$('mission-panel').scrollIntoView({behavior:'smooth',block:'start'})};}
+function drawTileDetail(){
+ const out=$('tile-detail');if(selectedTile===null){out.innerHTML='<b>📍 Selecciona una parcela.</b><p>Para construir: toca un edificio y luego el terreno. Para obtener madera, cazar o reunir piedra, toca el bosque, los animales o los cerros.</p>';return}
+ const w=ensureWorld(s),c=w.cells[selectedTile];if(!c){selectedTile=null;return}
+ const pos=tilePosition(selectedTile),structure=c.building?nameFor(s,c.building):null;
+ const orders=[];
+ if(!c.building&&c.stock>0&&s.status==='playing'){
+  if(c.terrain==='forest')orders.push(['wood','🪓 Cortar madera']);
+  if(c.terrain==='game')orders.push(['food','🏹 Enviar a cazar']);
+  if(['ore','hills'].includes(c.terrain))orders.push(['stone','⛏️ Extraer piedra']);
+ }
+ out.innerHTML=`<b>Parcela ${pos.x+1},${pos.y+1}: ${esc(LAND[c.terrain].name)}</b><p>${structure?'🏗️ Construcción: '+esc(structure)+'.':'🌱 Sin construcción.'} Reserva del terreno: ${c.stock}. Órdenes de trabajadores disponibles: ${w.actions}/3.</p><div class="tile-actions">${orders.map(([k,label])=>`<button class="btn" data-gather="${k}" ${w.actions===0?'disabled':''}>${label}</button>`).join('')}${c.building&&s.status==='playing'?'<button class="btn ghost" data-remove="1">Retirar construcción</button>':''}</div>`;
+}
+function drawSettlement(){
+ const t=ensureSettlement(s),w=ensureWorld(s),st=worldSummary(s),p=st.jobs;
+ $('town-stats').innerHTML=`<span>👥 <b>${st.population}/${st.capacity}</b><small>Habitantes / viviendas</small></span><span>😊 <b>${st.happiness}%</b><small>Bienestar</small></span><span>🪙 <b>${st.coins}</b><small>Monedas</small></span><span>📅 <b>${t.season}/8</b><small>Estaciones</small></span><span>🪨 <b>${st.stone}</b><small>Piedra</small></span><span>⚔️ <b>${st.weapons}</b><small>Armas forjadas</small></span><span>🧑‍🌾 <b>${p.workers}/${p.demand}</b><small>Trabajadores / puestos</small></span><span>🛡️ <b>${st.defense}</b><small>Defensas</small></span>`;
+ $('town-message').textContent=`Producción prevista por estación: +${p.potential.food} alimentos, +${p.potential.wood} madera, +${p.potential.metal} metal, +${p.potential.stone} piedra, +${p.potential.coins} monedas; consumo ${p.upkeep} alimentos. Rendimiento laboral ${Math.round(p.factor*100)}%. ${w.seasonNotes}`;
+ const filter=$('build-category').value;
+ $('build-buttons').innerHTML=Object.entries(STRUCTURES).filter(([k,item])=>filter==='todos'||item.category===filter).map(([key,item])=>{
+ const n=buildingCount(s,key),can=s.status==='playing'&&n<item.max,cost=Object.entries(item.cost).map(([k,v])=>`${{food:'🍞',wood:'🪵',metal:'⚙️',stone:'🪨',coins:'🪙'}[k]}${v}`).join(' ');
+ return `<button class="build-btn ${key===plannedBuild?'selected':''}" data-build="${key}" ${can?'':'disabled'}><b>${iconFor(s,key)} ${esc(nameFor(s,key))} · ${n}/${item.max}</b><small>${esc(item.desc)}</small><small class="price">${cost}</small></button>`}).join('');
+ $('quick-builds').innerHTML=['viviendas','chacras','aserradero','caza','corral','mina','herreria','cuartel','muralla','mercado','templo','fortin','camino'].map(k=>`<button data-build="${k}" class="${k===plannedBuild?'selected':''}" ${s.status!=='playing'||buildingCount(s,k)>=STRUCTURES[k].max?'disabled':''}>${iconFor(s,k)} ${esc(nameFor(s,k))}</button>`).join('');
+ $('selection-info').textContent=plannedBuild?`Construyendo: ${nameFor(s,plannedBuild)}. Elige una parcela resaltada en verde.`:'Selecciona un edificio para colocarlo en el mapa.';
+ $('town-scene').innerHTML=w.cells.map((c,i)=>{
+ const item=c.building?STRUCTURES[c.building]:null,can=plannedBuild&&!c.building&&STRUCTURES[plannedBuild]?.terrain.includes(c.terrain)&&(plannedBuild==='fortin'||w.cells.some((v,j)=>v.building&&Math.abs(j%WIDTH-i%WIDTH)+Math.abs(Math.floor(j/WIDTH)-Math.floor(i/WIDTH))<=5)),mark=c.building?'':LAND[c.terrain].icon,indicator=['chacras','aserradero','caza','mina','herreria','corral'].includes(c.building)?'<span class="worker-anim">👤</span>':'';
+ return `<button class="world-cell terrain-${c.terrain} ${c.building?'has-building':''} ${can?'can-build':''} ${i===selectedTile?'chosen':''}" type="button" data-tile="${i}" title="${esc(c.building?nameFor(s,c.building):LAND[c.terrain].name)} · reserva ${c.stock}" aria-label="Parcela ${i%WIDTH+1},${Math.floor(i/WIDTH)+1}: ${esc(c.building?nameFor(s,c.building):LAND[c.terrain].name)}"><span>${item?iconFor(s,c.building):mark}</span>${i===selectedTile&&c.stock>0?`<small class="quantity">${c.stock}</small>`:''}${indicator}</button>`}).join('');
+ $('research-buttons').innerHTML=Object.entries(ADVANCES).map(([key,item])=>{const n=t.advances[key],cost=Object.entries(item.cost).map(([k,v])=>`${{wood:'🪵',metal:'⚙️',coins:'🪙'}[k]}${v}`).join(' ');const can=s.status==='playing'&&t.buildings.escuela>0&&n<item.max&&Object.entries(item.cost).every(([k,v])=>(k==='coins'?t.coins:s[k])>=v);return `<button class="build-btn" data-advance="${key}" ${can?'':'disabled'}><b>🔬 ${item.name} ${n}/${item.max}</b><small>${item.description}</small><small class="price">${cost}</small></button>`}).join('');
+ $('forge-button').disabled=s.status!=='playing'||!buildingCount(s,'herreria');
+ document.querySelectorAll('[data-train]').forEach(b=>b.disabled=s.status!=='playing'||!buildingCount(s,'cuartel'));
+ document.querySelectorAll('[data-trade]').forEach(b=>b.disabled=s.status!=='playing'||!buildingCount(s,'mercado'));
+ $('season-button').disabled=s.status!=='playing'||t.season>=8;
+ drawTileDetail();
+}
+function render(){if(!s)return;drawSettlement();const m=active(s),all=stages(s.scenario),prediction=odds(s,tactic),climate=climateAt({year:s.year,worldSeed:1541},m.place),outfit=ATTIRE[s.faction];
+ $('side-name').textContent=FACTIONS[s.faction].name;$('chapter-info').textContent=`EPISODIO ${s.step+1} DE ${all.length}`;$('era').textContent=s.scenario==='arauco'?'CONQUISTA Y GUERRA DE ARAUCO':'GUERRA DE INDEPENDENCIA';$('year').textContent=s.year;$('chapter-title').textContent=m.title;$('chapter-text').textContent=m.intro;$('goal').textContent='MISIÓN: '+m.goal;$('mission-type').textContent=m.type==='council'?'Decisión política · no es una batalla':'Campaña militar · puedes cambiar el desenlace';
+ $('army').textContent=`⚔️ ${s.army} combatientes · Moral ${s.morale}`;$('resources').textContent=`🍞 ${s.food} · 🪵 ${s.wood} · ⚙️ ${s.metal} · 🪨 ${s.world.stone} · 🪙 ${s.town.coins}`;$('progress').textContent=`🏆 ${s.won.length}/${all.length} episodios`;
+ $('timeline').innerHTML=all.map((c,i)=>`<div class="epoch ${i<s.step?'done':i===s.step?'current':'locked'}"><strong>${i<s.step?'✓ ':i===s.step?'▶ ':'🔒 '}${i<=s.step?c.year:'Año oculto'}</strong>${i<=s.step?esc(c.title):`Episodio ${i+1} bloqueado`}</div>`).join('');
+ $('skip').innerHTML=`Preparativos: ${s.prepared}/3<small>Solo gasta recursos si lo necesitas.</small>`;
+ document.querySelectorAll('[data-prepare]').forEach(b=>b.disabled=s.status!=='playing'||s.prepared>=3);
+ const labels=m.type==='council'?{frontal:'📜 Presionar al cabildo',terreno:'🧭 Construir apoyo local',sorpresa:'🤝 Negociación discreta',reserva:'🛡️ Ofrecer garantías'}:{frontal:'⚔️ Ataque frontal',terreno:'🌲 Usar el terreno',sorpresa:'🌘 Sorpresa',reserva:'🛡️ Reservas'};
+ $('strategies').querySelectorAll('button').forEach(b=>{b.textContent=labels[b.dataset.tactic];b.classList.toggle('selected',b.dataset.tactic===tactic);b.disabled=s.status!=='playing'});
+ $('fight').disabled=s.status!=='playing';$('fight').textContent=m.type==='council'?'RESOLVER DECISIÓN POLÍTICA':'ENTRAR EN BATALLA';$('chance').textContent=prediction.chance+'%';$('weather').textContent=prediction.weather+' · '+prediction.terrain;
+ $('action-head').textContent=m.type==='council'?'Construye alianzas y poder':'Prepara tu ejército';$('action-hint').textContent=m.type==='council'?'Las decisiones políticas también cambian la historia. Los recursos mejoran tu posición.':'No necesitas aprender veinte botones. Prepara el ejército, elige táctica y combate.';
+ $('fact').textContent=m.detail;$('source').href=SOURCES[m.source];$('land').textContent=`${TERRAIN[m.terrain].label}. ${REGION_INDEX[m.place].river}. ${climate.name}; estimación regional, no observación real.`;$('attire').textContent=outfit.name+': '+outfit.description;
+ const upcoming=all[s.step+1];$('next-hint').innerHTML=s.status==='chapter-won'?`<h3>El año ${upcoming.year} espera</h3><p>${esc(upcoming.title)} quedó desbloqueado. Pulsa <b>Descubrir el siguiente año</b> para continuar.</p>`:s.status==='won'?'<h3>Has cambiado la historia</h3><p>Completaste todos los episodios disponibles. Puedes empezar con el otro bando y comparar los resultados.</p>':`<h3>🔒 Próximo episodio oculto</h3><p>Gana la misión de <strong>${s.year}</strong>. Después pasarás al siguiente acontecimiento histórico; no tendrás que jugar cada año vacío.</p>`;
+ $('log').innerHTML=s.history.length?s.history.slice(0,6).map(e=>`<article><strong>${e.year} · ${esc(e.title)}</strong><p>${esc(e.body)}</p></article>`).join(''):'<p class="small">Tu historia comienza ahora. Las victorias y derrotas aparecerán aquí.</p>';
+ $('tip').classList.toggle('hidden',s.step>0||s.status==='won');drawMap();outcome();}
+$('save').onclick=()=>{if(!s)return toast('Primero inicia la campaña');const data=exportStory(s),url=URL.createObjectURL(new Blob([data],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`frontera-historia-${s.year}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);toast('Partida exportada')};
+$('load').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>200000)throw Error('Archivo excesivamente grande');const imported=importStory(await file.text());s=imported;scenario=s.scenario;faction=s.faction;persist();$('welcome').classList.add('hidden');render();toast('Partida recuperada')}catch(err){toast('No se pudo importar: '+err.message)}finally{e.target.value=''}};
+setScenario('arauco');if(saved())$('resume').classList.remove('hidden');
+</script></body></html>
