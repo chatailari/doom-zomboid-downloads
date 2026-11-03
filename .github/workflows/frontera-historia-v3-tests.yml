@@ -1,0 +1,32 @@
+name: Frontera Historia v3 - pruebas sin regresion
+on:
+  push:
+    branches:
+      - feature/frontera-historia-desbloqueable-v03
+    paths:
+      - 'frontera-de-fuego/estrategia-v3/**'
+      - '.github/workflows/frontera-historia-v3-tests.yml'
+  pull_request:
+    paths:
+      - 'frontera-de-fuego/estrategia-v3/**'
+      - '.github/workflows/frontera-historia-v3-tests.yml'
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probar motor narrativo de ambas eras
+        run: node --test frontera-de-fuego/estrategia-v3/test_story.mjs
+      - name: Construir HTML autocontenido
+        run: python3 frontera-de-fuego/estrategia-v3/build_story_offline.py
+      - name: Comprobar compatibilidad con el modo libre
+        run: |
+          test -s frontera-de-fuego/estrategia-v3/clasico.html
+          grep -q frontera_defuego_estrategia_save_v2 frontera-de-fuego/estrategia-v3/clasico.html
+          test -s frontera-de-fuego/estrategia-v3/juego_offline.html
+          ! grep -q 'script type="module"' frontera-de-fuego/estrategia-v3/juego_offline.html
