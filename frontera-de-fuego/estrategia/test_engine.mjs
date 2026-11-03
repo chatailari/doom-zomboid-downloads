@@ -1,0 +1,17 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {newCampaign,validateState,recruit,fortify,negotiate,neighbors,eligibleAttack,battle,endTurn,exportSave,importSave,REGIONS} from './engine.mjs';
+import {HISTORY,ENVIRONMENTS,COSTUMES,SOURCES,climateForCampaign} from './historical_data.mjs';
+
+test('escoge bando y genera estado válido',()=>{for(const f of ['mapuche','espanoles'])assert.equal(validateState(newCampaign(f)),true)});
+test('territorios con fichas completas, referencias y conexiones bidireccionales',()=>{for(const r of REGIONS){assert.ok(ENVIRONMENTS[r.id]);assert.ok(SOURCES[ENVIRONMENTS[r.id].reference]);for(const n of r.links)assert.ok(neighbors(n).includes(r.id))}});
+test('catálogo documentado con fuentes',()=>{assert.ok(HISTORY.length>=7);for(const x of HISTORY){assert.ok(x.facts.length>20);assert.ok(SOURCES[x.source])}assert.equal(HISTORY.find(x=>x.year===1553).title,'Victoria mapuche de Lautaro')});
+test('equipo de los dos bandos evita anacronismos',()=>{for(const faction of ['mapuche','espanoles']){assert.ok(COSTUMES[faction].items.length>=4);assert.ok(COSTUMES[faction].exclusions.length>=2)}});
+test('clima simulado estable para año, terreno y semilla independientemente de los resultados de combate',()=>{let s=newCampaign('mapuche',42);const a=climateForCampaign(s,'tucapel');s.seed=123456;assert.deepEqual(climateForCampaign(s,'tucapel'),a);assert.match(a.provenance,/NO registro/) });
+test('reclutamiento y fortificación consumen recursos sin regalar materiales',()=>{const s=newCampaign('mapuche');const r={...s.resources};assert.equal(recruit(s,'tucapel').ok,true);assert.equal(s.regions.tucapel.troops,18);assert.equal(s.resources.food,r.food-8);assert.equal(fortify(s,'tucapel').ok,true);assert.equal(s.resources.wood,r.wood-12)});
+test('no reclutar, atacar ni fortificar territorios ajenos',()=>{const s=newCampaign('mapuche');assert.equal(recruit(s,'mapocho').ok,false);assert.equal(fortify(s,'mapocho').ok,false);assert.equal(eligibleAttack(s,'arauco','aconcagua'),false);assert.equal(battle(s,'arauco','aconcagua').ok,false)});
+test('partida exportable/importable sin perder estado',()=>{const s=newCampaign('espanoles');endTurn(s);const restored=importSave(exportSave(s));assert.deepEqual(restored,s);assert.equal(validateState(restored),true)});
+test('rechaza archivos maliciosos o corruptos',()=>{assert.throws(()=>importSave('{broken'));assert.throws(()=>importSave('{"schema":1}'))});
+test('resolver batalla dentro de conexiones válidas y mantener unidades no negativas',()=>{const s=newCampaign('mapuche',7);const result=battle(s,'tucapel','biobio');assert.equal(result.ok,true);assert.ok(s.regions.tucapel.troops>=1);assert.ok(s.regions.biobio.troops>=1);assert.equal(validateState(s),true)});
+test('paso del tiempo produce recursos y conserva estado válido',()=>{const s=newCampaign('espanoles',21);for(let i=0;i<60;i++)assert.equal(endTurn(s).ok,true);assert.equal(s.year,1601);assert.equal(validateState(s),true)});
+test('clima en Tucapel aplica un factor táctico, sin fijar clima histórico exacto',()=>{const s=newCampaign('espanoles',4);assert.ok(climateForCampaign(s,'tucapel').provenance.includes('simulación'))});
