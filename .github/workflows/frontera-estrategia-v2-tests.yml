@@ -1,0 +1,36 @@
+name: Frontera estrategia v2 - pruebas del motor
+on:
+  push:
+    branches: [feature/frontera-estrategia-historia-v1]
+    paths:
+      - 'frontera-de-fuego/estrategia-v2/**'
+      - '.github/workflows/frontera-estrategia-v2-tests.yml'
+  pull_request:
+    paths:
+      - 'frontera-de-fuego/estrategia-v2/**'
+      - '.github/workflows/frontera-estrategia-v2-tests.yml'
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probar motor histórico y guardado
+        working-directory: frontera-de-fuego/estrategia-v2
+        run: node --test test_engine.mjs
+      - name: Construir HTML autocontenido y comprobar tamaño
+        working-directory: frontera-de-fuego/estrategia-v2
+        run: |
+          python3 build_offline.py
+          test -s juego_offline.html
+          grep -F 'FRONTERA DE FUEGO' juego_offline.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Frontera-Estrategia-v2-HTML
+          path: frontera-de-fuego/estrategia-v2/juego_offline.html
+          retention-days: 14
