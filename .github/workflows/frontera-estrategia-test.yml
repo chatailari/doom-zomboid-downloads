@@ -1,0 +1,27 @@
+name: Frontera estrategia historica tests
+on:
+  push:
+    paths:
+      - 'frontera-de-fuego/estrategia/**'
+      - '.github/workflows/frontera-estrategia-test.yml'
+  pull_request:
+    paths:
+      - 'frontera-de-fuego/estrategia/**'
+      - '.github/workflows/frontera-estrategia-test.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate modules
+        run: |
+          node --check frontera-de-fuego/estrategia/engine.mjs
+          node --check frontera-de-fuego/estrategia/historical_data.mjs
+      - name: Unit tests
+        run: cd frontera-de-fuego/estrategia && node --test test_engine.mjs
