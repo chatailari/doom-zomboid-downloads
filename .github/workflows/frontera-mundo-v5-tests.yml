@@ -1,0 +1,34 @@
+name: Frontera v5 - asentamientos interactivos CI
+on:
+  push:
+    branches:
+      - feature/frontera-mundo-v05
+    paths:
+      - 'frontera-de-fuego/estrategia-v5/**'
+      - '.github/workflows/frontera-mundo-v5-tests.yml'
+  pull_request:
+    paths:
+      - 'frontera-de-fuego/estrategia-v5/**'
+      - '.github/workflows/frontera-mundo-v5-tests.yml'
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar la historia, la economía anterior y el mundo nuevo
+        run: node --test frontera-de-fuego/estrategia-v5/test_story.mjs frontera-de-fuego/estrategia-v5/test_settlement.mjs frontera-de-fuego/estrategia-v5/test_world.mjs
+      - name: Compilar HTML autocontenido
+        run: python3 frontera-de-fuego/estrategia-v5/build_offline.py
+      - name: Verificar compatibilidad, nombre de canal y HTML offline
+        run: |
+          test -s frontera-de-fuego/estrategia-v5/juego_offline.html
+          grep -q 'frontera_defuego_ciudades_v4' frontera-de-fuego/estrategia-v5/juego_offline.html
+          grep -q 'frontera_defuego_historia_guiada_v3' frontera-de-fuego/estrategia-v5/juego_offline.html
+          grep -q 'frontera_defuego_mundo_v5' frontera-de-fuego/estrategia-v5/juego_offline.html
+          ! grep -q '<script type="module">' frontera-de-fuego/estrategia-v5/juego_offline.html
+          grep -q 'frontera_defuego_estrategia_save_v2' frontera-de-fuego/estrategia-v5/clasico.html
